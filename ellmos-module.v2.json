@@ -1,0 +1,49 @@
+{
+  "schema": "ellmos.module.v2",
+  "id": "policy-registry",
+  "display_name": "policy-registry",
+  "category": "control",
+  "kind": "library",
+  "status": "active",
+  "visibility": "private",
+  "provides": [
+    "policy.registry",
+    "policy.resolve",
+    "policy.discovery"
+  ],
+  "requires": [],
+  "optional": [
+    "sync.yard",
+    "tom.advisory",
+    "mcp"
+  ],
+  "conflicts": [],
+  "surfaces": [
+    "library",
+    "cli",
+    "mcp-adapter"
+  ],
+  "state": {
+    "ownership": "local",
+    "location": "user-home"
+  },
+  "boundaries": {
+    "network": "none-required",
+    "data": "metadata-only",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ]
+  },
+  "source_of_truth": {
+    "type": "git-repository",
+    "path": ".",
+    "repository": "https://github.com/ellmos-ai/policy-registry"
+  },
+  "adapters": [
+    "sync-policies-v1",
+    "system-gap-optional",
+    "mcp-optional"
+  ]
+}

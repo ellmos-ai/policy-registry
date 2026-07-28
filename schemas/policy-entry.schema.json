@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ellmos.dev/schemas/policy-registry-entry.v1.json",
+  "title": "Policy Registry Entry",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "kind",
+    "title",
+    "scope",
+    "owner",
+    "priority",
+    "precedence",
+    "version",
+    "privacy",
+    "source",
+    "consumers",
+    "status",
+    "adoption"
+  ],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "kind": {
+      "enum": ["policy", "rule", "decision", "evidence", "decision-candidate"]
+    },
+    "title": {"type": "string", "minLength": 1},
+    "summary": {"type": "string"},
+    "scope": {"type": "string", "minLength": 1},
+    "owner": {"type": "string", "minLength": 1},
+    "authority": {"type": "string"},
+    "priority": {"type": "integer"},
+    "precedence": {"type": "integer"},
+    "version": {"type": "string", "minLength": 1},
+    "hash": {
+      "type": "object",
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "value": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+      }
+    },
+    "privacy": {"enum": ["public", "internal", "private", "restricted"]},
+    "source": {
+      "type": "object",
+      "required": ["uri"],
+      "properties": {
+        "uri": {"type": "string", "minLength": 1},
+        "type": {"type": "string"},
+        "canonical": {"type": "boolean"},
+        "origin": {"type": "string"}
+      },
+      "not": {
+        "anyOf": [
+          {"required": ["content"]},
+          {"required": ["body"]},
+          {"required": ["full_text"]},
+          {"required": ["payload"]}
+        ]
+      }
+    },
+    "consumers": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["active", "draft", "superseded", "revoked", "expired"]},
+    "adoption": {"enum": ["adopted", "partial", "pending", "exempt"]},
+    "valid_from": {"type": "string", "format": "date"},
+    "valid_until": {"type": "string", "format": "date"}
+  },
+  "not": {
+    "anyOf": [
+      {"required": ["content"]},
+      {"required": ["body"]},
+      {"required": ["full_text"]},
+      {"required": ["payload"]}
+    ]
+  }
+}
+
