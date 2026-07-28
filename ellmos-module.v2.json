@@ -42,8 +42,21 @@
     "repository": "https://github.com/ellmos-ai/policy-registry"
   },
   "adapters": [
-    "sync-policies-v1",
-    "system-gap-optional",
-    "mcp-optional"
+    {
+      "id": "sync-policies-v1",
+      "target": ".SYNC/_policies",
+      "status": "optional",
+      "note": "Imports existing metadata pointers and exports a non-authoritative aggregated view."
+    },
+    {
+      "id": "system-gap-optional",
+      "target": "system-gap-master",
+      "status": "optional",
+      "note": "Transport seam only; the local registry remains authoritative."
+    },
+    {
+      "type": "mcp",
+      "id": "policy-registry"
+    }
   ]
 }
