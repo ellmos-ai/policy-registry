@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add a provider-neutral, Ed25519 signer-/issuer-bound delegated-avatar
+  candidate resolver for `D-20260730-001`.
+- Keep runtime cutover disabled: qualified candidates never authorize actions.
+
 All notable changes to `policy-registry` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
