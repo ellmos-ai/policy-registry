@@ -270,9 +270,7 @@ def test_published_json_schemas_validate_signed_contract(signed_context):
             "candidate"
         ],
         "delegation-issuer-trust.v1.schema.json": signed_context["trust"],
-        "delegation-resolution.v1.schema.json": json.loads(
-            json.dumps(resolve(signed_context).to_dict())
-        ),
+        "delegation-resolution.v1.schema.json": resolve(signed_context).to_dict(),
     }
     assert instances["delegation-resolution.v1.schema.json"]["schema"] == RESULT_SCHEMA
 

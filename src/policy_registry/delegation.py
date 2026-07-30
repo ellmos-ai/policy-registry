@@ -141,7 +141,10 @@ class DelegationResolution:
     policy_resolution: dict[str, Any]
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        value = asdict(self)
+        value["reasons"] = list(self.reasons)
+        value["verified"] = list(self.verified)
+        return value
 
 
 class DelegationResolver:
