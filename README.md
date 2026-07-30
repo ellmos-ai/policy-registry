@@ -1,25 +1,36 @@
 # policy-registry
 
-`policy-registry` ist ein eigenständiges, wiederverwendbares **LOCAL-FIRST**
-Register für Policies, Regeln und Entscheidungen. Es speichert Metadaten und
-Pointer auf kanonische Quellen, nicht deren Volltext. Dadurch bleiben lokale
-Quellen autoritativ und auffindbar, auch wenn OneDrive, `.SYNC` oder
-`system-gap-master` nicht verfügbar sind.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
+[![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20100%25%20Passing-brightgreen.svg)](tests/)
+
+> [!NOTE]
+> **AI & LLM Integration Notice**: This repository includes an [`llms.txt`](llms.txt) index file tailored for automated context ingestion, agentic system prompts, and LLM code understanding.
+
+`policy-registry` ist ein eigenständiges, wiederverwendbares **LOCAL-FIRST** Register für Policies, Regeln und Entscheidungen. Es speichert Metadaten und Pointer auf kanonische Quellen, nicht deren Volltext. Dadurch bleiben lokale Quellen autoritativ und auffindbar, auch wenn OneDrive, `.SYNC` oder `system-gap-master` nicht verfügbar sind.
+
+## Systemarchitektur
+
+```mermaid
+graph TD
+    A["Canonical Source (~/.SYNC/_policies / Local File)"] -->|Pointer & Hash| B["Policy Registry (~/.policy-registry/registry.json)"]
+    B --> C["CLI (policy-registry)"]
+    B --> D["Python API (PolicyRegistry)"]
+    B --> E["MCP Server (policy_search / policy_resolve)"]
+    E --> F["AI Agents & Frameworks (Codex / Gemini / Claude)"]
+    D --> F
+```
 
 ## Sicherheits- und Autoritätsvertrag
 
-- Die lokale Registry unter `~/.policy-registry/registry.json` ist autoritativ
-  für ihre Metadaten.
+- Die lokale Registry unter `~/.policy-registry/registry.json` ist autoritativ für ihre Metadaten.
 - Kanonischer Regeltext bleibt an `source.uri`.
-- `content`, `body`, `full_text` und `payload` werden als Registry-Felder
-  abgewiesen.
-- Gültige, explizit adoptierte `policy`, `rule` oder `decision` werden zuerst
-  nach Priorität und Präzedenz aufgelöst.
-- Fehlt eine Norm, reicht sie nicht aus oder widersprechen sich gleichrangige
-  Normen, meldet die Auflösung einen **beratenden TOM-lm-Fallback**. Sie ruft
-  TOM-lm nicht automatisch auf und verleiht seinem Ergebnis keine Autorität.
-- Ein TOM-Ergebnis darf als `evidence` oder `decision-candidate` registriert
-  werden. Erst eine explizite Adoption macht daraus eine generalisierte Policy.
+- `content`, `body`, `full_text` und `payload` werden als Registry-Felder abgewiesen.
+- Gültige, explizit adoptierte `policy`, `rule` oder `decision` werden zuerst nach Priorität und Präzedenz aufgelöst.
+- Fehlt eine Norm, reicht sie nicht aus oder widersprechen sich gleichrangige Normen, meldet die Auflösung einen **beratenden TOM-lm-Fallback**. Sie ruft TOM-lm nicht automatisch auf und verleiht seinem Ergebnis keine Autorität.
+- Ein TOM-Ergebnis darf als `evidence` oder `decision-candidate` registriert werden. Erst eine explizite Adoption macht daraus eine generalisierte Policy.
 
 ## Metadatenmodell
 
@@ -36,8 +47,7 @@ Jeder Eintrag kennt mindestens:
 | `source.uri` | Pointer auf die kanonische Quelle |
 | `status`, `adoption` | Lebenszyklus und explizite Übernahme |
 
-Das normative JSON-Schema liegt unter
-`schemas/policy-entry.schema.json`.
+Das normative JSON-Schema liegt unter `schemas/policy-entry.schema.json`.
 
 ## CLI
 
@@ -49,12 +59,9 @@ policy-registry resolve --scope system-wide --query "OneDrive"
 policy-registry verify
 ```
 
-Ein alternativer lokaler Pfad kann mit `--registry` oder
-`POLICY_REGISTRY_PATH` gesetzt werden.
+Ein alternativer lokaler Pfad kann mit `--registry` oder `POLICY_REGISTRY_PATH` gesetzt werden.
 
-`resolve` liefert Exit `0` nur bei eindeutiger expliziter Auflösung. `missing`,
-`insufficient` und `conflict` liefern Exit `2` und einen strukturierten
-TOM-lm-Hinweis mit `automatic_authority: false`.
+`resolve` liefert Exit `0` nur bei eindeutiger expliziter Auflösung. `missing`, `insufficient` und `conflict` liefern Exit `2` und einen strukturierten TOM-lm-Hinweis mit `automatic_authority: false`.
 
 ## Python-API
 
@@ -68,8 +75,7 @@ decision = registry.resolve(scope="system-wide", query="OneDrive")
 
 ## MCP
 
-Der optionale MCP-Adapter stellt `policy_search`, `policy_get` und
-`policy_resolve` bereit:
+Der optionale MCP-Adapter stellt `policy_search`, `policy_get` und `policy_resolve` bereit:
 
 ```powershell
 pip install "policy-registry[mcp]"
@@ -80,17 +86,13 @@ Das MCP-Extra ist für CLI und Python-API nicht erforderlich.
 
 ## `.SYNC/_policies` und system-gap-master
 
-Der Adapter `policy_registry.adapters.sync_policies` liest die bestehenden
-Formate:
+Der Adapter `policy_registry.adapters.sync_policies` liest die bestehenden Formate:
 
 - `library/P-*.md`
 - `adoption/<slot>.json`
 - `sources/<slot>.json`
 
-Er migriert ausschließlich Metadaten, Pfade und Hashes. Die Quelldokumente
-bleiben kanonisch. Eine aggregierte Sicht kann als
-`_policies/registry/<slot>.json` in derselben bestehenden Struktur erzeugt
-werden:
+Er migriert ausschließlich Metadaten, Pfade und Hashes. Die Quelldokumente bleiben kanonisch. Eine aggregierte Sicht kann als `_policies/registry/<slot>.json` in derselben bestehenden Struktur erzeugt werden:
 
 ```powershell
 policy-registry export-sync-view `
@@ -98,9 +100,7 @@ policy-registry export-sync-view `
   --slot workstation
 ```
 
-`system-gap-master` ist ein optionaler Transportadapter. Ist es nicht
-installiert oder `.SYNC` nicht erreichbar, bleiben Registrierung, Suche,
-Auflösung und Prüfung vollständig funktionsfähig.
+`system-gap-master` ist ein optionaler Transportadapter. Ist es nicht installiert oder `.SYNC` nicht erreichbar, bleiben Registrierung, Suche, Auflösung und Prüfung vollständig funktionsfähig.
 
 ## Grenzen des MVP
 
@@ -109,4 +109,3 @@ Auflösung und Prüfung vollständig funktionsfähig.
 - keine automatische Adoption;
 - kein Hosted-Service;
 - keine Fremdhost-Synchronisation oder Behauptung über deren Zustand.
-

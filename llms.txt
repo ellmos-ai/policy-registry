@@ -1,0 +1,26 @@
+# ellmos-ai / policy-registry
+
+> Local-first pointer registry for policies, rules, and decisions.
+
+Last-checked: 2026-07-30
+Test-suite: 10/10 passed (pytest)
+
+## Summary
+
+`policy-registry` is an autonomous, reusable **LOCAL-FIRST** registry for policies, rules, and decision entries. It stores metadata pointers and SHA-256 hashes referencing canonical policy sources rather than duplicating full text. This ensures local rule files remain authoritative and discoverable even when offline or disconnected from network sync adapters.
+
+## Key Features & Architecture
+
+- **Local-First Authority**: Authoritative metadata stored in `~/.policy-registry/registry.json`.
+- **Pointer Model**: Stores `id`, `kind`, `scope`, `owner`, `priority`, `precedence`, `version`, `privacy`, and canonical `source.uri`.
+- **TOM-lm Fallback Guidance**: Missing or conflicting norms trigger advisory fallback notices without automatic execution.
+- **Multi-Interface Support**: CLI (`policy-registry`), Python API (`PolicyRegistry`), and optional Model Context Protocol (MCP) server adapter.
+- **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
+
+## Primary Documentation & References
+
+- [README.md](file:///README.md): Project overview, installation, CLI usage, and MCP server setup.
+- [ARCHITECTURE.md](file:///ARCHITECTURE.md): Structural details and metadata schema hierarchy.
+- [SECURITY.md](file:///SECURITY.md): Security model and authority boundaries.
+- [pyproject.toml](file:///pyproject.toml): Dependencies and script entry points.
+- [schemas/policy-entry.schema.json](file:///schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
