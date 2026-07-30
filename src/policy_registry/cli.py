@@ -3,14 +3,26 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from .adapters.sync_policies import export_aggregated_view, import_sync_pointers
+from .delegation import DelegationError, DelegationResolver, IssuerTrustStore
 from .registry import PolicyRegistry, RegistryError
 
 
 def _print(value) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2))
+
+
+def _load_bounded_json(path: str, *, label: str) -> dict:
+    source = Path(path)
+    if source.stat().st_size > 262_144:
+        raise DelegationError(f"{label} exceeds the 256 KiB input limit")
+    value = json.loads(source.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise DelegationError(f"{label} must be a JSON object")
+    return value
 
 
 def parser() -> argparse.ArgumentParser:
@@ -34,6 +46,14 @@ def parser() -> argparse.ArgumentParser:
     resolve.add_argument("--consumer")
     resolve.add_argument("--query", default="")
     resolve.add_argument("--require-kind")
+    delegation = commands.add_parser("resolve-delegation")
+    delegation.add_argument("--grant", required=True)
+    delegation.add_argument("--candidate", required=True)
+    delegation.add_argument("--trust-store", required=True)
+    delegation.add_argument(
+        "--at",
+        help="Expliziter UTC-Prüfzeitpunkt für reproduzierbare Audits",
+    )
     commands.add_parser("verify")
     migrate = commands.add_parser("import-sync")
     migrate.add_argument("--root", required=True)
@@ -75,6 +95,30 @@ def main(argv: list[str] | None = None) -> int:
             )
             _print(result)
             return 0 if result["status"] == "resolved" else 2
+        elif args.command == "resolve-delegation":
+            grant = _load_bounded_json(args.grant, label="grant")
+            candidate = _load_bounded_json(args.candidate, label="candidate")
+            trust_store = IssuerTrustStore.from_file(args.trust_store)
+            at = (
+                datetime.fromisoformat(
+                    args.at[:-1] + "+00:00"
+                    if args.at and args.at.endswith("Z")
+                    else args.at
+                )
+                if args.at
+                else None
+            )
+            delegation_result = DelegationResolver(registry, trust_store).resolve(
+                grant,
+                candidate,
+                at=at,
+            )
+            _print(delegation_result.to_dict())
+            if delegation_result.status == "candidate-qualified":
+                return 3
+            if delegation_result.status == "historical-audit-qualified":
+                return 4
+            return 2
         elif args.command == "verify":
             result = registry.verify()
             _print(result)
@@ -88,11 +132,16 @@ def main(argv: list[str] | None = None) -> int:
             target = export_aggregated_view(registry, args.root, slot=args.slot)
             _print({"view": str(target), "authority": str(registry.path)})
         return 0
-    except (RegistryError, ValueError, OSError, json.JSONDecodeError) as exc:
+    except (
+        DelegationError,
+        RegistryError,
+        ValueError,
+        OSError,
+        json.JSONDecodeError,
+    ) as exc:
         print(f"Fehler: {exc}", file=sys.stderr)
         return 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -73,6 +73,27 @@ matches = registry.search("release", scope=".AI/.MODULES", consumer="codex")
 decision = registry.resolve(scope="system-wide", query="OneDrive")
 ```
 
+### Signed Delegation Resolver (V4-08 candidate)
+
+`policy-registry` can verify an issuer-signed delegation grant and a
+delegate-signed `predicted/delegated-avatar-decision` candidate against the
+current local registry. The issuer key comes from an external pinned trust
+store; the signed grant pins the delegate key. Current project/global user
+decisions and policies retain higher authority.
+
+The runtime cutover is deliberately disabled: even a fully qualified candidate
+returns `cutover_enabled: false` and `authorizes_action: false`.
+
+```powershell
+policy-registry resolve-delegation `
+  --grant signed-grant.json `
+  --candidate signed-candidate.json `
+  --trust-store issuer-trust.json
+```
+
+Contract, trust chain, gates and nonclaims:
+[`docs/SIGNED_DELEGATION_RESOLVER.md`](docs/SIGNED_DELEGATION_RESOLVER.md).
+
 ## MCP
 
 Der optionale MCP-Adapter stellt `policy_search`, `policy_get` und `policy_resolve` bereit:

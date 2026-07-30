@@ -9,7 +9,8 @@
   "provides": [
     "policy.registry",
     "policy.resolve",
-    "policy.discovery"
+    "policy.discovery",
+    "delegation.candidate.resolve"
   ],
   "requires": [],
   "optional": [

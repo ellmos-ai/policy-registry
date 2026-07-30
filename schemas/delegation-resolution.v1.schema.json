@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ellmos.dev/delegation-resolution.v1.schema.json",
+  "title": "ellmos delegation resolution v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "evaluation_time_mode",
+    "candidate_id",
+    "delegation_receipt_id",
+    "qualified_for_future_cutover",
+    "cutover_enabled",
+    "authorizes_action",
+    "reasons",
+    "verified",
+    "policy_resolution"
+  ],
+  "properties": {
+    "schema": {"const": "ellmos.delegation-resolution.v1"},
+    "status": {
+      "enum": [
+        "candidate-qualified",
+        "historical-audit-qualified",
+        "rejected"
+      ]
+    },
+    "evaluation_time_mode": {"enum": ["current", "historical-audit"]},
+    "candidate_id": {
+      "type": ["string", "null"],
+      "pattern": "^decision-[0-9a-f]{64}$"
+    },
+    "delegation_receipt_id": {
+      "type": ["string", "null"],
+      "pattern": "^ar-[0-9a-f]{64}$"
+    },
+    "qualified_for_future_cutover": {"type": "boolean"},
+    "cutover_enabled": {"const": false},
+    "authorizes_action": {"const": false},
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "verified": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string"}
+    },
+    "policy_resolution": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string"},
+        "reason": {"type": ["string", "null"]},
+        "considered": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "selected": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "candidate-qualified"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "evaluation_time_mode": {"const": "current"},
+          "qualified_for_future_cutover": {"const": true}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "historical-audit-qualified"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "evaluation_time_mode": {"const": "historical-audit"},
+          "qualified_for_future_cutover": {"const": false}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "rejected"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "qualified_for_future_cutover": {"const": false}
+        }
+      }
+    }
+  ]
+}
