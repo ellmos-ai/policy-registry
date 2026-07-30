@@ -357,7 +357,7 @@ class DelegationResolver:
         scope = candidate["scope"]
         action = candidate["action_code"]
         consumer = candidate["consumer_code"]
-        if scope in _GLOBAL_SCOPES:
+        if _is_global_scope(scope):
             raise DelegationError("global blank-scope delegation is forbidden")
         if not any(_pattern_matches(pattern, scope) for pattern in grant["scopes"]):
             raise DelegationError("candidate scope is outside the signed delegation")
@@ -673,8 +673,16 @@ def _validate_patterns(
         or len(set(value)) != len(value)
     ):
         raise DelegationError(f"invalid {label}")
-    if any(item in _GLOBAL_SCOPES for item in value):
+    if any(_is_global_scope(item) for item in value):
         raise DelegationError(f"global wildcard is forbidden in {label}")
+
+
+def _is_global_scope(value: str) -> bool:
+    """Reject global authorities even when disguised as namespace descendants."""
+
+    return value in _GLOBAL_SCOPES or value.startswith(
+        ("all/", "global/", "system-wide/")
+    )
 
 
 def _validate_confidence(value: Any, label: str) -> None:

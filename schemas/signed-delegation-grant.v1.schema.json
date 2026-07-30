@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ellmos.dev/signed-delegation-grant.v1.schema.json",
+  "title": "ellmos signed delegation grant v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt_id",
+    "authority_source_id",
+    "authority_source_content_hash",
+    "registry_content_hash",
+    "issuer",
+    "delegate",
+    "issued_at",
+    "expires_at",
+    "review_at",
+    "scopes",
+    "action_patterns",
+    "consumers",
+    "excluded_scopes",
+    "excluded_actions",
+    "minimum_confidence",
+    "receipt_content_hash",
+    "signature_algorithm",
+    "signature"
+  ],
+  "properties": {
+    "schema": {"const": "ellmos.signed-delegation-grant.v1"},
+    "receipt_id": {"$ref": "#/$defs/receiptId"},
+    "authority_source_id": {"const": "D-20260730-001"},
+    "authority_source_content_hash": {"$ref": "#/$defs/hash"},
+    "registry_content_hash": {"$ref": "#/$defs/hash"},
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "key_id", "key_pin"],
+      "properties": {
+        "id": {"$ref": "#/$defs/code"},
+        "key_id": {"$ref": "#/$defs/code"},
+        "key_pin": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "delegate": {"$ref": "#/$defs/publicKeyIdentity"},
+    "issued_at": {"$ref": "#/$defs/timestamp"},
+    "expires_at": {"$ref": "#/$defs/timestamp"},
+    "review_at": {"$ref": "#/$defs/timestamp"},
+    "scopes": {"$ref": "#/$defs/nonGlobalPatterns"},
+    "action_patterns": {"$ref": "#/$defs/patterns"},
+    "consumers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/code"}
+    },
+    "excluded_scopes": {"$ref": "#/$defs/optionalPatterns"},
+    "excluded_actions": {"$ref": "#/$defs/optionalPatterns"},
+    "minimum_confidence": {"type": "number", "minimum": 0.8, "maximum": 1},
+    "receipt_content_hash": {"$ref": "#/$defs/hash"},
+    "signature_algorithm": {"const": "ed25519"},
+    "signature": {"$ref": "#/$defs/signature"}
+  },
+  "$defs": {
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:/-]{1,127}$"
+    },
+    "pattern": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:/-]{1,125}(/\\*)?$"
+    },
+    "nonGlobalPattern": {
+      "allOf": [
+        {"$ref": "#/$defs/pattern"},
+        {"not": {"pattern": "^(\\*|all(?:/|$)|global(?:/|$)|system-wide(?:/|$))"}}
+      ]
+    },
+    "patterns": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/pattern"}
+    },
+    "nonGlobalPatterns": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonGlobalPattern"}
+    },
+    "optionalPatterns": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/pattern"}
+    },
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "receiptId": {"type": "string", "pattern": "^ar-[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "publicKey": {
+      "type": "string",
+      "minLength": 44,
+      "maxLength": 44
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 88,
+      "maxLength": 88
+    },
+    "publicKeyIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "key_id", "algorithm", "public_key", "key_pin"],
+      "properties": {
+        "id": {"$ref": "#/$defs/code"},
+        "key_id": {"$ref": "#/$defs/code"},
+        "algorithm": {"const": "ed25519"},
+        "public_key": {"$ref": "#/$defs/publicKey"},
+        "key_pin": {"$ref": "#/$defs/hash"}
+      }
+    }
+  }
+}

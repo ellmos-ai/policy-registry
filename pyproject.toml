@@ -19,7 +19,7 @@ classifiers = [
 
 [project.optional-dependencies]
 mcp = ["mcp>=1.2"]
-test = ["pytest>=8"]
+test = ["pytest>=8", "jsonschema>=4.23"]
 
 [project.scripts]
 policy-registry = "policy_registry.cli:main"

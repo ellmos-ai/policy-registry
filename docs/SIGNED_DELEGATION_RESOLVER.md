@@ -124,3 +124,13 @@ audits.
 - no remote source verification;
 - no cutover or authority migration;
 - no claim that a cryptographically valid candidate is factually correct.
+
+## Versioned JSON contracts
+
+The strict Python validators remain the runtime enforcement layer. External
+clients can validate the same wire formats before invoking the resolver:
+
+- [`signed-delegation-grant.v1.schema.json`](../schemas/signed-delegation-grant.v1.schema.json)
+- [`delegated-avatar-decision-candidate.v2.schema.json`](../schemas/delegated-avatar-decision-candidate.v2.schema.json)
+- [`delegation-issuer-trust.v1.schema.json`](../schemas/delegation-issuer-trust.v1.schema.json)
+- [`delegation-resolution.v1.schema.json`](../schemas/delegation-resolution.v1.schema.json)

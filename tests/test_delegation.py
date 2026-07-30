@@ -3,7 +3,9 @@ import copy
 import hashlib
 import json
 from datetime import UTC, datetime
+from pathlib import Path
 
+import jsonschema
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
@@ -13,6 +15,7 @@ from policy_registry.cli import main
 from policy_registry.delegation import (
     CANDIDATE_SCHEMA,
     GRANT_SCHEMA,
+    RESULT_SCHEMA,
     TRUST_STORE_SCHEMA,
 )
 
@@ -259,6 +262,26 @@ def resolve(context, grant=None, candidate=None, at=AT):
     )
 
 
+def test_published_json_schemas_validate_signed_contract(signed_context):
+    schema_root = Path(__file__).parents[1] / "schemas"
+    instances = {
+        "signed-delegation-grant.v1.schema.json": signed_context["grant"],
+        "delegated-avatar-decision-candidate.v2.schema.json": signed_context[
+            "candidate"
+        ],
+        "delegation-issuer-trust.v1.schema.json": signed_context["trust"],
+        "delegation-resolution.v1.schema.json": json.loads(
+            json.dumps(resolve(signed_context).to_dict())
+        ),
+    }
+    assert instances["delegation-resolution.v1.schema.json"]["schema"] == RESULT_SCHEMA
+
+    for filename, instance in instances.items():
+        schema = json.loads((schema_root / filename).read_text(encoding="utf-8"))
+        jsonschema.Draft202012Validator.check_schema(schema)
+        jsonschema.Draft202012Validator(schema).validate(instance)
+
+
 def test_qualified_candidate_never_authorizes_while_cutover_is_false(signed_context):
     result = resolve(signed_context)
     assert result.status == "candidate-qualified"
@@ -350,6 +373,54 @@ def test_scope_action_exclusion_and_confidence_fail_closed(
     result = resolve(signed_context, candidate=candidate)
     assert result.status == "rejected"
     assert expected in result.reasons[0]
+
+
+@pytest.mark.parametrize(
+    "global_scope",
+    [
+        "all/*",
+        "all/automation",
+        "global/*",
+        "global/automation",
+        "system-wide/*",
+        "system-wide/automation",
+    ],
+)
+def test_global_scope_namespaces_are_rejected_in_signed_grant(
+    signed_context,
+    global_scope,
+):
+    grant = copy.deepcopy(signed_context["grant"])
+    grant["scopes"] = [global_scope]
+    resign_grant(signed_context, grant)
+    candidate = copy.deepcopy(signed_context["candidate"])
+    candidate["scope"] = global_scope.removesuffix("/*") + "/release"
+    resign_candidate(signed_context, candidate, grant)
+
+    result = resolve(signed_context, grant=grant, candidate=candidate)
+
+    assert result.status == "rejected"
+    assert result.authorizes_action is False
+    assert "global wildcard is forbidden" in result.reasons[0]
+
+
+@pytest.mark.parametrize(
+    "global_scope",
+    ["all/automation", "global/automation", "system-wide/automation"],
+)
+def test_global_scope_namespaces_are_rejected_in_candidate(
+    signed_context,
+    global_scope,
+):
+    candidate = copy.deepcopy(signed_context["candidate"])
+    candidate["scope"] = global_scope
+    resign_candidate(signed_context, candidate)
+
+    result = resolve(signed_context, candidate=candidate)
+
+    assert result.status == "rejected"
+    assert result.authorizes_action is False
+    assert "global blank-scope delegation is forbidden" in result.reasons[0]
 
 
 def test_hard_confidence_floor_cannot_be_lowered_by_issuer(signed_context):

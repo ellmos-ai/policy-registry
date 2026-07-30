@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ellmos.dev/delegation-resolution.v1.schema.json",
+  "title": "ellmos delegation resolution v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "candidate_id",
+    "delegation_receipt_id",
+    "qualified_for_future_cutover",
+    "cutover_enabled",
+    "authorizes_action",
+    "reasons",
+    "verified",
+    "policy_resolution"
+  ],
+  "properties": {
+    "schema": {"const": "ellmos.delegation-resolution.v1"},
+    "status": {"enum": ["candidate-qualified", "rejected"]},
+    "candidate_id": {
+      "type": ["string", "null"],
+      "pattern": "^decision-[0-9a-f]{64}$"
+    },
+    "delegation_receipt_id": {
+      "type": ["string", "null"],
+      "pattern": "^ar-[0-9a-f]{64}$"
+    },
+    "qualified_for_future_cutover": {"type": "boolean"},
+    "cutover_enabled": {"const": false},
+    "authorizes_action": {"const": false},
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "verified": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string"}
+    },
+    "policy_resolution": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string"},
+        "reason": {"type": ["string", "null"]},
+        "considered": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "selected": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

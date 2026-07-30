@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ellmos.dev/delegated-avatar-decision-candidate.v2.schema.json",
+  "title": "ellmos delegated avatar decision candidate v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "candidate_id",
+    "decision_type",
+    "delegation_receipt_id",
+    "delegation_content_hash",
+    "subject",
+    "scope",
+    "action_code",
+    "consumer_code",
+    "confidence",
+    "reason_codes",
+    "evidence_refs",
+    "provenance",
+    "created_at",
+    "candidate_content_hash",
+    "signature_algorithm",
+    "signature"
+  ],
+  "properties": {
+    "schema": {"const": "ellmos.delegated-avatar-decision-candidate.v2"},
+    "candidate_id": {"type": "string", "pattern": "^decision-[0-9a-f]{64}$"},
+    "decision_type": {"const": "predicted/delegated-avatar-decision"},
+    "delegation_receipt_id": {"type": "string", "pattern": "^ar-[0-9a-f]{64}$"},
+    "delegation_content_hash": {"$ref": "#/$defs/hash"},
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "key_id"],
+      "properties": {
+        "id": {"$ref": "#/$defs/code"},
+        "key_id": {"$ref": "#/$defs/code"}
+      }
+    },
+    "scope": {
+      "allOf": [
+        {"$ref": "#/$defs/code"},
+        {"not": {"pattern": "^(\\*|all(?:/|$)|global(?:/|$)|system-wide(?:/|$))"}}
+      ]
+    },
+    "action_code": {"$ref": "#/$defs/code"},
+    "consumer_code": {"$ref": "#/$defs/code"},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+([._:/-][a-z0-9]+){0,7}$"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["evidence_id", "content_hash"],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^(pe|loc)-[0-9a-f]{64}$"
+          },
+          "content_hash": {"$ref": "#/$defs/hash"}
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_code", "avatar_id", "skill_id", "model_id"],
+      "properties": {
+        "provider_code": {"$ref": "#/$defs/code"},
+        "avatar_id": {"type": "string", "pattern": "^oid-[0-9a-f]{64}$"},
+        "skill_id": {"type": "string", "pattern": "^oid-[0-9a-f]{64}$"},
+        "model_id": {"type": "string", "pattern": "^oid-[0-9a-f]{64}$"}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "candidate_content_hash": {"$ref": "#/$defs/hash"},
+    "signature_algorithm": {"const": "ed25519"},
+    "signature": {"type": "string", "minLength": 88, "maxLength": 88}
+  },
+  "$defs": {
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:/-]{1,127}$"
+    },
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
