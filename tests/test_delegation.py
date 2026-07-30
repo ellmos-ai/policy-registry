@@ -254,11 +254,11 @@ def resolve(context, grant=None, candidate=None, at=AT):
     resolver = DelegationResolver(
         context["registry"],
         IssuerTrustStore.from_dict(context["trust"]),
+        now_provider=lambda: at,
     )
     return resolver.resolve(
         grant or context["grant"],
         candidate or context["candidate"],
-        at=at,
     )
 
 
@@ -421,6 +421,51 @@ def test_global_scope_namespaces_are_rejected_in_candidate(
     assert result.status == "rejected"
     assert result.authorizes_action is False
     assert "global blank-scope delegation is forbidden" in result.reasons[0]
+
+
+def test_registry_snapshot_is_loaded_once_for_hash_and_policy_context(signed_context):
+    source = signed_context["source"]
+    source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    signed_context["registry"].register(
+        registry_entry(
+            "D-PROJECT-DENY",
+            source,
+            source_hash,
+            title="Current project deny",
+            scope="project:alpha/release",
+            effect="deny",
+            action_patterns=["deploy:artifact/*"],
+        )
+    )
+    grant, candidate = refresh_registry_binding(signed_context)
+    signed_snapshot = signed_context["registry"].load()
+    later_snapshot = copy.deepcopy(signed_snapshot)
+    later_snapshot["entries"] = [
+        entry
+        for entry in later_snapshot["entries"]
+        if entry["id"] != "D-PROJECT-DENY"
+    ]
+
+    class SequencedRegistry(PolicyRegistry):
+        def __init__(self):
+            super().__init__("unused-registry.json")
+            self.loads = 0
+
+        def load(self):
+            self.loads += 1
+            selected = signed_snapshot if self.loads == 1 else later_snapshot
+            return copy.deepcopy(selected)
+
+    registry = SequencedRegistry()
+    result = DelegationResolver(
+        registry,
+        IssuerTrustStore.from_dict(signed_context["trust"]),
+        now_provider=lambda: AT,
+    ).resolve(grant, candidate)
+
+    assert registry.loads == 1
+    assert result.status == "rejected"
+    assert result.policy_resolution["status"] == "denied"
 
 
 def test_hard_confidence_floor_cannot_be_lowered_by_issuer(signed_context):
@@ -686,7 +731,9 @@ def test_cli_outputs_candidate_status_without_authorization(
         ]
     )
     output = json.loads(capsys.readouterr().out)
-    assert exit_code == 3
-    assert output["status"] == "candidate-qualified"
+    assert exit_code == 4
+    assert output["status"] == "historical-audit-qualified"
+    assert output["evaluation_time_mode"] == "historical-audit"
+    assert output["qualified_for_future_cutover"] is False
     assert output["cutover_enabled"] is False
     assert output["authorizes_action"] is False

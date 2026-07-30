@@ -15,7 +15,7 @@ import re
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
@@ -130,6 +130,7 @@ class IssuerTrustStore:
 class DelegationResolution:
     schema: str
     status: str
+    evaluation_time_mode: str
     candidate_id: str | None
     delegation_receipt_id: str | None
     qualified_for_future_cutover: bool
@@ -152,10 +153,12 @@ class DelegationResolver:
         trust_store: IssuerTrustStore,
         *,
         clock_skew: timedelta = timedelta(minutes=5),
+        now_provider: Callable[[], datetime] | None = None,
     ):
         self.registry = registry
         self.trust_store = trust_store
         self.clock_skew = clock_skew
+        self.now_provider = now_provider or (lambda: datetime.now(UTC))
 
     def resolve(
         self,
@@ -164,7 +167,8 @@ class DelegationResolver:
         *,
         at: datetime | None = None,
     ) -> DelegationResolution:
-        now = _normalize_now(at)
+        historical_audit = at is not None
+        now = _normalize_now(at if historical_audit else self.now_provider())
         candidate_id = (
             candidate.get("candidate_id")
             if isinstance(candidate, dict)
@@ -182,6 +186,7 @@ class DelegationResolver:
             _reject_forbidden_keys(candidate)
             _validate_grant_shape(grant)
             _validate_candidate_shape(candidate)
+            registry_snapshot = self.registry.load()
 
             grant_hash = _verify_embedded_hash(
                 grant,
@@ -204,13 +209,13 @@ class DelegationResolver:
             )
             verified.extend(("grant-content-hash", "grant-issuer-signature"))
 
-            current_registry_hash = _registry_content_hash(self.registry)
+            current_registry_hash = _registry_content_hash(registry_snapshot)
             if grant["registry_content_hash"] != current_registry_hash:
                 raise DelegationError(
                     "current policy registry differs from the signed delegation snapshot"
                 )
             verified.append("current-registry-snapshot")
-            self._verify_authority_source(grant, now)
+            self._verify_authority_source(grant, now, registry_snapshot)
             verified.append("current-authority-source")
             self._verify_grant_window(grant, now)
             verified.append("grant-time-window")
@@ -247,7 +252,12 @@ class DelegationResolver:
             self._verify_scope_action_confidence(candidate, grant)
             verified.extend(("candidate-time-window", "scope-action-confidence"))
 
-            policy_resolution = self._resolve_policy_context(candidate, grant, now)
+            policy_resolution = self._resolve_policy_context(
+                candidate,
+                grant,
+                now,
+                registry_snapshot,
+            )
             if policy_resolution["status"] != "clear":
                 raise DelegationError(policy_resolution["reason"])
             verified.append("current-project-global-policy-context")
@@ -255,6 +265,9 @@ class DelegationResolver:
             return DelegationResolution(
                 schema=RESULT_SCHEMA,
                 status="rejected",
+                evaluation_time_mode=(
+                    "historical-audit" if historical_audit else "current"
+                ),
                 candidate_id=candidate_id,
                 delegation_receipt_id=receipt_id,
                 qualified_for_future_cutover=False,
@@ -268,15 +281,26 @@ class DelegationResolver:
                 ),
             )
 
+        if historical_audit:
+            status = "historical-audit-qualified"
+            qualified_for_future_cutover = False
+            reasons = ("historical audit cannot qualify a future cutover",)
+        else:
+            status = "candidate-qualified"
+            qualified_for_future_cutover = True
+            reasons = ("runtime cutover remains disabled",)
         return DelegationResolution(
             schema=RESULT_SCHEMA,
-            status="candidate-qualified",
+            status=status,
+            evaluation_time_mode=(
+                "historical-audit" if historical_audit else "current"
+            ),
             candidate_id=candidate["candidate_id"],
             delegation_receipt_id=grant["receipt_id"],
-            qualified_for_future_cutover=True,
+            qualified_for_future_cutover=qualified_for_future_cutover,
             cutover_enabled=CUTOVER_ENABLED,
             authorizes_action=False,
-            reasons=("runtime cutover remains disabled",),
+            reasons=reasons,
             verified=tuple(verified),
             policy_resolution=policy_resolution,
         )
@@ -285,10 +309,18 @@ class DelegationResolver:
         self,
         grant: dict[str, Any],
         now: datetime,
+        registry_snapshot: dict[str, Any],
     ) -> None:
         if grant["authority_source_id"] != AUTHORITY_SOURCE_DECISION:
             raise DelegationError("unsupported delegation authority source")
-        entry = self.registry.get(AUTHORITY_SOURCE_DECISION)
+        entry = next(
+            (
+                candidate
+                for candidate in registry_snapshot["entries"]
+                if candidate["id"] == AUTHORITY_SOURCE_DECISION
+            ),
+            None,
+        )
         if entry is None:
             raise DelegationError("current authority-source decision is not registered")
         if (
@@ -386,13 +418,14 @@ class DelegationResolver:
         candidate: dict[str, Any],
         grant: dict[str, Any],
         now: datetime,
+        registry_snapshot: dict[str, Any],
     ) -> dict[str, Any]:
         scope = candidate["scope"]
         action = candidate["action_code"]
         consumer = candidate["consumer_code"]
         relevant: list[dict[str, Any]] = []
         unresolved: list[str] = []
-        for entry in self.registry.load()["entries"]:
+        for entry in registry_snapshot["entries"]:
             if entry["id"] == grant["authority_source_id"]:
                 continue
             if entry["kind"] not in {"policy", "rule", "decision"}:
@@ -775,8 +808,7 @@ def _canonical_json(value: Any) -> bytes:
         raise DelegationError("signed object is not canonical JSON data") from error
 
 
-def _registry_content_hash(registry: PolicyRegistry) -> str:
-    data = registry.load()
+def _registry_content_hash(data: dict[str, Any]) -> str:
     snapshot = {
         "schema": data["schema"],
         "entries": sorted(data["entries"], key=lambda item: item["id"]),

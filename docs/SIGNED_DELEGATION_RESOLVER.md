@@ -9,14 +9,17 @@ authorization:
 ```json
 {
   "status": "candidate-qualified",
+  "evaluation_time_mode": "current",
   "qualified_for_future_cutover": true,
   "cutover_enabled": false,
   "authorizes_action": false
 }
 ```
 
-`candidate-qualified` is therefore an audit result, not permission to execute
-an action.
+`candidate-qualified` is therefore a current-time eligibility result, not
+permission to execute an action. A caller-selected historical `--at` produces
+the distinct non-qualifying status `historical-audit-qualified` with
+`qualified_for_future_cutover=false`.
 
 ## Trust chain
 
@@ -52,7 +55,8 @@ The resolver fails closed unless all gates pass:
 - current, active, adopted and canonical `D-20260730-001` registry entry with
   `authority=explicit-user-decision`;
 - byte-current local SHA-256 readback of that decision source;
-- current registry entries exactly match the issuer-reviewed snapshot;
+- one in-memory registry snapshot exactly matches the issuer-reviewed hash and
+  is reused for authority-source and policy-conflict resolution;
 - valid `issued_at`, `expires_at` and `review_at` window;
 - delegate identity, delegate key pin and candidate signature;
 - candidate ID, receipt ID and both canonical content hashes;
@@ -110,10 +114,10 @@ policy-registry resolve-delegation `
   --trust-store issuer-trust.json
 ```
 
-Candidate qualification returns exit `3`, deliberately not shell-success,
-because runtime cutover is disabled. Rejection returns exit `2`; malformed CLI
-input returns exit `1`. Use `--at <UTC timestamp>` only for reproducible
-audits.
+Current-time candidate qualification returns exit `3`, deliberately not
+shell-success because runtime cutover is disabled. Historical audit
+qualification returns exit `4` and never qualifies future cutover. Rejection
+returns exit `2`; malformed CLI input returns exit `1`.
 
 ## Nonclaims
 

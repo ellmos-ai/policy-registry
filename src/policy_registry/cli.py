@@ -114,7 +114,11 @@ def main(argv: list[str] | None = None) -> int:
                 at=at,
             )
             _print(delegation_result.to_dict())
-            return 3 if delegation_result.status == "candidate-qualified" else 2
+            if delegation_result.status == "candidate-qualified":
+                return 3
+            if delegation_result.status == "historical-audit-qualified":
+                return 4
+            return 2
         elif args.command == "verify":
             result = registry.verify()
             _print(result)
