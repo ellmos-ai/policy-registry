@@ -6,6 +6,11 @@
   candidate resolver for `D-20260730-001`.
 - Keep runtime cutover disabled: qualified candidates never authorize actions.
 
+### Verified
+
+- Synchronized documentation test status with the current suite: Python 3.12.10,
+  `pytest --collect-only` collected 48 tests and `pytest` passed 48/48.
+
 All notable changes to `policy-registry` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -20,4 +25,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added AI/LLM integration notice banner to `README.md`.
 
 ### Verified
-- Verified 100% passing test suite (10/10 pytest tests passing).
+- Verified current documented pytest status is maintained in the Unreleased
+  section as the suite has expanded beyond the original 0.1.1 baseline.
