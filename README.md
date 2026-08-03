@@ -13,7 +13,7 @@
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-01 nach der Dokumentationssynchronisierung mit Python 3.12.10:
+Aktueller lokaler Nachweis vom 2026-08-03 nach der Dokumentationssynchronisierung mit Python 3.12.10:
 
 - `python -m pytest --collect-only` sammelt 48 Tests.
 - `python -m pytest` besteht mit 48/48 Tests.

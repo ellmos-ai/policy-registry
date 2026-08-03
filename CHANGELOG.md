@@ -8,8 +8,7 @@
 
 ### Verified
 
-- Synchronized documentation test status with the current suite: Python 3.12.10,
-  `pytest --collect-only` collected 48 tests and `pytest` passed 48/48.
+- Synchronized documentation test status & `llms.txt` verification timestamp with the current suite (2026-08-03): Python 3.12.10, `pytest --collect-only` collected 48 tests and `pytest` passed 48/48 (100% green).
 
 All notable changes to `policy-registry` will be documented in this file.
 
