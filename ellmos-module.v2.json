@@ -5,7 +5,7 @@
   "category": "control",
   "kind": "library",
   "status": "active",
-  "visibility": "private",
+  "visibility": "public",
   "provides": [
     "policy.registry",
     "policy.resolve",
