@@ -5,6 +5,8 @@
 - Add a provider-neutral, Ed25519 signer-/issuer-bound delegated-avatar
   candidate resolver for `D-20260730-001`.
 - Keep runtime cutover disabled: qualified candidates never authorize actions.
+- Modernize PEP 621 license metadata to avoid setuptools deprecation warnings
+  during isolated package builds.
 
 ### Verified
 
