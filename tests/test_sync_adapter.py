@@ -26,7 +26,7 @@ def build_sync_root(tmp_path):
     (root / "adoption" / "workstation.json").write_text(
         json.dumps(
             {
-                "host": "WORKSTATION-LG",
+                "host": "host-a",
                 "policies": {
                     "P-001": {"status": "adopted", "actors": ["codex"]}
                 },
@@ -37,7 +37,7 @@ def build_sync_root(tmp_path):
     (root / "sources" / "workstation.json").write_text(
         json.dumps(
             {
-                "host": "WORKSTATION-LG",
+                "host": "host-a",
                 "updated": "2026-07-28",
                 "sources": [
                     {
