@@ -22,6 +22,12 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 from .model import expand_uri, is_valid_now, sha256_file
 from .registry import PolicyRegistry
+from .scope import (
+    GLOBAL_SCOPES,
+    consumer_matches,
+    scope_matches,
+    scope_precedence,
+)
 
 AUTHORITY_SOURCE_DECISION = "D-20260730-001"
 GRANT_SCHEMA = "ellmos.signed-delegation-grant.v1"
@@ -38,7 +44,7 @@ _OPAQUE_ID = re.compile(r"^(?:ar|decision|oid|pe|loc)-[0-9a-f]{64}$")
 _CODE = re.compile(r"^[a-z0-9][a-z0-9._:/-]{1,127}$")
 _PATTERN = re.compile(r"^[a-z0-9][a-z0-9._:/-]{1,125}(?:/\*)?$")
 _REASON_CODE = re.compile(r"^[a-z0-9]+(?:[._:/-][a-z0-9]+){0,7}$")
-_GLOBAL_SCOPES = {"*", "all", "global", "system-wide"}
+_GLOBAL_SCOPES = GLOBAL_SCOPES
 _FORBIDDEN_KEYS = {
     "body",
     "content",
@@ -440,8 +446,7 @@ class DelegationResolver:
                 continue
             if not _entry_scope_applies(entry["scope"], scope):
                 continue
-            consumers = entry.get("consumers", [])
-            if consumers and "*" not in consumers and consumer not in consumers:
+            if not consumer_matches(entry.get("consumers", []), consumer):
                 continue
             try:
                 _verify_context_entry_source(entry)
@@ -862,13 +867,7 @@ def _pattern_matches(pattern: str, value: str) -> bool:
 
 
 def _entry_scope_applies(entry_scope: str, candidate_scope: str) -> bool:
-    if entry_scope in _GLOBAL_SCOPES:
-        return True
-    if entry_scope.endswith("/*"):
-        return _pattern_matches(entry_scope, candidate_scope)
-    return entry_scope == candidate_scope or candidate_scope.startswith(
-        entry_scope.rstrip("/") + "/"
-    )
+    return scope_matches(entry_scope, candidate_scope)
 
 
 def _authority_key(
@@ -887,13 +886,8 @@ def _authority_key(
         rank = 300
     else:
         rank = 200
-    if entry["scope"] == candidate_scope:
-        scope_rank = 2
-    elif entry["scope"] in _GLOBAL_SCOPES:
-        scope_rank = 0
-    else:
-        scope_rank = 1
-    return (rank, scope_rank, entry["priority"], entry["precedence"])
+    scope_rank, scope_depth = scope_precedence(entry["scope"], candidate_scope)
+    return (rank, scope_rank, scope_depth, entry["priority"], entry["precedence"])
 
 
 def _verify_context_entry_source(entry: dict[str, Any]) -> None:

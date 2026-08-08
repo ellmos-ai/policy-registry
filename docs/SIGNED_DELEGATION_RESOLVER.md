@@ -72,6 +72,18 @@ The resolver fails closed unless all gates pass:
   then other adopted decision; project-specific scope precedes global scope
   only within the same authority class).
 
+### Shared scope contract
+
+The resolver shares `src/policy_registry/scope.py` with
+`PolicyRegistry.search/resolve`. Global aliases (`*`, `all`, `global`,
+`system-wide`) match every non-empty candidate scope. A normal scope matches
+itself and descendants; a trailing `/*` matches descendants only. Siblings do
+not match. Within one authority class, scope specificity is ordered
+`exact > /* wildcard > inherited parent > global`, with deeper paths winning
+within one relation. Consumer matching is universal for an empty list or `*`,
+otherwise exact; an omitted consumer filter means no filter. Source hash and
+freshness gates remain independent and fail closed.
+
 An applicable current policy/decision without `effect` (`allow`/`deny`) and
 `action_patterns` is unresolved and blocks qualification. This is intentional:
 prose is not silently interpreted as permission.

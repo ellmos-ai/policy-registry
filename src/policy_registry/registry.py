@@ -15,6 +15,7 @@ from .model import (
     sha256_file,
     validate_entry,
 )
+from .scope import consumer_matches, scope_matches, scope_precedence
 
 
 class RegistryError(RuntimeError):
@@ -121,10 +122,9 @@ class PolicyRegistry:
             ).casefold()
             if needle and needle not in haystack:
                 continue
-            if scope and entry["scope"] not in {"*", "all", "system-wide", scope}:
+            if scope and not scope_matches(entry.get("scope"), scope):
                 continue
-            consumers = entry["consumers"]
-            if consumer and consumers and "*" not in consumers and consumer not in consumers:
+            if not consumer_matches(entry.get("consumers"), consumer):
                 continue
             if kind and entry["kind"] != kind:
                 continue
@@ -147,7 +147,13 @@ class PolicyRegistry:
         if required_kind:
             candidates = [entry for entry in candidates if entry["kind"] == required_kind]
         candidates.sort(
-            key=lambda item: (item["priority"], item["precedence"], item["version"], item["id"]),
+            key=lambda item: (
+                *scope_precedence(item["scope"], scope),
+                item["priority"],
+                item["precedence"],
+                item["version"],
+                item["id"],
+            ),
             reverse=True,
         )
         reason = None
@@ -157,12 +163,20 @@ class PolicyRegistry:
             reason = "Keine gültige, explizit adoptierte Norm gefunden."
         else:
             top = candidates[0]
-            ties = [
-                item
-                for item in candidates
-                if (item["priority"], item["precedence"])
-                == (top["priority"], top["precedence"])
-            ]
+            top_key = (
+                *scope_precedence(top["scope"], scope),
+                top["priority"],
+                top["precedence"],
+            )
+            ties = []
+            for item in candidates:
+                item_key = (
+                    *scope_precedence(item["scope"], scope),
+                    item["priority"],
+                    item["precedence"],
+                )
+                if item_key == top_key:
+                    ties.append(item)
             if len(ties) > 1:
                 status = "conflict"
                 selected = None
@@ -218,4 +232,3 @@ class PolicyRegistry:
         }
 
 __all__ = ["PolicyRegistry", "RegistryError", "ValidationError"]
-

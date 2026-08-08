@@ -7,10 +7,16 @@
 - Keep runtime cutover disabled: qualified candidates never authorize actions.
 - Modernize PEP 621 license metadata to avoid setuptools deprecation warnings
   during isolated package builds.
+- Unify hierarchical scope matching and precedence across `PolicyRegistry` and
+  the signed delegation resolver, including parent scopes, `/*` descendants,
+  global aliases, sibling exclusion, and consumer matching.
 
 ### Verified
 
-- Synchronized documentation test status & `llms.txt` verification timestamp with the current suite (2026-08-03): Python 3.12.10, `pytest --collect-only` collected 48 tests and `pytest` passed 48/48 (100% green).
+- Synchronized documentation test status & `llms.txt` verification timestamp
+  with the current suite (2026-08-08): Python 3.12.10,
+  `pytest --collect-only` collected 66 tests and `pytest` passed 66/66 (100%
+  green).
 
 All notable changes to `policy-registry` will be documented in this file.
 

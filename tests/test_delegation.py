@@ -518,6 +518,63 @@ def test_parent_project_scope_is_part_of_current_conflict_context(signed_context
     assert result.policy_resolution["selected"] == ["D-PROJECT-PARENT-DENY"]
 
 
+def test_descendant_wildcard_scope_is_current_context(signed_context):
+    source = signed_context["source"]
+    source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    signed_context["registry"].register(
+        registry_entry(
+            "D-PROJECT-WILDCARD-DENY",
+            source,
+            source_hash,
+            title="Descendant wildcard deny",
+            scope="project:alpha/*",
+            effect="deny",
+            action_patterns=["deploy:artifact/*"],
+        )
+    )
+    grant, candidate = refresh_registry_binding(signed_context)
+
+    result = resolve(signed_context, grant=grant, candidate=candidate)
+
+    assert result.status == "rejected"
+    assert result.policy_resolution["selected"] == ["D-PROJECT-WILDCARD-DENY"]
+
+
+def test_sibling_scope_and_restricted_consumer_do_not_become_authority(
+    signed_context,
+):
+    source = signed_context["source"]
+    source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    signed_context["registry"].register_many(
+        [
+            registry_entry(
+                "D-SIBLING-DENY",
+                source,
+                source_hash,
+                scope="project:alpha/other",
+                effect="deny",
+                action_patterns=["deploy:artifact/*"],
+            ),
+            registry_entry(
+                "D-OTHER-CONSUMER-DENY",
+                source,
+                source_hash,
+                scope="project:alpha/release",
+                consumers=["gemini"],
+                effect="deny",
+                action_patterns=["deploy:artifact/*"],
+            ),
+        ]
+    )
+    grant, candidate = refresh_registry_binding(signed_context)
+
+    result = resolve(signed_context, grant=grant, candidate=candidate)
+
+    assert result.status == "candidate-qualified"
+    assert result.policy_resolution["status"] == "clear"
+    assert result.policy_resolution["selected"] is None
+
+
 def test_project_explicit_allow_precedes_global_explicit_deny(signed_context):
     source = signed_context["source"]
     source_hash = hashlib.sha256(source.read_bytes()).hexdigest()

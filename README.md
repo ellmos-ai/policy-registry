@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2048%2F48%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2066%2F66%20Passing-brightgreen.svg)](tests/)
 
 > [!NOTE]
 > **AI & LLM Integration Notice**: This repository includes an [`llms.txt`](llms.txt) index file tailored for automated context ingestion, agentic system prompts, and LLM code understanding.
@@ -15,10 +15,10 @@
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-03 nach der Dokumentationssynchronisierung mit Python 3.12.10:
+Aktueller lokaler Nachweis vom 2026-08-08 nach der Scope-Vertragsvereinheitlichung mit Python 3.12.10:
 
-- `python -m pytest --collect-only` sammelt 48 Tests.
-- `python -m pytest` besteht mit 48/48 Tests.
+- `python -m pytest --collect-only` sammelt 66 Tests.
+- `python -m pytest` besteht mit 66/66 Tests.
 
 ## Systemarchitektur
 
@@ -37,9 +37,23 @@ graph TD
 - Die lokale Registry unter `~/.policy-registry/registry.json` ist autoritativ für ihre Metadaten.
 - Kanonischer Regeltext bleibt an `source.uri`.
 - `content`, `body`, `full_text` und `payload` werden als Registry-Felder abgewiesen.
-- Gültige, explizit adoptierte `policy`, `rule` oder `decision` werden zuerst nach Priorität und Präzedenz aufgelöst.
+- Gültige, explizit adoptierte `policy`, `rule` oder `decision` werden nach dem
+  gemeinsamen hierarchischen Scope-Vertrag, danach nach Priorität und Präzedenz
+  aufgelöst.
 - Fehlt eine Norm, reicht sie nicht aus oder widersprechen sich gleichrangige Normen, meldet die Auflösung einen **beratenden TOM-lm-Fallback**. Sie ruft TOM-lm nicht automatisch auf und verleiht seinem Ergebnis keine Autorität.
 - Ein TOM-Ergebnis darf als `evidence` oder `decision-candidate` registriert werden. Erst eine explizite Adoption macht daraus eine generalisierte Policy.
+
+### Scope-Vertrag
+
+`PolicyRegistry` und der signierte Delegation-Resolver teilen den Matcher aus
+[`src/policy_registry/scope.py`](src/policy_registry/scope.py). Die globalen
+Aliaswerte `*`, `all`, `global` und `system-wide` gelten überall. Ein normaler
+Scope gilt exakt und wird an Nachkommen vererbt; `project:alpha/*` gilt nur für
+Nachkommen. Die Präzedenz lautet `exact > /* > parent > global`, bei gleicher
+Relation gewinnt der tiefere Pfad. Geschwister matchen nicht. Ein leerer
+Consumerfilter bedeutet „alle“, eine leere Consumerliste oder `*` ist universal;
+andernfalls ist der Consumer-Code exakt zu treffen. Die Delegation-Prüfung bleibt
+für stale oder nicht materialisierte Quellen fail-closed.
 
 ## Metadatenmodell
 

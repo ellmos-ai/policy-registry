@@ -86,9 +86,58 @@ def test_pending_policy_is_not_authority(tmp_path):
     assert result["fallback"]["result_role"] == "evidence-or-decision-candidate"
 
 
+def test_search_matches_parent_wildcard_and_exact_but_not_sibling(tmp_path):
+    registry = PolicyRegistry(tmp_path / "registry.json")
+    registry.register_many(
+        [
+            entry("global", scope="system-wide"),
+            entry("parent", scope="project:alpha"),
+            entry("wildcard", scope="project:alpha/*"),
+            entry("exact", scope="project:alpha/release"),
+            entry("sibling", scope="project:alpha/other"),
+            entry("other-consumer", scope="project:alpha/release", consumers=["gemini"]),
+        ]
+    )
+
+    ids = {item["id"] for item in registry.search(scope="project:alpha/release", consumer="codex")}
+
+    assert ids == {"global", "parent", "wildcard", "exact"}
+
+
+def test_resolve_scope_specificity_precedes_priority(tmp_path):
+    registry = PolicyRegistry(tmp_path / "registry.json")
+    registry.register_many(
+        [
+            entry("global", scope="system-wide", priority=1000),
+            entry("parent", scope="project:alpha", priority=900),
+            entry("wildcard", scope="project:alpha/*", priority=800),
+            entry("exact", scope="project:alpha/release", priority=1),
+        ]
+    )
+
+    result = registry.resolve(scope="project:alpha/release")
+
+    assert result["status"] == "resolved"
+    assert result["selected"]["id"] == "exact"
+
+
+def test_resolve_same_scope_rank_and_priority_is_a_conflict(tmp_path):
+    registry = PolicyRegistry(tmp_path / "registry.json")
+    registry.register_many(
+        [
+            entry("allow", scope="project:alpha/*", priority=10, precedence=10),
+            entry("deny", scope="project:alpha/*", priority=10, precedence=10),
+        ]
+    )
+
+    result = registry.resolve(scope="project:alpha/release")
+
+    assert result["status"] == "conflict"
+    assert result["selected"] is None
+
+
 def test_atomic_json_is_valid(tmp_path):
     path = tmp_path / "registry.json"
     PolicyRegistry(path).register(entry())
     assert json.loads(path.read_text(encoding="utf-8"))["schema"] == "ellmos.policy-registry.v1"
     assert not path.with_suffix(".json.tmp").exists()
-

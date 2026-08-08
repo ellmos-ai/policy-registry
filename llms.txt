@@ -2,8 +2,8 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-03
-Test-suite: 48/48 passed (pytest, Python 3.12.10)
+Last-checked: 2026-08-08
+Test-suite: 66/66 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -16,6 +16,10 @@ Test-suite: 48/48 passed (pytest, Python 3.12.10)
 - **TOM-lm Fallback Guidance**: Missing or conflicting norms trigger advisory fallback notices without automatic execution.
 - **Multi-Interface Support**: CLI (`policy-registry`), Python API (`PolicyRegistry`), and optional Model Context Protocol (MCP) server adapter.
 - **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
+- **Shared Scope Contract**: `*`/`all`/`global`/`system-wide` are global;
+  normal scopes inherit to descendants, `/*` matches descendants only, exact
+  outranks wildcard, wildcard outranks parent, and siblings do not match.
+  Consumer lists are universal when empty or `*`, otherwise exact.
 
 ## Primary Documentation & References
 
@@ -24,3 +28,4 @@ Test-suite: 48/48 passed (pytest, Python 3.12.10)
 - [SECURITY.md](file:///SECURITY.md): Security model and authority boundaries.
 - [pyproject.toml](file:///pyproject.toml): Dependencies and script entry points.
 - [schemas/policy-entry.schema.json](file:///schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
+- [src/policy_registry/scope.py](file:///src/policy_registry/scope.py): Shared scope and consumer matcher used by registry and delegation resolution.
