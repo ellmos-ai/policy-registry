@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2066%2F66%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2067%2F67%20Passing-brightgreen.svg)](tests/)
 
 > [!NOTE]
 > **AI & LLM Integration Notice**: This repository includes an [`llms.txt`](llms.txt) index file tailored for automated context ingestion, agentic system prompts, and LLM code understanding.
@@ -17,8 +17,8 @@
 
 Aktueller lokaler Nachweis vom 2026-08-08 nach der Scope-Vertragsvereinheitlichung mit Python 3.12.10:
 
-- `python -m pytest --collect-only` sammelt 66 Tests.
-- `python -m pytest` besteht mit 66/66 Tests.
+- `python -m pytest --collect-only` sammelt 67 Tests.
+- `python -m pytest` besteht mit 67/67 Tests.
 
 ## Systemarchitektur
 
@@ -127,6 +127,8 @@ python -m policy_registry.mcp_server
 ```
 
 Das MCP-Extra ist für CLI und Python-API nicht erforderlich.
+Es bleibt bis zu einer ausdrücklich getesteten v2-Migration auf die gepflegte
+MCP-SDK-v1-Linie `>=1.28.1,<2` begrenzt.
 
 ## `.SYNC/_policies` und system-gap-master
 

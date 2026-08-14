@@ -10,12 +10,14 @@
 - Unify hierarchical scope matching and precedence across `PolicyRegistry` and
   the signed delegation resolver, including parent scopes, `/*` descendants,
   global aliases, sibling exclusion, and consumer matching.
+- Bound the optional MCP adapter to the maintained `mcp>=1.28.1,<2` line until
+  the breaking SDK v2 migration is implemented and verified.
 
 ### Verified
 
 - Synchronized documentation test status & `llms.txt` verification timestamp
   with the current suite (2026-08-08): Python 3.12.10,
-  `pytest --collect-only` collected 66 tests and `pytest` passed 66/66 (100%
+  `pytest --collect-only` collected 67 tests and `pytest` passed 67/67 (100%
   green).
 
 All notable changes to `policy-registry` will be documented in this file.
