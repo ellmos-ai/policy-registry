@@ -1,3 +1,5 @@
+<img src="assets/banner.png" width="100%" alt="policy-registry Banner">
+
 # policy-registry
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
