@@ -2,8 +2,8 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-08
-Test-suite: 67/67 passed (pytest, Python 3.12.10)
+Last-checked: 2026-08-16
+Test-suite: 72/72 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -20,10 +20,12 @@ Test-suite: 67/67 passed (pytest, Python 3.12.10)
   normal scopes inherit to descendants, `/*` matches descendants only, exact
   outranks wildcard, wildcard outranks parent, and siblings do not match.
   Consumer lists are universal when empty or `*`, otherwise exact.
+- **Signed Delegation Resolver**: Cryptographic Ed25519 issuer-grant and delegate-candidate verification against external pinned trust store.
 
 ## Primary Documentation & References
 
 - [README.md](file:///README.md): Project overview, installation, CLI usage, and MCP server setup.
+- [README_de.md](file:///README_de.md): Deutsche Dokumentation und Architekturübersicht.
 - [ARCHITECTURE.md](file:///ARCHITECTURE.md): Structural details and metadata schema hierarchy.
 - [SECURITY.md](file:///SECURITY.md): Security model and authority boundaries.
 - [pyproject.toml](file:///pyproject.toml): Dependencies and script entry points.

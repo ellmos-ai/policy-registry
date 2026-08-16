@@ -1,38 +1,34 @@
 # Changelog
 
-## Unreleased
-
-- Add a provider-neutral, Ed25519 signer-/issuer-bound delegated-avatar
-  candidate resolver for `D-20260730-001`.
-- Keep runtime cutover disabled: qualified candidates never authorize actions.
-- Modernize PEP 621 license metadata to avoid setuptools deprecation warnings
-  during isolated package builds.
-- Unify hierarchical scope matching and precedence across `PolicyRegistry` and
-  the signed delegation resolver, including parent scopes, `/*` descendants,
-  global aliases, sibling exclusion, and consumer matching.
-- Bound the optional MCP adapter to the maintained `mcp>=1.28.1,<2` line until
-  the breaking SDK v2 migration is implemented and verified.
-
-### Verified
-
-- Synchronized documentation test status & `llms.txt` verification timestamp
-  with the current suite (2026-08-08): Python 3.12.10,
-  `pytest --collect-only` collected 67 tests and `pytest` passed 67/67 (100%
-  green).
-
 All notable changes to `policy-registry` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.1] - 2026-07-30
+## [0.1.1] - 2026-08-16
 
 ### Added
-- Added `llms.txt` index file for AI/LLM assistant context loading and documentation discovery.
-- Added Shields.io ecosystem badges (Python 3.10+, License MIT, ellmos-ai, open-bricks, Pytest status) to `README.md`.
-- Added Mermaid system architecture diagram to `README.md` illustrating local policy pointers, adapters, and agent integration.
-- Added AI/LLM integration notice banner to `README.md`.
+- Added full German documentation parity in `README_de.md` with matched structure, quickstart, CLI, Python API, MCP adapter, and security boundaries.
+- Added comprehensive metadata, schema, and manifest parity test suite in `tests/test_metadata.py` (version consistency, required docs, schema validation, `llms.txt` integrity).
+- Added `LLM-Ready` badge and sibling tools cross-linking matrix (`memoryhooker`, `ellmos-scheduler`, `ellmos-voice-io`, `automation-master`, `CodeBox`) in `README.md` and `README_de.md`.
+- Added provider-neutral, Ed25519 signer-/issuer-bound delegated-avatar candidate resolver (`DelegationResolver`, `IssuerTrustStore`).
+- Added unified hierarchical scope matching and precedence across `PolicyRegistry` and the signed delegation resolver.
+- Added `[tool.ruff]` and `[tool.ruff.lint]` configuration in `pyproject.toml`.
+
+### Changed
+- Modernized PEP 621 license metadata to avoid setuptools deprecation warnings during isolated package builds.
+- Bound optional MCP adapter to maintained `mcp>=1.28.1,<2` line.
+- Updated `llms.txt` discovery index and verification timestamp to 2026-08-16.
 
 ### Verified
-- Verified current documented pytest status is maintained in the Unreleased
-  section as the suite has expanded beyond the original 0.1.1 baseline.
+- Test suite: 72/72 passed in Python 3.12.10 (`pytest`, 100% green).
+- Static analysis & linting: `ruff check .` 100% clean.
+- Python compilation: `compileall` 100% clean.
+
+## [0.1.0] - 2026-07-30
+
+### Added
+- Initial local-first policy pointer registry engine with CLI (`policy-registry`), Python API (`PolicyRegistry`), and MCP adapter.
+- Schema definitions for policy entries, delegation grants, and resolution receipts in `schemas/`.
+- Integration adapters for `.SYNC/_policies` metadata import and view exporting.
+- Initial `llms.txt` index file and documentation suite.

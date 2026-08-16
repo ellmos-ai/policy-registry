@@ -6,73 +6,85 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2067%2F67%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2072%2F72%20Passing-brightgreen.svg)](tests/)
+[![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
+
+[🇩🇪 Deutsch](README_de.md) | **🇬🇧 English**
 
 > [!NOTE]
 > **AI & LLM Integration Notice**: This repository includes an [`llms.txt`](llms.txt) index file tailored for automated context ingestion, agentic system prompts, and LLM code understanding.
 
-`policy-registry` ist ein eigenständiges, wiederverwendbares **LOCAL-FIRST** Register für Policies, Regeln und Entscheidungen. Es speichert Metadaten und Pointer auf kanonische Quellen, nicht deren Volltext. Dadurch bleiben lokale Quellen autoritativ und auffindbar, auch wenn OneDrive, `.SYNC` oder `system-gap-master` nicht verfügbar sind.
+`policy-registry` is an autonomous, reusable **LOCAL-FIRST** registry for policies, rules, and decisions. It stores metadata pointers and SHA-256 hashes referencing canonical sources rather than duplicating full text. This ensures local sources remain authoritative and discoverable even when OneDrive, `.SYNC`, or `system-gap-master` are unreachable.
 
-## Teststatus
+---
 
-Aktueller lokaler Nachweis vom 2026-08-08 nach der Scope-Vertragsvereinheitlichung mit Python 3.12.10:
+## Test Status
 
-- `python -m pytest --collect-only` sammelt 67 Tests.
-- `python -m pytest` besteht mit 67/67 Tests.
+Verified local test pass as of 2026-08-16 (Python 3.12.10):
 
-## Systemarchitektur
+- `python -m pytest --collect-only` collects 72 tests.
+- `python -m pytest` passes 72/72 tests (100% green).
+
+---
+
+## System Architecture
 
 ```mermaid
 graph TD
-    A["Canonical Source (~/.SYNC/_policies / Local File)"] -->|Pointer & Hash| B["Policy Registry (~/.policy-registry/registry.json)"]
+    A["Canonical Sources (~/.SYNC/_policies / Local Files)"] -->|Pointer & SHA-256 Hash| B["Policy Registry (~/.policy-registry/registry.json)"]
     B --> C["CLI (policy-registry)"]
     B --> D["Python API (PolicyRegistry)"]
-    B --> E["MCP Server (policy_search / policy_resolve)"]
+    B --> E["MCP Server Adapter (policy_search / policy_resolve)"]
+    B --> G["Signed Delegation Resolver (Ed25519)"]
     E --> F["AI Agents & Frameworks (Codex / Gemini / Claude)"]
     D --> F
+    G --> F
 ```
 
-## Sicherheits- und Autoritätsvertrag
+---
 
-- Die lokale Registry unter `~/.policy-registry/registry.json` ist autoritativ für ihre Metadaten.
-- Kanonischer Regeltext bleibt an `source.uri`.
-- `content`, `body`, `full_text` und `payload` werden als Registry-Felder abgewiesen.
-- Gültige, explizit adoptierte `policy`, `rule` oder `decision` werden nach dem
-  gemeinsamen hierarchischen Scope-Vertrag, danach nach Priorität und Präzedenz
-  aufgelöst.
-- Fehlt eine Norm, reicht sie nicht aus oder widersprechen sich gleichrangige Normen, meldet die Auflösung einen **beratenden TOM-lm-Fallback**. Sie ruft TOM-lm nicht automatisch auf und verleiht seinem Ergebnis keine Autorität.
-- Ein TOM-Ergebnis darf als `evidence` oder `decision-candidate` registriert werden. Erst eine explizite Adoption macht daraus eine generalisierte Policy.
+## Security & Authority Contract
 
-### Scope-Vertrag
+- The local registry at `~/.policy-registry/registry.json` is authoritative for its metadata.
+- Canonical policy text remains at `source.uri`.
+- Fields like `content`, `body`, `full_text`, and `payload` are rejected as registry entries.
+- Valid, explicitly adopted `policy`, `rule`, or `decision` entries resolve according to the shared hierarchical scope contract, followed by priority and precedence.
+- If a norm is missing, insufficient, or in conflict, resolution reports an **advisory TOM-lm fallback notice** without automatic execution or unwarranted authority.
+- TOM results may be recorded as `evidence` or `decision-candidate`. An explicit adoption is required to generalize into a policy.
 
-`PolicyRegistry` und der signierte Delegation-Resolver teilen den Matcher aus
-[`src/policy_registry/scope.py`](src/policy_registry/scope.py). Die globalen
-Aliaswerte `*`, `all`, `global` und `system-wide` gelten überall. Ein normaler
-Scope gilt exakt und wird an Nachkommen vererbt; `project:alpha/*` gilt nur für
-Nachkommen. Die Präzedenz lautet `exact > /* > parent > global`, bei gleicher
-Relation gewinnt der tiefere Pfad. Geschwister matchen nicht. Ein leerer
-Consumerfilter bedeutet „alle“, eine leere Consumerliste oder `*` ist universal;
-andernfalls ist der Consumer-Code exakt zu treffen. Die Delegation-Prüfung bleibt
-für stale oder nicht materialisierte Quellen fail-closed.
+### Scope Contract
 
-## Metadatenmodell
+`PolicyRegistry` and the signed delegation resolver share the matcher in [`src/policy_registry/scope.py`](src/policy_registry/scope.py):
 
-Jeder Eintrag kennt mindestens:
+1. Global aliases `*`, `all`, `global`, and `system-wide` match any scope.
+2. Normal scopes match exactly and inherit to descendants (`project:alpha` applies to `project:alpha/release`).
+3. `project:alpha/*` matches descendants only, not the parent itself.
+4. Precedence order: `exact > /* > parent > global`. When relation matches, deeper path wins.
+5. Sibling scopes do not match.
+6. Empty consumer filter matches all; empty consumer list or `*` is universal; otherwise exact match is required.
 
-| Feld | Bedeutung |
+---
+
+## Metadata Model
+
+Every entry supports the following fields:
+
+| Field | Description |
 |---|---|
-| `id`, `kind`, `title` | stabile Identität und Typ |
-| `scope`, `consumers` | Geltungsbereich und konsumierende Akteure |
-| `owner`, `authority` | Eigentümer und Autoritätsart |
-| `priority`, `precedence` | Auflösungsrang |
-| `version`, `hash` | Version und optionaler SHA-256-Nachweis |
+| `id`, `kind`, `title` | Stable identifier and entry kind |
+| `scope`, `consumers` | Scope boundaries and consumer actors |
+| `owner`, `authority` | Owner and authority classification |
+| `priority`, `precedence` | Resolution ordering rank |
+| `version`, `hash` | Version and optional SHA-256 checksum |
 | `privacy` | `public`, `internal`, `private`, `restricted` |
-| `source.uri` | Pointer auf die kanonische Quelle |
-| `status`, `adoption` | Lebenszyklus und explizite Übernahme |
+| `source.uri` | Pointer to canonical source document |
+| `status`, `adoption` | Lifecycle state and explicit adoption record |
 
-Das normative JSON-Schema liegt unter `schemas/policy-entry.schema.json`.
+The normative JSON Schema is maintained at [`schemas/policy-entry.schema.json`](schemas/policy-entry.schema.json).
 
-## CLI
+---
+
+## CLI Usage
 
 ```powershell
 policy-registry init
@@ -82,11 +94,13 @@ policy-registry resolve --scope system-wide --query "OneDrive"
 policy-registry verify
 ```
 
-Ein alternativer lokaler Pfad kann mit `--registry` oder `POLICY_REGISTRY_PATH` gesetzt werden.
+An alternative registry path can be set with `--registry` or `POLICY_REGISTRY_PATH`.
 
-`resolve` liefert Exit `0` nur bei eindeutiger expliziter Auflösung. `missing`, `insufficient` und `conflict` liefern Exit `2` und einen strukturierten TOM-lm-Hinweis mit `automatic_authority: false`.
+`resolve` returns exit code `0` on definitive resolution. Statuses `missing`, `insufficient`, and `conflict` return exit code `2` with structured advisory guidance and `automatic_authority: false`.
 
-## Python-API
+---
+
+## Python API
 
 ```python
 from policy_registry import PolicyRegistry
@@ -96,16 +110,9 @@ matches = registry.search("release", scope=".AI/.MODULES", consumer="codex")
 decision = registry.resolve(scope="system-wide", query="OneDrive")
 ```
 
-### Signed Delegation Resolver (V4-08 candidate)
+### Signed Delegation Resolver
 
-`policy-registry` can verify an issuer-signed delegation grant and a
-delegate-signed `predicted/delegated-avatar-decision` candidate against the
-current local registry. The issuer key comes from an external pinned trust
-store; the signed grant pins the delegate key. Current project/global user
-decisions and policies retain higher authority.
-
-The runtime cutover is deliberately disabled: even a fully qualified candidate
-returns `cutover_enabled: false` and `authorizes_action: false`.
+`policy-registry` can verify an issuer-signed delegation grant and a delegate-signed decision candidate against a pinned trust store:
 
 ```powershell
 policy-registry resolve-delegation `
@@ -114,44 +121,45 @@ policy-registry resolve-delegation `
   --trust-store issuer-trust.json
 ```
 
-Contract, trust chain, gates and nonclaims:
-[`docs/SIGNED_DELEGATION_RESOLVER.md`](docs/SIGNED_DELEGATION_RESOLVER.md).
+Full specification and boundaries: [`docs/SIGNED_DELEGATION_RESOLVER.md`](docs/SIGNED_DELEGATION_RESOLVER.md).
 
-## MCP
+---
 
-Der optionale MCP-Adapter stellt `policy_search`, `policy_get` und `policy_resolve` bereit:
+## Model Context Protocol (MCP) Server
+
+The optional MCP server adapter provides `policy_search`, `policy_get`, and `policy_resolve`:
 
 ```powershell
 pip install "policy-registry[mcp]"
 python -m policy_registry.mcp_server
 ```
 
-Das MCP-Extra ist für CLI und Python-API nicht erforderlich.
-Es bleibt bis zu einer ausdrücklich getesteten v2-Migration auf die gepflegte
-MCP-SDK-v1-Linie `>=1.28.1,<2` begrenzt.
+The MCP extra is bounded to the maintained MCP SDK v1 line `>=1.28.1,<2`.
 
-## `.SYNC/_policies` und system-gap-master
+---
 
-Der Adapter `policy_registry.adapters.sync_policies` liest die bestehenden Formate:
+## Ecosystem & Related Tools
 
-- `library/P-*.md`
-- `adoption/<slot>.json`
-- `sources/<slot>.json`
+| Repository | Purpose |
+|---|---|
+| [`ellmos-ai/memoryhooker`](https://github.com/ellmos-ai/memoryhooker) | Hook-based long-term memory & context layer for LLM agents |
+| [`ellmos-ai/ellmos-scheduler`](https://github.com/ellmos-ai/ellmos-scheduler) | Deterministic task runner and scheduler for multi-agent workflows |
+| [`ellmos-ai/ellmos-voice-io`](https://github.com/ellmos-ai/ellmos-voice-io) | Speech I/O adapter for multimodal assistants |
+| [`dev-bricks/automation-master`](https://github.com/dev-bricks/automation-master) | Local-first event-sourcing ledger and credit-gate automation engine |
+| [`dev-bricks/CodeBox`](https://github.com/dev-bricks/CodeBox) | Safe multi-language sandboxed execution environment |
 
-Er migriert ausschließlich Metadaten, Pfade und Hashes. Die Quelldokumente bleiben kanonisch. Eine aggregierte Sicht kann als `_policies/registry/<slot>.json` in derselben bestehenden Struktur erzeugt werden:
+---
 
-```powershell
-policy-registry export-sync-view `
-  --root "$HOME\OneDrive\.SYNC\_policies" `
-  --slot workstation
-```
+## MVP Boundaries
 
-`system-gap-master` ist ein optionaler Transportadapter. Ist es nicht installiert oder `.SYNC` nicht erreichbar, bleiben Registrierung, Suche, Auflösung und Prüfung vollständig funktionsfähig.
+- No automated full-text duplication or indexing.
+- No automated TOM-lm execution.
+- No automated adoption without explicit command.
+- No cloud hosted dependencies (100% Local-First).
+- No unauthenticated remote host mutations.
 
-## Grenzen des MVP
+---
 
-- keine automatische Volltextindexierung;
-- kein automatischer TOM-lm-Aufruf;
-- keine automatische Adoption;
-- kein Hosted-Service;
-- keine Fremdhost-Synchronisation oder Behauptung über deren Zustand.
+## License
+
+MIT License — see [LICENSE](LICENSE).
