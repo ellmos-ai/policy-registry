@@ -5,6 +5,27 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-08-21
+
+### Added
+- Added hardened bilingual `SECURITY.md` (English & German) with Local-First & Zero-Egress invariants, pointer-only boundaries, cryptographic delegation constraints, and direct vulnerability disclosure contacts (`security@ellmos.ai` / `support@lukasgeiger.com`).
+- Added two interactive bilingual Mermaid diagrams in `README.md` and `README_de.md`:
+  - Scope Resolution & Hierarchical Precedence Flowchart (`exact > /* > parent > global`, consumer evaluation, TOM-lm advisory fallback).
+  - Signed Delegation Resolver Verification Sequence (pinned issuer trust store, Ed25519 grant & candidate verification lifecycle).
+- Added comprehensive Shields.io badges (Python 3.10-3.13, Platform, Architecture, Security, Privacy, Pytest 75/75 Passing, llms.txt, and Ecosystems).
+- Added expanded 16-tool Sibling Tools & Ecosystem Matrix across `ellmos-ai`, `dev-bricks`, and `open-bricks` in both documentation languages.
+- Expanded metadata test suite in `tests/test_metadata.py` to 8 tests (bilingual security policy parity, Mermaid diagram integrity, ecosystem link validation, pyproject classifiers).
+- Added explicit PEP 621 classifiers for Python 3.10, 3.11, 3.12, and 3.13 in `pyproject.toml`.
+
+### Changed
+- Updated `llms.txt` discovery index and verification timestamp to 2026-08-21 with 75 verified passing tests.
+- Bumped version to `0.1.2` across `pyproject.toml` and `src/policy_registry/__init__.py`.
+
+### Verified
+- Test suite: 75/75 passed in Python 3.12.10 (`pytest`, 100% green).
+- Static analysis & linting: `ruff check .` 100% clean (0 warnings/errors).
+- Python compilation: `python -m compileall src tests` 100% clean.
+
 ## [0.1.1] - 2026-08-16
 
 ### Added

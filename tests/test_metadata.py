@@ -78,7 +78,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked:" in content
+    assert "Last-checked: 2026-08-21" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
@@ -108,3 +108,58 @@ def test_schemas_validity():
         assert "$schema" in content or "type" in content or "properties" in content, (
             f"Schema file {schema_path.name} does not appear to be a valid JSON Schema"
         )
+
+
+def test_security_policy_parity_and_contacts():
+    """Verify bilingual SECURITY.md invariants, zero-egress, and contact info."""
+    sec_path = REPO_ROOT / "SECURITY.md"
+    assert sec_path.is_file(), "SECURITY.md is missing"
+    content = sec_path.read_text(encoding="utf-8")
+
+    assert "English Security Policy" in content
+    assert "Deutsche Sicherheitsrichtlinie" in content
+    assert "security@ellmos.ai" in content
+    assert "support@lukasgeiger.com" in content
+    assert "Local-First" in content
+    assert "Zero-Egress" in content
+    assert "Ed25519" in content
+
+
+def test_readme_and_readme_de_parity_and_structure():
+    """Verify section structure and mermaid diagram parity between README.md and README_de.md."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    # Both must have banners and badges
+    assert "assets/banner.png" in readme_en and "assets/banner.png" in readme_de
+    assert "llms.txt" in readme_en and "llms.txt" in readme_de
+    assert "open--bricks" in readme_en and "open--bricks" in readme_de
+    assert "ellmos--ai" in readme_en and "ellmos--ai" in readme_de
+
+    # Both must contain Mermaid diagrams
+    en_mermaid_count = readme_en.count("```mermaid")
+    de_mermaid_count = readme_de.count("```mermaid")
+    assert en_mermaid_count >= 3, f"Expected >=3 mermaid blocks in README.md, found {en_mermaid_count}"
+    assert de_mermaid_count >= 3, f"Expected >=3 mermaid blocks in README_de.md, found {de_mermaid_count}"
+    assert en_mermaid_count == de_mermaid_count, "Mermaid diagram count mismatch between EN and DE READMEs"
+
+    # Both must link to sibling tools
+    for tool in ["memoryhooker", "ellmos-scheduler", "ellmos-voice-io", "automation-master", "CodeBox"]:
+        assert tool in readme_en, f"Tool '{tool}' missing from README.md"
+        assert tool in readme_de, f"Tool '{tool}' missing from README_de.md"
+
+
+def test_pyproject_python_classifiers_and_lint_config():
+    """Verify python classifiers and ruff lint configuration in pyproject.toml."""
+    pyproject_path = REPO_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        pyproject_data = tomllib.load(f)
+
+    classifiers = pyproject_data["project"].get("classifiers", [])
+    assert "Programming Language :: Python :: 3.10" in classifiers
+    assert "Programming Language :: Python :: 3.11" in classifiers
+    assert "Programming Language :: Python :: 3.12" in classifiers
+    assert "Programming Language :: Python :: 3.13" in classifiers
+
+    assert "tool" in pyproject_data and "ruff" in pyproject_data["tool"]
+    assert "lint" in pyproject_data["tool"]["ruff"]

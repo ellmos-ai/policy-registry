@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "policy-registry"
-version = "0.1.1"
+version = "0.1.2"
 description = "Local-first pointer registry for policies, rules and decisions"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,6 +13,10 @@ authors = [{name = "Lukas G"}]
 dependencies = ["cryptography>=42"]
 classifiers = [
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent",
 ]
 
