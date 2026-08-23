@@ -45,12 +45,14 @@
   },
   "adapters": [
     {
+      "type": "seam",
       "id": "sync-policies-v1",
       "target": ".SYNC/_policies",
       "status": "optional",
       "note": "Imports existing metadata pointers and exports a non-authoritative aggregated view."
     },
     {
+      "type": "seam",
       "id": "system-gap-optional",
       "target": "system-gap-master",
       "status": "optional",
