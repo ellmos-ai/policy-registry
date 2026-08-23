@@ -19,7 +19,9 @@
 If you discover a potential security vulnerability or integrity flaw in `policy-registry`, please report it privately:
 
 - **Primary Security Contact**: `security@ellmos.ai`
+- **Umbrella Security Contact**: `lukas@open-bricks.org`
 - **Maintainer Direct**: `support@lukasgeiger.com`
+- **GitHub Security Advisories**: [Open Private Security Advisory](https://github.com/ellmos-ai/policy-registry/security/advisories)
 
 Please do not disclose security issues publicly via GitHub Issues or discussions until a fix has been released. We acknowledge receipt of security reports within 24 to 48 hours and coordinate release remediation promptly.
 
@@ -40,6 +42,8 @@ Please do not disclose security issues publicly via GitHub Issues or discussions
 Wenn Sie eine potenzielle Sicherheitslücke oder einen Integritätsfehler in `policy-registry` finden, melden Sie diesen bitte vertraulich:
 
 - **Primärer Sicherheitskontakt**: `security@ellmos.ai`
+- **Dachverband-Sicherheitskontakt**: `lukas@open-bricks.org`
 - **Entwickler-Direktkontakt**: `support@lukasgeiger.com`
+- **GitHub Security Advisories**: [Private Sicherheitsmeldung einreichen](https://github.com/ellmos-ai/policy-registry/security/advisories)
 
 Bitte eröffnen Sie keine öffentlichen GitHub-Issues für Sicherheitsvorfälle. Wir bestätigen den Eingang von Hinweisen innerhalb von 24 bis 48 Stunden und koordinieren die Behebung umgehend.

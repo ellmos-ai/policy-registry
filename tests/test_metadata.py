@@ -1,3 +1,4 @@
+import ast
 import json
 import re
 from pathlib import Path
@@ -11,7 +12,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_version_consistency():
-    """Verify version parity across pyproject.toml, package __init__, and CHANGELOG."""
+    """Verify version parity across pyproject.toml, package __init__, module manifest, and CHANGELOG."""
     pyproject_path = REPO_ROOT / "pyproject.toml"
     with pyproject_path.open("rb") as f:
         pyproject_data = tomllib.load(f)
@@ -27,6 +28,12 @@ def test_version_consistency():
         f"Version mismatch: pyproject.toml ({pyproject_version}) != __init__.py ({init_version})"
     )
 
+    manifest_path = REPO_ROOT / "ellmos-module.v2.json"
+    manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest_data.get("version") == pyproject_version, (
+        f"Version mismatch: ellmos-module.v2.json ({manifest_data.get('version')}) != pyproject.toml ({pyproject_version})"
+    )
+
     changelog_path = REPO_ROOT / "CHANGELOG.md"
     assert changelog_path.exists(), "CHANGELOG.md is missing"
     changelog_content = changelog_path.read_text(encoding="utf-8")
@@ -36,7 +43,7 @@ def test_version_consistency():
 
 
 def test_required_documentation_files():
-    """Verify that all core documentation files exist."""
+    """Verify that all core documentation and governance files exist."""
     required_files = [
         "README.md",
         "README_de.md",
@@ -47,6 +54,7 @@ def test_required_documentation_files():
         "LICENSE",
         "ellmos-module.v2.json",
         "pyproject.toml",
+        ".github/workflows/ci.yml",
     ]
     for rel_path in required_files:
         full_path = REPO_ROOT / rel_path
@@ -78,7 +86,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-08-21" in content
+    assert "Last-checked: 2026-08-23" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
@@ -119,10 +127,12 @@ def test_security_policy_parity_and_contacts():
     assert "English Security Policy" in content
     assert "Deutsche Sicherheitsrichtlinie" in content
     assert "security@ellmos.ai" in content
+    assert "lukas@open-bricks.org" in content
     assert "support@lukasgeiger.com" in content
     assert "Local-First" in content
     assert "Zero-Egress" in content
     assert "Ed25519" in content
+    assert "security/advisories" in content
 
 
 def test_readme_and_readme_de_parity_and_structure():
@@ -163,3 +173,71 @@ def test_pyproject_python_classifiers_and_lint_config():
 
     assert "tool" in pyproject_data and "ruff" in pyproject_data["tool"]
     assert "lint" in pyproject_data["tool"]["ruff"]
+
+
+def test_ci_workflow_integrity():
+    """Verify that the GitHub Actions CI workflow configures multi-OS matrix and test gates."""
+    ci_file = REPO_ROOT / ".github" / "workflows" / "ci.yml"
+    assert ci_file.is_file(), "CI workflow file .github/workflows/ci.yml does not exist"
+    ci_content = ci_file.read_text(encoding="utf-8")
+
+    assert "actions/checkout@v4" in ci_content
+    assert "actions/setup-python@v5" in ci_content
+    assert "ubuntu-latest" in ci_content
+    assert "windows-latest" in ci_content
+    assert "macos-latest" in ci_content
+    assert "3.10" in ci_content and "3.13" in ci_content
+    assert "ruff check ." in ci_content
+    assert "pytest" in ci_content
+
+
+def test_pyproject_pep621_classifiers_and_urls():
+    """Verify PEP 621 classifiers, keywords, and project URLs."""
+    pyproject_path = REPO_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        pyproject_data = tomllib.load(f)
+
+    project = pyproject_data.get("project", {})
+    classifiers = project.get("classifiers", [])
+    assert "Development Status :: 4 - Beta" in classifiers
+    assert "Topic :: Security" in classifiers
+    assert "Operating System :: Microsoft :: Windows" in classifiers
+    assert "Operating System :: POSIX :: Linux" in classifiers
+    assert "Operating System :: MacOS" in classifiers
+
+    keywords = project.get("keywords", [])
+    assert "policy" in keywords
+    assert "security" in keywords
+    assert "local-first" in keywords
+
+    urls = project.get("urls", {})
+    assert "Homepage" in urls
+    assert "Documentation" in urls
+    assert "Repository" in urls
+    assert "Issues" in urls
+    assert "Changelog" in urls
+    assert "Security" in urls
+    assert "Umbrella" in urls
+
+
+def test_offline_and_privacy_invariants():
+    """Verify that the core source code contains zero unauthorized network egress modules."""
+    src_dir = REPO_ROOT / "src" / "policy_registry"
+    assert src_dir.is_dir(), "src/policy_registry directory missing"
+
+    forbidden_modules = {"requests", "urllib.request", "httpx", "aiohttp", "urllib3"}
+
+    for py_file in src_dir.rglob("*.py"):
+        code = py_file.read_text(encoding="utf-8")
+        tree = ast.parse(code, filename=str(py_file))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    assert alias.name not in forbidden_modules, (
+                        f"Forbidden network module '{alias.name}' imported in {py_file.name}"
+                    )
+            elif isinstance(node, ast.ImportFrom):
+                module = node.module or ""
+                assert module not in forbidden_modules, (
+                    f"Forbidden network module '{module}' imported in {py_file.name}"
+                )

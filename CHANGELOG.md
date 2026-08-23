@@ -5,6 +5,25 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-08-23
+
+### Added
+- Added dedicated Multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Multi-Python (`3.10`, `3.11`, `3.12`, `3.13`) GitHub Actions CI workflow in `.github/workflows/ci.yml` with `actions/checkout@v4`, `actions/setup-python@v5`, Pip caching, `ruff check .` linting gate, and `pytest` execution.
+- Added comprehensive PEP 621 metadata in `pyproject.toml` including standard classifiers (`Development Status :: 4 - Beta`, `Topic :: Security`, `Topic :: Software Development :: Libraries :: Python Modules`, `Operating System :: Microsoft :: Windows`, `Operating System :: POSIX :: Linux`, `Operating System :: MacOS`), explicit `keywords`, and complete `[project.urls]` (`Homepage`, `Documentation`, `Repository`, `Issues`, `Changelog`, `Security`, `Umbrella`).
+- Added umbrella security disclosure contact (`lukas@open-bricks.org`) and GitHub Private Security Advisories portal link in bilingual `SECURITY.md`.
+- Expanded automated metadata and invariant contract test suite in `tests/test_metadata.py` to 11 contract tests (+3 new tests: `test_ci_workflow_integrity`, `test_pyproject_pep621_classifiers_and_urls`, `test_offline_and_privacy_invariants` with AST verification of zero unauthorized network egress modules).
+- Added GitHub Actions CI status badge in `README.md` and `README_de.md`.
+
+### Changed
+- Added version `0.1.2` parity to `ellmos-module.v2.json`.
+- Synchronized `llms.txt` index timestamp to 2026-08-23 with 78 verified passing tests.
+- Synchronized README test pass badges and test status to 78/78 tests.
+
+### Verified
+- Test suite: 78/78 passed in Python 3.12.10 (`pytest`, 100% green).
+- Static analysis & linting: `ruff check .` 100% clean (0 warnings/errors).
+- Python compilation: `python -m compileall src tests` 100% clean.
+
 ## [0.1.2] - 2026-08-21
 
 ### Added

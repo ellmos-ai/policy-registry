@@ -2,6 +2,7 @@
 
 # policy-registry
 
+[![CI](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml)
 [![Python 3.10 | 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
@@ -10,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2075%2F75%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2078%2F78%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 **🇩🇪 Deutsch** | [🇬🇧 English](README.md)
@@ -24,10 +25,10 @@
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-21 (Python 3.12.10):
+Aktueller lokaler Nachweis vom 2026-08-23 (Python 3.12.10):
 
-- `python -m pytest --collect-only` sammelt 75 Tests.
-- `python -m pytest` besteht mit 75/75 Tests (100% grün).
+- `python -m pytest --collect-only` sammelt 78 Tests.
+- `python -m pytest` besteht mit 78/78 Tests (100% grün).
 - `ruff check .` besteht mit 0 Warnungen.
 
 ---

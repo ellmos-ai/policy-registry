@@ -2,8 +2,8 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-21
-Test-suite: 75/75 passed (pytest, Python 3.12.10)
+Last-checked: 2026-08-23
+Test-suite: 78/78 passed (pytest, Python 3.12.10)
 
 ## Summary
 
