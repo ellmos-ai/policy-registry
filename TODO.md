@@ -5,6 +5,11 @@
 - [x] Optionaler MCP-Seam.
 - [x] Import bestehender `.SYNC/_policies`-Pointer.
 - [x] Optionaler system-gap-/`.SYNC`-Exportseam.
+- [x] Stabile Orts-Pointer auf die realen `_DECISIONS`-Ablagen
+      (`adapters/decisions.py`, CLI `seed-decisions`) + optionaler
+      importierbarer Seam auf `decision-clicker` (`adapters/decision_clicker.py`).
+      Ticket T-20260824-474639761, Begründung der Mechanik-Wahl in
+      `ARCHITECTURE.md`.
 - [ ] TOM-lm-Connector nur nach eigenständiger Schnittstellenentscheidung
       ergänzen; weiterhin niemals automatische Autorität.
 - [ ] Für diesen späteren Connector ausschließlich versionierte Kandidaten mit

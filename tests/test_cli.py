@@ -50,3 +50,29 @@ def test_cli_register_from_json(tmp_path):
     assert main(["--registry", str(path), "register", str(entry_file)]) == 0
     assert main(["--registry", str(path), "get", "D-1"]) == 0
 
+
+def test_cli_seed_decisions_registers_stable_location_pointers(tmp_path, capsys):
+    control_center = tmp_path / "_control-center"
+    (control_center / "_DECISIONS").mkdir(parents=True)
+    (control_center.parent / ".AI" / "_templates" / "project-docs").mkdir(parents=True)
+
+    path = tmp_path / "registry.json"
+    assert (
+        main(
+            [
+                "--registry",
+                str(path),
+                "seed-decisions",
+                "--control-center-root",
+                str(control_center),
+            ]
+        )
+        == 0
+    )
+    output = json.loads(capsys.readouterr().out)
+    assert output["registered"] == 5
+
+    assert main(["--registry", str(path), "search", "--scope", "decisions"]) == 0
+    search_output = json.loads(capsys.readouterr().out)
+    assert len(search_output) == 5
+

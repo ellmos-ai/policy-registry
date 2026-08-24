@@ -6,6 +6,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from .adapters.decisions import register_decision_locations
 from .adapters.sync_policies import export_aggregated_view, import_sync_pointers
 from .delegation import DelegationError, DelegationResolver, IssuerTrustStore
 from .registry import PolicyRegistry, RegistryError
@@ -62,6 +63,13 @@ def parser() -> argparse.ArgumentParser:
     export = commands.add_parser("export-sync-view")
     export.add_argument("--root", required=True)
     export.add_argument("--slot", required=True)
+    seed_decisions = commands.add_parser("seed-decisions")
+    seed_decisions.add_argument(
+        "--control-center-root",
+        required=True,
+        help="Pfad zum _control-center-Ordner (Elternordner von _DECISIONS und .AI)",
+    )
+    seed_decisions.add_argument("--no-replace", action="store_true")
     return root
 
 
@@ -131,6 +139,13 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "export-sync-view":
             target = export_aggregated_view(registry, args.root, slot=args.slot)
             _print({"view": str(target), "authority": str(registry.path)})
+        elif args.command == "seed-decisions":
+            registered = register_decision_locations(
+                registry,
+                args.control_center_root,
+                replace=not args.no_replace,
+            )
+            _print({"registered": len(registered), "registry": str(registry.path)})
         return 0
     except (
         DelegationError,

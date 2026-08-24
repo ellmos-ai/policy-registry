@@ -16,12 +16,64 @@ kanonische lokale Quellen
   lokale policy-registry ── CLI / Python-API / optional MCP
           │
           ├── optional: bestehende .SYNC/_policies-Sicht
-          └── optional: system-gap-master als Transportseam
+          ├── optional: system-gap-master als Transportseam
+          └── optional: decision-clicker als Untermodul (importierbarer Seam)
 ```
 
 Die `.SYNC/_policies`-Struktur wird weiterverwendet. Es entsteht kein zweites
 privates Bibliotheks- oder Adoptionsformat. Die Registry ergänzt sie um eine
 lokale Auflösungs- und Discovery-Schicht.
+
+## Entscheidungs-Pointer (`adapters/decisions.py`) [U 2026-08-24, F1=A-hybrid]
+
+Nutzerentscheidung 2026-08-24 aus T-20260824-911756255 (Ticket
+T-20260824-474639761): `policy-registry` wird der eine Ort, der **weiß**, wo
+Entscheidungen liegen — nicht der Ort, der sie enthält. `adapters/decisions.py`
+registriert dafür eine feste, bewusst kleine Menge **stabiler Orts-Pointer**
+(fünf Einträge, `kind ∈ {decision, evidence, rule}`, `scope="decisions"`):
+
+1. Kopf der globalen `TO-DECIDE-USER.txt`-Kette,
+2. das Namensmuster hostbezogener Dateien (`TO-DECIDE-USER-<HOST>.txt`),
+3. `DECIDED-AND-DONE.md` (umgesetzte Entscheidungen),
+4. der generierte Maschinenindex `decisions.index.json` (kind `evidence`, also
+   nicht-autoritativ — kanonisch bleiben die Kettendateien selbst),
+5. die projektlokale `DECISIONS.md`-Konvention (kind `rule`, zeigt auf die
+   Vorlage in `.AI/_templates/project-docs/DECISIONS.md`).
+
+Bewusst **nicht** registriert wird jede einzelne Entscheidung — das würde die
+Registry zu einem zweiten, unsynchronisierten Entscheidungsspeicher machen und
+das Pointer-Only-Prinzip verletzen. `policy-registry seed-decisions
+--control-center-root <pfad>` seedet/aktualisiert die fünf Einträge; die
+Kettendateien selbst bleiben unverändert die alleinige Quelle für den
+tatsächlichen Entscheidungstext.
+
+## decision-clicker als Untermodul: Mechanik-Wahl [U 2026-08-24, F2]
+
+Für die strukturelle Führung von `decision-clicker` als Untermodul standen
+zwei Mechaniken zur Wahl: eine feste Bundle-Bindung im Manifest oder ein
+optionaler Import/Verweis. Gewählt wurde die **leichtgewichtigere**: ein
+optionaler, laufzeit-geprüfter Seam (`adapters/decision_clicker.py`,
+Funktion `available()`), gespiegelt im Manifest als `type: seam`
+(`decision-clicker-v1`, `status: optional`) und als `optional`-Capability
+`decision.clicker` — exakt das bereits etablierte Muster von
+`system-gap-optional`.
+
+Begründung:
+
+- `decision-clicker` muss laut Nutzerentscheidung weiterhin **eigenständig und
+  manuell startbar** bleiben, unabhängig vom Release-Takt dieses Moduls; eine
+  feste Bundle-Bindung im Manifest suggeriert das Gegenteil, nämlich dass
+  `policy-registry` es zwingend mitzieht oder gemeinsam versioniert.
+- Die eigentliche Kopplung ist **Daten-**, nicht Codekopplung: Beide
+  Werkzeuge beziehen sich auf dieselbe `_DECISIONS`-Kette — `policy-registry`
+  liest/indiziert sie als Pointer (siehe oben), das Untermodul schreibt
+  hinein. Diese Beziehung ist bereits durch die gemeinsamen Orts-Pointer in
+  `adapters/decisions.py` ausgedrückt; ein Code-Import wäre zusätzliche,
+  unnötige Kopplung zwischen zwei unabhängig lebenszyklierten Werkzeugen.
+- Eine optionale, laufzeit-geprüfte Verfügbarkeitsprobe kann jederzeit ohne
+  Breaking Change zu einer engeren Bindung ausgebaut werden, sobald das
+  Untermodul dafür bereit ist -- der umgekehrte Weg (feste Bindung wieder
+  lösen) ist teurer.
 
 ## Präzedenz und TOM-lm
 

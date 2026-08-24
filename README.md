@@ -11,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2078%2F78%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2089%2F89%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 [🇩🇪 Deutsch](README_de.md) | **🇬🇧 English**
@@ -25,10 +25,10 @@
 
 ## Test Status
 
-Verified local test pass as of 2026-08-23 (Python 3.12.10):
+Verified local test pass as of 2026-08-24 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 78 tests.
-- `python -m pytest` passes 78/78 tests (100% green).
+- `python -m pytest --collect-only` collects 89 tests.
+- `python -m pytest` passes 89/89 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 
 ---
@@ -148,10 +148,13 @@ The normative JSON Schema is maintained at [`schemas/policy-entry.schema.json`](
 ```powershell
 policy-registry init
 policy-registry import-sync --root "$HOME\OneDrive\.SYNC\_policies" --slot workstation
+policy-registry seed-decisions --control-center-root "$HOME\OneDrive\.TOPICS\_control-center"
 policy-registry search "OneDrive" --consumer codex
 policy-registry resolve --scope system-wide --query "OneDrive"
 policy-registry verify
 ```
+
+`seed-decisions` registers a small, fixed set of pointer entries onto the real decision-record locations (chain head, host-file naming pattern, the settled-decisions ledger, the generated machine index, and the project-local `DECISIONS.md` convention) -- never individual decisions themselves. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full contract.
 
 An alternative registry path can be set with `--registry` or `POLICY_REGISTRY_PATH`.
 

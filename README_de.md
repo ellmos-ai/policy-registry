@@ -11,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2078%2F78%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2089%2F89%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 **🇩🇪 Deutsch** | [🇬🇧 English](README.md)
@@ -25,10 +25,10 @@
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-23 (Python 3.12.10):
+Aktueller lokaler Nachweis vom 2026-08-24 (Python 3.12.10):
 
-- `python -m pytest --collect-only` sammelt 78 Tests.
-- `python -m pytest` besteht mit 78/78 Tests (100% grün).
+- `python -m pytest --collect-only` sammelt 89 Tests.
+- `python -m pytest` besteht mit 89/89 Tests (100% grün).
 - `ruff check .` besteht mit 0 Warnungen.
 
 ---
@@ -148,10 +148,13 @@ Das normative JSON-Schema liegt unter [`schemas/policy-entry.schema.json`](schem
 ```powershell
 policy-registry init
 policy-registry import-sync --root "$HOME\OneDrive\.SYNC\_policies" --slot workstation
+policy-registry seed-decisions --control-center-root "$HOME\OneDrive\.TOPICS\_control-center"
 policy-registry search "OneDrive" --consumer codex
 policy-registry resolve --scope system-wide --query "OneDrive"
 policy-registry verify
 ```
+
+`seed-decisions` registriert eine kleine, feste Menge Pointer-Einträge auf die realen Entscheidungs-Ablagen (Kettenkopf, Namensmuster hostbezogener Dateien, das Ledger der umgesetzten Entscheidungen, den generierten Maschinenindex und die projektlokale `DECISIONS.md`-Konvention) — niemals einzelne Entscheidungen selbst. Details in [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 Ein alternativer lokaler Pfad kann mit `--registry` oder `POLICY_REGISTRY_PATH` gesetzt werden.
 

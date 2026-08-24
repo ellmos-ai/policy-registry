@@ -5,6 +5,17 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2026-08-24
+
+### Added
+- Added `adapters/decisions.py`: a pointer-only seam onto the real `_DECISIONS` locations (TO-DECIDE-USER chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated `decisions.index.json`, and the project-local `DECISIONS.md` convention template). Registers a fixed, small set of stable location pointers -- never individual decisions -- via `register_decision_locations()` and the new CLI command `policy-registry seed-decisions --control-center-root <path>`.
+- Added `adapters/decision_clicker.py`: an optional, importable seam (`available()`) onto the sibling `decision-clicker` tool, mirroring the existing `system_gap.py` pattern. Chosen deliberately as the LIGHTER of the two mechanics proposed by ticket T-20260824-474639761 (fixed manifest bundle vs. optional import) -- see the module docstring and `ARCHITECTURE.md` for the full reasoning.
+- Registered `decision-clicker-v1` as a `seam`-type adapter and `decision.clicker` as an `optional` capability in `ellmos-module.v2.json`, and added `decision.location.pointers` to `provides`.
+- Added `tests/test_decisions_adapter.py` and `tests/test_decision_clicker_seam.py`.
+
+### Changed
+- User decision 2026-08-24 (F1=A-hybrid, out of T-20260824-911756255): policy-registry becomes the one module that KNOWS where decision records live, as pointers -- not a second store of decision content.
+
 ## [0.1.2] - 2026-08-23
 
 ### Added
