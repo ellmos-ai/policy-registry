@@ -117,4 +117,79 @@ Vor Anlage wurden am 2026-07-28 geprüft:
 - Repositories der Organisationen `ellmos-ai` und `dev-bricks`;
 - PyPI-Projektnamen.
 
+## D2-R2 Stufe 1: Audit-Pflichtfelder, Append-only für Rules, Autoritäts-Schalter
+[U 2026-08-25, T-20260825-601850637 Option C]
+
+Vorgeschichte: Eine Analyse (T-20260824-244932811) fand, dass 12 von 46
+USMC-Facts inhaltlich normative Regeln statt Systemmechanik waren — u. a.
+weil es bisher keinen leichten, disziplinierten Weg gab, eine kurze Regel
+audit-fähig abzulegen, ohne gleich eine ganze `P-XXX`-Datei anzulegen. Eine
+Folgeanalyse (D2-R2) prüfte, ob `policy-registry` selbst zu einer Datenbank
+mit expliziten Typen werden sollte, und empfahl eine **gestufte** Umsetzung
+(Option C): Stufe 1 sofort und risikoarm, Stufe 2 (physischer Speicherort)
+als eigenes, spätere Folgeticket. **Kein DB-Umzug, keine Zwangsmigration
+bestehender Einträge** — beides bleibt Stufe 2/3.
+
+### 1. Audit-Pflichtfelder für `kind=rule` — nur im neuen Append-only-Pfad
+
+`kind=policy` trägt Audit-/Driftschutz-Felder (`hash`, `valid_from`) schon in
+der Praxis, weil jedes `P-XXX` sie mitbringt. Für `kind=rule` galt das
+bisher nur als Konvention. `Registry.register_rule()` (`registry.py`) macht
+`hash` und `valid_from` dort strukturell verpflichtend
+(`model.RULE_AUDIT_REQUIRED`) — **bewusst nicht** im allgemeinen
+`validate_entry()`/`register()`/`register_many()`, weil bestehende leichte
+`kind=rule`-Pointer (z. B. `decisions.py`s `project-local-convention`) nie
+für diese Disziplin gebaut wurden und durch eine rückwirkende Pflicht
+gebrochen wären (empirisch bestätigt: ein erster Versuch, die Pflicht in
+`validate_entry()` global zu erzwingen, brach 6 bestehende Tests).
+
+### 2. Append-only / Supersede — `register_rule()`
+
+Vorbild: `session-checkpoint`s ADR-003/004/005-Muster (immutable rows +
+Hash-Verifikation + konservative destruktive Operationen), hier auf das
+bestehende `registry.json` übertragen statt eine neue Storage-Schicht zu
+bauen (Stufe-1-Vorgabe: "unabhängig vom physischen Speicherort").
+
+- **Kein Überschreiben per gleicher `id`.** Ein Aufruf mit bereits
+  vorhandener `id` schlägt immer fehl, auch mit `replace`-artiger Absicht —
+  eine neue Version braucht eine neue `id` (Konvention: `<basis-id>@vN`).
+- **Supersede statt Löschen.** `register_rule(neu, supersedes=alt_id)`
+  markiert die Vorgänger-Zeile (`status="superseded"`,
+  `superseded_by=<neue id>`), ohne ihren übrigen Inhalt zu verändern —
+  `hash`/`source`/`version`/alle anderen Felder bleiben byte-identisch zum
+  Registrierungszeitpunkt. Die alte Regel bleibt vollständig auditierbar,
+  nichts wird nachträglich umgeschrieben oder gelöscht.
+- **`resolve()` filtert automatisch.** Da eine supersedete Zeile
+  `status="superseded"` trägt, greift die bestehende `is_valid_now()`-Prüfung
+  in `resolve()` ohne jede Änderung dort — nur die jeweils aktuelle
+  Rule-Version erscheint in `candidates`/`selected`.
+
+### 3. Resolver-Rolle: bestehende `policy.registry`-Rolle nutzen, keine neue bauen
+
+Empirisch geprüft (`source-resolver`, Stand 2026-08-25): Es gibt **keine**
+separate Rolle namens `policy.source` — die einzige registrierte Rolle für
+Policy-Herkunft ist `policy.registry`
+(`KNOWN_MODULE_PROVIDERS["policy.registry"]`, mit vollem Adapter
+`adapters/policy_registry.py`, der auf die `resolve()`-CLI dieses Moduls
+delegiert). Diese Rolle **ist** der "policy.source"-Resolver — Stufe 1 baut
+hier bewusst **nichts Neues**, sondern dokumentiert nur den bestehenden Weg:
+Wer "wo kommt Policy X her" fragen will, ruft `source_resolver.resolve
+("policy.registry", ...)` auf, nicht eine eigene Logik.
+
+### 4. `POLICY_AUTHORITY_MODE` — vorbereiteter, wirkungsloser Schalter
+
+`authority.py` liest die Umgebungsvariable `POLICY_AUTHORITY_MODE`
+(`policy-only` Default/Status quo, `memory-only` und `memory+policy` als
+für Stufe 2/3 vorgemerkte, heute inaktive Werte) und prüft nur lesend, ob
+`usmc` auf dem Host importierbar ist und dessen DB existiert
+(`usmc_present()`). **`describe()["effective"]` ist heute immer
+`policy-only`**, unabhängig vom konfigurierten Modus — der Schalter existiert,
+damit Stufe 2 keinen neuen Modusnamen erfinden muss, verändert aber in
+Stufe 1 kein Verhalten. Kein USMC-Umbau, keine Handover-Logik.
+
+### CLI-Ergänzungen
+
+`register-rule <entry.json> [--supersedes <id>]` und `authority-status`
+(siehe `cli.py`).
+
 Für `policy-registry` wurde keine Kollision gefunden.

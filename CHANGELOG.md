@@ -5,6 +5,16 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2026-08-25
+
+### Added
+- D2-R2 Stufe 1 (T-20260825-601850637, Option C -- gestufte Umsetzung, kein DB-Umzug): `Registry.register_rule()` for append-only `kind=rule` entries with mandatory audit fields (`hash`, `valid_from`), enforced only on this new path so existing lightweight `kind=rule` pointers (e.g. `decisions.py`'s `project-local-convention`) keep working unchanged.
+- Supersede mechanism: `register_rule(entry, supersedes=<id>)` marks the predecessor row `status="superseded"` + `superseded_by=<new id>` without mutating any other field -- modeled on `session-checkpoint`'s ADR-003/004/005 immutable-row pattern, adapted onto the existing `registry.json` store (no new storage layer).
+- `authority.py`: `POLICY_AUTHORITY_MODE` env-var switch (`policy-only` default, `memory-only`/`memory+policy` reserved for a later stage) plus a read-only `usmc_present()` probe. Deliberately inert in this stage -- `describe()["effective"]` is always `policy-only`; no USMC rework.
+- CLI: `register-rule <entry.json> [--supersedes <id>]`, `authority-status`.
+- Documented that the existing `source-resolver` role `policy.registry` (not a separate `policy.source` role -- verified empirically, none exists) already serves as the policy-source resolver; no new resolver role built.
+- `tests/test_rule_append_only.py`, `tests/test_authority.py`.
+
 ## [0.1.3] - 2026-08-24
 
 ### Added

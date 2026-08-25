@@ -1,7 +1,7 @@
 {
   "schema": "ellmos.module.v2",
   "id": "policy-registry",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "display_name": "policy-registry",
   "category": "control",
   "kind": "library",
@@ -12,7 +12,10 @@
     "policy.resolve",
     "policy.discovery",
     "delegation.candidate.resolve",
-    "decision.location.pointers"
+    "decision.location.pointers",
+    "rule.append-only",
+    "rule.audit-fields",
+    "authority.mode-switch"
   ],
   "requires": [],
   "optional": [

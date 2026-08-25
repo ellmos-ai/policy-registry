@@ -10,6 +10,15 @@ SCHEMA = "ellmos.policy-registry.v1"
 ENTRY_KINDS = {"policy", "rule", "decision", "evidence", "decision-candidate"}
 AUTHORITATIVE_KINDS = {"policy", "rule", "decision"}
 STATUSES = {"active", "draft", "superseded", "revoked", "expired"}
+# D2-R2 Stufe 1 (T-20260825-601850637, Option C): kind=policy trägt Audit-/
+# Driftschutz-Felder schon in der Praxis (jedes P-XXX hat hash+valid_from über
+# register_decision_locations()/manuelle Registrierung). Fuer NEUE, ueber den
+# Append-only-Weg (Registry.register_rule()) verwaltete kind=rule-Eintraege
+# gilt dieselbe Pflicht -- durchgesetzt dort, NICHT im allgemeinen
+# validate_entry()/register(): bestehende leichte kind=rule-Pointer (z.B.
+# decisions.py "project-local-convention") wurden nie fuer diese
+# Audit-Disziplin gebaut und sollen dadurch nicht rueckwirkend brechen.
+RULE_AUDIT_REQUIRED = {"hash", "valid_from"}
 ADOPTIONS = {"adopted", "partial", "pending", "exempt"}
 PRIVACY = {"public", "internal", "private", "restricted"}
 FORBIDDEN_CONTENT_KEYS = {"content", "body", "full_text", "fulltext", "payload"}

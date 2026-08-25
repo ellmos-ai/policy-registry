@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .adapters.decisions import register_decision_locations
 from .adapters.sync_policies import export_aggregated_view, import_sync_pointers
+from .authority import describe as describe_authority
 from .delegation import DelegationError, DelegationResolver, IssuerTrustStore
 from .registry import PolicyRegistry, RegistryError
 
@@ -42,6 +43,9 @@ def parser() -> argparse.ArgumentParser:
     register = commands.add_parser("register")
     register.add_argument("entry_json")
     register.add_argument("--replace", action="store_true")
+    register_rule = commands.add_parser("register-rule")
+    register_rule.add_argument("entry_json")
+    register_rule.add_argument("--supersedes")
     resolve = commands.add_parser("resolve")
     resolve.add_argument("--scope", required=True)
     resolve.add_argument("--consumer")
@@ -56,6 +60,7 @@ def parser() -> argparse.ArgumentParser:
         help="Expliziter UTC-Prüfzeitpunkt für reproduzierbare Audits",
     )
     commands.add_parser("verify")
+    commands.add_parser("authority-status")
     migrate = commands.add_parser("import-sync")
     migrate.add_argument("--root", required=True)
     migrate.add_argument("--slot", required=True)
@@ -94,6 +99,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "register":
             entry = json.loads(Path(args.entry_json).read_text(encoding="utf-8"))
             _print(registry.register(entry, replace=args.replace))
+        elif args.command == "register-rule":
+            entry = json.loads(Path(args.entry_json).read_text(encoding="utf-8"))
+            _print(registry.register_rule(entry, supersedes=args.supersedes))
         elif args.command == "resolve":
             result = registry.resolve(
                 scope=args.scope,
@@ -130,6 +138,8 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "verify":
             result = registry.verify()
             _print(result)
+        elif args.command == "authority-status":
+            _print(describe_authority())
             return 0 if result["ok"] else 1
         elif args.command == "import-sync":
             imported = import_sync_pointers(

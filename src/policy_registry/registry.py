@@ -8,6 +8,7 @@ from typing import Any, Iterable
 
 from .model import (
     AUTHORITATIVE_KINDS,
+    RULE_AUDIT_REQUIRED,
     SCHEMA,
     ValidationError,
     expand_uri,
@@ -97,6 +98,55 @@ class PolicyRegistry:
         data["entries"] = sorted(by_id.values(), key=lambda item: item["id"])
         self.save(data)
         return registered
+
+    def register_rule(
+        self, entry: dict[str, Any], *, supersedes: str | None = None
+    ) -> dict[str, Any]:
+        """Append-only registration for kind=rule (D2-R2 Stufe 1,
+        T-20260825-601850637 Option C). Vorbild: session-checkpoints
+        ADR-003/004/005-Muster (immutable rows + Hash-Verifikation +
+        konservative destruktive Operationen), hier auf das bestehende
+        registry.json übertragen statt eine neue Storage-Schicht zu bauen.
+
+        Zwei Eigenschaften, die `register(replace=True)` NICHT hat:
+        - Es gibt KEIN Ueberschreiben per gleicher `id`: ein Aufruf mit
+          bereits vorhandener `id` schlägt immer fehl (RegistryError), auch
+          ohne `replace`-Flag -- eine neue Version braucht eine neue `id`
+          (Konvention: `<basis-id>@vN`).
+        - `supersedes` markiert die Vorgänger-Zeile als abgelöst, OHNE ihren
+          Inhalt zu verändern: nur `status` und `superseded_by` werden
+          gesetzt, `hash`/`source`/`version`/alle übrigen Felder bleiben
+          byte-identisch -- die alte Regel bleibt vollständig auditierbar,
+          es wird nichts nachträglich umgeschrieben oder gelöscht.
+        """
+        if entry.get("kind") != "rule":
+            raise RegistryError("register_rule() ist nur für kind=rule gedacht")
+        missing_audit = sorted(k for k in RULE_AUDIT_REQUIRED if not entry.get(k))
+        if missing_audit:
+            raise RegistryError(
+                "register_rule() verlangt Audit-Pflichtfelder: " + ", ".join(missing_audit)
+            )
+        entry = validate_entry(dict(entry))
+        data = self.load()
+        if any(item["id"] == entry["id"] for item in data["entries"]):
+            raise RegistryError(
+                f"Append-only: id existiert bereits, neue Version braucht neue id: {entry['id']}"
+            )
+        if supersedes is not None:
+            predecessor = next((i for i in data["entries"] if i["id"] == supersedes), None)
+            if predecessor is None:
+                raise RegistryError(f"supersedes verweist auf unbekannte id: {supersedes}")
+            if predecessor["kind"] != "rule":
+                raise RegistryError("supersedes muss auf einen kind=rule-Eintrag zeigen")
+            if predecessor.get("status") == "superseded":
+                raise RegistryError(f"{supersedes} ist bereits superseded, Kette bricht")
+            predecessor["status"] = "superseded"
+            predecessor["superseded_by"] = entry["id"]
+            entry["supersedes"] = supersedes
+        data["entries"].append(entry)
+        data["entries"].sort(key=lambda item: item["id"])
+        self.save(data)
+        return entry
 
     def get(self, entry_id: str) -> dict[str, Any] | None:
         return next((e for e in self.load()["entries"] if e["id"] == entry_id), None)
