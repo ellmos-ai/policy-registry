@@ -11,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20124%2F124%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20125%2F125%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 [🇩🇪 Deutsch](README_de.md) | **🇬🇧 English**
@@ -27,8 +27,8 @@
 
 Verified local test pass as of 2026-08-26 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 124 tests.
-- `python -m pytest` passes 124/124 tests (100% green).
+- `python -m pytest --collect-only` collects 125 tests.
+- `python -m pytest` passes 125/125 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 
 ---

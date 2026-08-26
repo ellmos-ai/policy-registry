@@ -25,7 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Documented the BYUM seam in the English/German architecture, security contract, READMEs, TODO,
   manifest, and LLM index. It remains separate from the still-open TOM-lm connector decision.
-- Verified 124/124 local tests, JSON Schema meta-validation, Python compilation, and Ruff.
+- Repaired the recurring all-platform CI installation failure: current setuptools rejects a legacy
+  Trove license classifier when an SPDX license expression is present. `license = "MIT"` remains
+  canonical; the redundant classifier was removed and a PEP 639 regression test added.
+- Verified 125/125 local tests, JSON Schema meta-validation, Python compilation, and Ruff.
 
 ## [0.1.4] - 2026-08-25
 

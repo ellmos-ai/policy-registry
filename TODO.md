@@ -9,6 +9,10 @@
       `decision-candidate`-Metadaten (`adoption=pending`, niemals Authority),
       ohne BYUM-Import, Eventparser oder private Inhalte. Ticket
       T-20260826-542328608; Vertrag in `ARCHITECTURE.md`.
+- [x] Wiederkehrenden Multi-OS-CI-Installationsfehler behoben: SPDX-
+      Lizenzexpression `MIT` bleibt kanonisch, redundanter und von aktuellem
+      Setuptools abgewiesener Trove-Lizenzklassifikator entfernt; PEP-639-
+      Regressionstest ergänzt. Ticket T-20260826-542328608.
 - [x] Stabile Orts-Pointer auf die realen `_DECISIONS`-Ablagen
       (`adapters/decisions.py`, CLI `seed-decisions`) + optionaler
       importierbarer Seam auf `decision-clicker` (`adapters/decision_clicker.py`).

@@ -221,6 +221,15 @@ def test_pyproject_pep621_classifiers_and_urls():
     assert "Umbrella" in urls
 
 
+def test_pep639_license_expression_has_no_legacy_trove_classifier():
+    """Current setuptools rejects SPDX license plus legacy license classifiers."""
+    with (REPO_ROOT / "pyproject.toml").open("rb") as f:
+        project = tomllib.load(f)["project"]
+
+    assert project["license"] == "MIT"
+    assert not any(value.startswith("License ::") for value in project.get("classifiers", []))
+
+
 def test_offline_and_privacy_invariants():
     """Verify that the core source code contains zero unauthorized network egress modules."""
     src_dir = REPO_ROOT / "src" / "policy_registry"
