@@ -13,7 +13,7 @@ import hashlib
 import json
 import re
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping
 
@@ -167,7 +167,7 @@ class DelegationResolver:
         self.registry = registry
         self.trust_store = trust_store
         self.clock_skew = clock_skew
-        self.now_provider = now_provider or (lambda: datetime.now(UTC))
+        self.now_provider = now_provider or (lambda: datetime.now(timezone.utc))
 
     def resolve(
         self,
@@ -848,15 +848,15 @@ def _parse_utc(value: Any, label: str) -> datetime:
         raise DelegationError(f"{label} must be a UTC timestamp") from error
     if parsed.tzinfo is None or parsed.utcoffset() != timedelta(0):
         raise DelegationError(f"{label} must be an explicit UTC timestamp")
-    return parsed.astimezone(UTC)
+    return parsed.astimezone(timezone.utc)
 
 
 def _normalize_now(value: datetime | None) -> datetime:
     if value is None:
-        return datetime.now(UTC)
+        return datetime.now(timezone.utc)
     if value.tzinfo is None or value.utcoffset() != timedelta(0):
         raise DelegationError("resolver time must be an explicit UTC timestamp")
-    return value.astimezone(UTC)
+    return value.astimezone(timezone.utc)
 
 
 def _pattern_matches(pattern: str, value: str) -> bool:

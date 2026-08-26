@@ -28,7 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Repaired the recurring all-platform CI installation failure: current setuptools rejects a legacy
   Trove license classifier when an SPDX license expression is present. `license = "MIT"` remains
   canonical; the redundant classifier was removed and a PEP 639 regression test added.
-- Verified 125/125 local tests, JSON Schema meta-validation, Python compilation, and Ruff.
+- Restored the advertised Python 3.10 runtime compatibility by replacing the Python 3.11-only
+  `datetime.UTC` import with `timezone.utc`, guarded by a source-level regression test.
+- Verified 126/126 local tests, JSON Schema meta-validation, Python compilation, and Ruff.
 
 ## [0.1.4] - 2026-08-25
 

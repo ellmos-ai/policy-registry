@@ -27,8 +27,8 @@
 
 Verified local test pass as of 2026-08-26 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 125 tests.
-- `python -m pytest` passes 125/125 tests (100% green).
+- `python -m pytest --collect-only` collects 126 tests.
+- `python -m pytest` passes 126/126 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 
 ---

@@ -230,6 +230,21 @@ def test_pep639_license_expression_has_no_legacy_trove_classifier():
     assert not any(value.startswith("License ::") for value in project.get("classifiers", []))
 
 
+def test_python_310_compatible_datetime_utc_imports():
+    """Python 3.10 lacks datetime.UTC; the advertised minimum must remain importable."""
+    python_files = [
+        *(REPO_ROOT / "src").rglob("*.py"),
+        *(REPO_ROOT / "tests").rglob("*.py"),
+    ]
+
+    offenders = [
+        str(path.relative_to(REPO_ROOT))
+        for path in python_files
+        if re.search(r"^from datetime import .*\bUTC\b", path.read_text(encoding="utf-8"), re.MULTILINE)
+    ]
+    assert offenders == [], f"datetime.UTC is unavailable on Python 3.10: {offenders}"
+
+
 def test_offline_and_privacy_invariants():
     """Verify that the core source code contains zero unauthorized network egress modules."""
     src_dir = REPO_ROOT / "src" / "policy_registry"
