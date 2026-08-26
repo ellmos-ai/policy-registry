@@ -86,6 +86,45 @@ Bei `missing`, `insufficient` oder `conflict` ist TOM-lm ausschließlich
 beratender Fallback. Sein Ergebnis ist Evidence oder Decision-Kandidat.
 Generalisierung erfordert eine explizite Adoption.
 
+## BYUM-v2-Pointer-Seam (`adapters/byum.py`) [U 2026-08-26]
+
+`build-your-users-mind` (BYUM) bleibt Eigentümer seines privaten, append-only
+Prediction-/Feedback-Journals. `policy-registry` importiert weder BYUM noch
+liest oder parst es Ereignisdateien. Der optionale Seam nimmt ausschließlich
+einen **bereits durch BYUM validierten** Pointer-Umschlag nach
+`schemas/byum-decision-candidate-pointer.v1.schema.json` an.
+
+Der geschlossene Umschlag enthält nur:
+
+- BYUM-Protokoll `byum.decision-prediction.v2` und `prediction_id`;
+- den strukturierten `decision_ref` aus Decision-ID, Index-Key, Scope,
+  Quellpfad, Block-ID und SHA-256 der Entscheidungsquelle;
+- lokalen Pointer, SHA-256 und redigierten Status der BYUM-Projektion.
+
+Optionen, Empfehlungen, Begründungen, Ereignisgründe, Prompts,
+Entscheidungstexte, Secure-Text-/Avatar-Payloads, Action-/Execution-Payloads
+und Receipts sind nicht Teil dieser Schnittstelle und scheitern wegen des
+geschlossenen Vertrags fail-closed.
+Prediction-, Decision-, Index- und Block-IDs sind auf stabile ID-Tokens ohne
+Leer-/Zeilenfreitext begrenzt; Remote-Projektions-URIs werden ebenfalls
+abgewiesen.
+
+`candidate_entry()` projiziert den Umschlag ausschließlich als
+`kind=decision-candidate`, `adoption=pending`,
+`authority=advisory-pointer`. `source.uri` und der Registry-Hash zeigen auf
+die externe BYUM-Projektion; der `decision_ref` bleibt reine Provenienz. Der
+Eintrag ist über Prediction-ID und den vollständigen Projektionshash
+content-addressed. Eine unveränderte Wiederholung scheitert als Dublette; ein
+neuer Projektionsstand erzeugt eine neue append-only Candidate-ID statt einen
+Vorgänger zu überschreiben. Der Eintrag ist suchbar, aber
+`PolicyRegistry.resolve()` betrachtet weiterhin nur
+`policy`, `rule` und `decision`. Selbst eine nachträgliche Manipulation von
+Adoption oder Authority macht den Candidate daher nicht zur Norm.
+
+Eine Generalisierung oder Policy-Adoption benötigt weiterhin einen getrennten,
+ausdrücklichen menschlichen Vorgang. Dieser Seam ist nicht der im TODO offene
+TOM-lm-Connector und entscheidet dessen Schnittstelle nicht vor.
+
 ## Hierarchische Scope-Auflösung
 
 `PolicyRegistry.search/resolve` und der signierte `DelegationResolver` verwenden

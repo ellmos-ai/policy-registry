@@ -86,7 +86,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-08-24" in content
+    assert "Last-checked: 2026-08-26" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
@@ -97,6 +97,7 @@ def test_llms_txt_integrity():
         "SECURITY.md",
         "pyproject.toml",
         "schemas/policy-entry.schema.json",
+        "schemas/byum-decision-candidate-pointer.v1.schema.json",
         "src/policy_registry/scope.py",
     ]
     for ref in referenced_files:

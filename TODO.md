@@ -5,6 +5,10 @@
 - [x] Optionaler MCP-Seam.
 - [x] Import bestehender `.SYNC/_policies`-Pointer.
 - [x] Optionaler system-gap-/`.SYNC`-Exportseam.
+- [x] Optionaler, pointer-only BYUM-v2-Seam für vorvalidierte
+      `decision-candidate`-Metadaten (`adoption=pending`, niemals Authority),
+      ohne BYUM-Import, Eventparser oder private Inhalte. Ticket
+      T-20260826-542328608; Vertrag in `ARCHITECTURE.md`.
 - [x] Stabile Orts-Pointer auf die realen `_DECISIONS`-Ablagen
       (`adapters/decisions.py`, CLI `seed-decisions`) + optionaler
       importierbarer Seam auf `decision-clicker` (`adapters/decision_clicker.py`).

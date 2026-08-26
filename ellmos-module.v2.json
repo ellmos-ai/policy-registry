@@ -1,7 +1,7 @@
 {
   "schema": "ellmos.module.v2",
   "id": "policy-registry",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "display_name": "policy-registry",
   "category": "control",
   "kind": "library",
@@ -15,14 +15,16 @@
     "decision.location.pointers",
     "rule.append-only",
     "rule.audit-fields",
-    "authority.mode-switch"
+    "authority.mode-switch",
+    "byum.decision-candidate.pointer"
   ],
   "requires": [],
   "optional": [
     "sync.yard",
     "tom.advisory",
     "mcp",
-    "decision.clicker"
+    "decision.clicker",
+    "byum.decision-prediction"
   ],
   "conflicts": [],
   "surfaces": [
@@ -69,6 +71,13 @@
       "target": "decision-clicker",
       "status": "optional",
       "note": "Structural sub-module relationship (T-20260824-474639761): decision-clicker writes into the same _DECISIONS chain that this registry's adapters.decisions module indexes as pointers. Bound as an importable optional seam (adapters.decision_clicker.available()), not a fixed manifest bundle, so decision-clicker stays independently and manually startable."
+    },
+    {
+      "type": "seam",
+      "id": "byum-pointer-v1",
+      "target": "build-your-users-mind",
+      "status": "optional",
+      "note": "Consumes only a prevalidated BYUM v2 pointer envelope and projects non-authoritative decision-candidate metadata. No BYUM import, event parsing, raw content, adoption, execution, or receipt authority."
     },
     {
       "type": "mcp",
