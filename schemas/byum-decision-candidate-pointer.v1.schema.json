@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ellmos.dev/byum-decision-candidate-pointer.v1.schema.json",
+  "title": "Prevalidated BYUM v2 decision-candidate pointer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "byum_protocol", "prediction_id", "decision_ref", "projection"],
+  "properties": {
+    "schema": {"const": "ellmos.policy-registry.byum-pointer.v1"},
+    "byum_protocol": {"const": "byum.decision-prediction.v2"},
+    "prediction_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@#-]{0,255}$"},
+    "decision_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_id", "index_key", "scope", "source_locator", "source_sha256"],
+      "properties": {
+        "decision_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@#-]{0,255}$"},
+        "index_key": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@#-]{0,255}$"},
+        "scope": {"type": "string", "minLength": 1},
+        "source_locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "block_id"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "block_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@#-]{0,255}$"}
+          }
+        },
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uri", "sha256", "status"],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "^(https?://|git\\+)"}
+        },
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "status": {"enum": ["pending", "decision-observed", "validated"]}
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import base64
 import copy
 import hashlib
 import json
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import jsonschema
@@ -19,7 +19,7 @@ from policy_registry.delegation import (
     TRUST_STORE_SCHEMA,
 )
 
-AT = datetime(2026, 7, 30, 12, 0, tzinfo=UTC)
+AT = datetime(2026, 7, 30, 12, 0, tzinfo=timezone.utc)
 
 
 def canonical(value):

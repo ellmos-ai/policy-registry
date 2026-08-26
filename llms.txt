@@ -2,8 +2,8 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-24
-Test-suite: 89/89 passed (pytest, Python 3.12.10)
+Last-checked: 2026-08-26
+Test-suite: 126/126 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -18,6 +18,7 @@ Test-suite: 89/89 passed (pytest, Python 3.12.10)
 - **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
 - **Decision Location Pointers**: `adapters/decisions.py` registers a small, fixed set of stable pointers onto the real `_DECISIONS` chain (chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated machine index, and the project-local `DECISIONS.md` convention) via `policy-registry seed-decisions --control-center-root <path>`. Individual decisions are never duplicated into the registry.
 - **decision-clicker Seam**: `adapters/decision_clicker.py` offers an optional, importable availability probe (`available()`) onto the sibling decision-writing tool -- no hard bundle dependency, decision-clicker stays independently startable.
+- **BYUM v2 Candidate Pointer**: `adapters/byum.py` projects an already validated, closed BYUM v2 pointer envelope into non-authoritative `decision-candidate` metadata. It imports no BYUM code, reads/parses no events, copies no private content, and cannot grant adoption, execution, or receipt authority.
 - **Shared Scope Contract**: `*`/`all`/`global`/`system-wide` are global; normal scopes inherit to descendants, `/*` matches descendants only, exact outranks wildcard, wildcard outranks parent, and siblings do not match. Consumer lists are universal when empty or `*`, otherwise exact.
 - **Signed Delegation Resolver**: Cryptographic Ed25519 issuer-grant and delegate-candidate verification against external pinned trust store.
 - **Zero-Egress Security Invariant**: 100% offline, local-first operation without unauthorized network telemetry or credential exfiltration.
@@ -30,4 +31,5 @@ Test-suite: 89/89 passed (pytest, Python 3.12.10)
 - [SECURITY.md](file:///SECURITY.md): Bilingual security policy, authority boundaries, and vulnerability contacts.
 - [pyproject.toml](file:///pyproject.toml): Dependencies, classifiers (Python 3.10-3.13), and script entry points.
 - [schemas/policy-entry.schema.json](file:///schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
+- [schemas/byum-decision-candidate-pointer.v1.schema.json](file:///schemas/byum-decision-candidate-pointer.v1.schema.json): Closed prevalidated BYUM v2 pointer envelope.
 - [src/policy_registry/scope.py](file:///src/policy_registry/scope.py): Shared scope and consumer matcher used by registry and delegation resolution.

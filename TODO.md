@@ -5,6 +5,19 @@
 - [x] Optionaler MCP-Seam.
 - [x] Import bestehender `.SYNC/_policies`-Pointer.
 - [x] Optionaler system-gap-/`.SYNC`-Exportseam.
+- [x] Optionaler, pointer-only BYUM-v2-Seam für vorvalidierte
+      `decision-candidate`-Metadaten (`adoption=pending`, niemals Authority),
+      ohne BYUM-Import, Eventparser oder private Inhalte. Ticket
+      T-20260826-542328608; Vertrag in `ARCHITECTURE.md`.
+- [x] Wiederkehrenden Multi-OS-CI-Installationsfehler behoben: SPDX-
+      Lizenzexpression `MIT` bleibt kanonisch, redundanter und von aktuellem
+      Setuptools abgewiesener Trove-Lizenzklassifikator entfernt; PEP-639-
+      Regressionstest ergänzt. Ticket T-20260826-542328608.
+- [x] Den durch die 3.10-Matrix entdeckten Importfehler behoben: Das Paket
+      verspricht Python `>=3.10`, deshalb verwendet der Delegation-Resolver
+      `timezone.utc` statt des erst ab Python 3.11 verfügbaren `datetime.UTC`;
+      der Kompatibilitätsvertrag ist regressionsgetestet. Ticket
+      T-20260826-542328608.
 - [x] Stabile Orts-Pointer auf die realen `_DECISIONS`-Ablagen
       (`adapters/decisions.py`, CLI `seed-decisions`) + optionaler
       importierbarer Seam auf `decision-clicker` (`adapters/decision_clicker.py`).

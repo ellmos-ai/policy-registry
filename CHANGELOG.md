@@ -5,6 +5,33 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5] - 2026-08-26
+
+### Added
+- Optional `adapters/byum.py` seam for already validated BYUM v2 pointer envelopes. It builds only
+  `kind=decision-candidate`, `adoption=pending`, `authority=advisory-pointer` metadata and never
+  imports BYUM, reads event files, or parses a decision journal.
+- Closed Draft 2020-12 schema `schemas/byum-decision-candidate-pointer.v1.schema.json` for the
+  protocol identity, prediction ID, structured/hash-bound `decision_ref`, projection pointer/hash,
+  and redacted projection status.
+- Content-addressed Candidate IDs combine prediction ID and the full projection SHA-256. Identical
+  repeats fail as duplicates; a changed projection becomes a new append-only Candidate entry.
+- Fail-closed tests for protocol/hash/locator drift, raw/private/action/receipt fields, attempted
+  authority/adoption promotion, non-resolution as authority, optional manifest binding, and the
+  absence of BYUM imports or file/event parsers.
+- Identifier fields accept bounded ID tokens rather than arbitrary text, and BYUM projection URIs
+  must be local pointers; remote content cannot enter through this seam.
+
+### Changed
+- Documented the BYUM seam in the English/German architecture, security contract, READMEs, TODO,
+  manifest, and LLM index. It remains separate from the still-open TOM-lm connector decision.
+- Repaired the recurring all-platform CI installation failure: current setuptools rejects a legacy
+  Trove license classifier when an SPDX license expression is present. `license = "MIT"` remains
+  canonical; the redundant classifier was removed and a PEP 639 regression test added.
+- Restored the advertised Python 3.10 runtime compatibility by replacing the Python 3.11-only
+  `datetime.UTC` import with `timezone.utc`, guarded by a source-level regression test.
+- Verified 126/126 local tests, JSON Schema meta-validation, Python compilation, and Ruff.
+
 ## [0.1.4] - 2026-08-25
 
 ### Added

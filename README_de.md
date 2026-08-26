@@ -11,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%2089%2F89%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20125%2F125%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 **🇩🇪 Deutsch** | [🇬🇧 English](README.md)
@@ -25,10 +25,10 @@
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-24 (Python 3.12.10):
+Aktueller lokaler Nachweis vom 2026-08-26 (Python 3.12.10):
 
-- `python -m pytest --collect-only` sammelt 89 Tests.
-- `python -m pytest` besteht mit 89/89 Tests (100% grün).
+- `python -m pytest --collect-only` sammelt 126 Tests.
+- `python -m pytest` besteht mit 126/126 Tests (100% grün).
 - `ruff check .` besteht mit 0 Warnungen.
 
 ---
@@ -110,6 +110,10 @@ sequenceDiagram
 - Gültige, explizit adoptierte `policy`, `rule` oder `decision` werden nach dem gemeinsamen hierarchischen Scope-Vertrag, danach nach Priorität und Präzedenz aufgelöst.
 - Fehlt eine Norm, reicht sie nicht aus oder widersprechen sich gleichrangige Normen, meldet die Auflösung einen **beratenden TOM-lm-Fallback**. Sie ruft TOM-lm nicht automatisch auf und verleiht seinem Ergebnis keine Autorität.
 - Ein TOM-Ergebnis darf als `evidence` oder `decision-candidate` registriert werden. Erst eine explizite Adoption macht daraus eine generalisierte Policy.
+- Der optionale BYUM-v2-Seam akzeptiert nur einen vorvalidierten, geschlossenen Pointer-Umschlag.
+  Er kopiert keine Optionen, Begründungen, Prompts, Entscheidungstexte, privaten Payloads,
+  Aktionsdaten oder Receipts und erzeugt ausschließlich Metadaten als `decision-candidate`,
+  `adoption=pending` und `authority=advisory-pointer`.
 
 ### Scope-Vertrag
 
@@ -155,6 +159,12 @@ policy-registry verify
 ```
 
 `seed-decisions` registriert eine kleine, feste Menge Pointer-Einträge auf die realen Entscheidungs-Ablagen (Kettenkopf, Namensmuster hostbezogener Dateien, das Ledger der umgesetzten Entscheidungen, den generierten Maschinenindex und die projektlokale `DECISIONS.md`-Konvention) — niemals einzelne Entscheidungen selbst. Details in [`ARCHITECTURE.md`](ARCHITECTURE.md).
+
+Der reine Python-Seam `policy_registry.adapters.byum` erhält ein bereits validiertes Mapping nach
+`ellmos.policy-registry.byum-pointer.v1`. Er importiert BYUM nicht und liest oder parst keine Datei
+oder Ereigniskette. `candidate_entry()` liefert nur Pointer-Metadaten;
+`register_candidate()` schreibt ausschließlich in die ausdrücklich übergebene `PolicyRegistry`-
+Instanz.
 
 Ein alternativer lokaler Pfad kann mit `--registry` oder `POLICY_REGISTRY_PATH` gesetzt werden.
 

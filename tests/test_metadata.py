@@ -86,7 +86,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-08-24" in content
+    assert "Last-checked: 2026-08-26" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
@@ -97,6 +97,7 @@ def test_llms_txt_integrity():
         "SECURITY.md",
         "pyproject.toml",
         "schemas/policy-entry.schema.json",
+        "schemas/byum-decision-candidate-pointer.v1.schema.json",
         "src/policy_registry/scope.py",
     ]
     for ref in referenced_files:
@@ -218,6 +219,30 @@ def test_pyproject_pep621_classifiers_and_urls():
     assert "Changelog" in urls
     assert "Security" in urls
     assert "Umbrella" in urls
+
+
+def test_pep639_license_expression_has_no_legacy_trove_classifier():
+    """Current setuptools rejects SPDX license plus legacy license classifiers."""
+    with (REPO_ROOT / "pyproject.toml").open("rb") as f:
+        project = tomllib.load(f)["project"]
+
+    assert project["license"] == "MIT"
+    assert not any(value.startswith("License ::") for value in project.get("classifiers", []))
+
+
+def test_python_310_compatible_datetime_utc_imports():
+    """Python 3.10 lacks datetime.UTC; the advertised minimum must remain importable."""
+    python_files = [
+        *(REPO_ROOT / "src").rglob("*.py"),
+        *(REPO_ROOT / "tests").rglob("*.py"),
+    ]
+
+    offenders = [
+        str(path.relative_to(REPO_ROOT))
+        for path in python_files
+        if re.search(r"^from datetime import .*\bUTC\b", path.read_text(encoding="utf-8"), re.MULTILINE)
+    ]
+    assert offenders == [], f"datetime.UTC is unavailable on Python 3.10: {offenders}"
 
 
 def test_offline_and_privacy_invariants():
