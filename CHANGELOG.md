@@ -5,6 +5,20 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-08-27
+
+### Changed
+- Promote `decision-clicker` from an optional seam to the required human
+  writer/UI component of the decision-system bundle, following the explicit
+  2026-08-27 user decision. The manifest now requires the
+  `decision.clicker` capability and marks adapter `decision-clicker-v1` as
+  required.
+- Keep the integration data-level through the shared `_DECISIONS` chain. The
+  guarded `available()` probe remains so pointer-only maintenance can report
+  an incomplete bundle without introducing a Python import cycle.
+- Preserve the 2026-08-24 optional-mechanic decision as historical provenance;
+  it is superseded only for current composition.
+
 ## [0.1.5] - 2026-08-26
 
 ### Added

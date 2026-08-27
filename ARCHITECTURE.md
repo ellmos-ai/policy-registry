@@ -17,7 +17,7 @@ kanonische lokale Quellen
           │
           ├── optional: bestehende .SYNC/_policies-Sicht
           ├── optional: system-gap-master als Transportseam
-          └── optional: decision-clicker als Untermodul (importierbarer Seam)
+          └── erforderlich im Entscheidungsbundle: decision-clicker als Writer/UI
 ```
 
 Die `.SYNC/_policies`-Struktur wird weiterverwendet. Es entsteht kein zweites
@@ -47,33 +47,35 @@ das Pointer-Only-Prinzip verletzen. `policy-registry seed-decisions
 Kettendateien selbst bleiben unverändert die alleinige Quelle für den
 tatsächlichen Entscheidungstext.
 
-## decision-clicker als Untermodul: Mechanik-Wahl [U 2026-08-24, F2]
+## decision-clicker als fester Bundle-Baustein [U 2026-08-27]
 
 Für die strukturelle Führung von `decision-clicker` als Untermodul standen
 zwei Mechaniken zur Wahl: eine feste Bundle-Bindung im Manifest oder ein
-optionaler Import/Verweis. Gewählt wurde die **leichtgewichtigere**: ein
-optionaler, laufzeit-geprüfter Seam (`adapters/decision_clicker.py`,
-Funktion `available()`), gespiegelt im Manifest als `type: seam`
-(`decision-clicker-v1`, `status: optional`) und als `optional`-Capability
-`decision.clicker` — exakt das bereits etablierte Muster von
-`system-gap-optional`.
+optionaler Import/Verweis. Am 2026-08-24 wurde zunächst die leichtgewichtigere
+Variante gewählt. Die Nutzerentscheidung vom 2026-08-27 ersetzt diese
+Kompositionsentscheidung: `decision-clicker` ist nun fester Bestandteil des
+Entscheidungssystems. Das Manifest von `policy-registry` führt deshalb
+`decision.clicker` unter `requires`; der Adapter `decision-clicker-v1` trägt
+den Status `required`.
 
-Begründung:
+Dabei bleiben zwei Ebenen bewusst getrennt:
 
-- `decision-clicker` muss laut Nutzerentscheidung weiterhin **eigenständig und
-  manuell startbar** bleiben, unabhängig vom Release-Takt dieses Moduls; eine
-  feste Bundle-Bindung im Manifest suggeriert das Gegenteil, nämlich dass
-  `policy-registry` es zwingend mitzieht oder gemeinsam versioniert.
-- Die eigentliche Kopplung ist **Daten-**, nicht Codekopplung: Beide
+- **Komposition:** Ein vollständiges Entscheidungsbundle enthält immer
+  `policy-registry` als Pointer-/Index-Leser und `decision-clicker` als
+  kontrollierten menschlichen Writer und UI. Ein fehlender Clicker ist daher
+  ein unvollständiges Bundle, nicht mehr bloß eine optionale Erweiterung.
+- **Laufzeitkopplung:** Die eigentliche Kopplung bleibt **Daten-**, nicht
+  Codekopplung. Beide
   Werkzeuge beziehen sich auf dieselbe `_DECISIONS`-Kette — `policy-registry`
   liest/indiziert sie als Pointer (siehe oben), das Untermodul schreibt
-  hinein. Diese Beziehung ist bereits durch die gemeinsamen Orts-Pointer in
-  `adapters/decisions.py` ausgedrückt; ein Code-Import wäre zusätzliche,
-  unnötige Kopplung zwischen zwei unabhängig lebenszyklierten Werkzeugen.
-- Eine optionale, laufzeit-geprüfte Verfügbarkeitsprobe kann jederzeit ohne
-  Breaking Change zu einer engeren Bindung ausgebaut werden, sobald das
-  Untermodul dafür bereit ist -- der umgekehrte Weg (feste Bindung wieder
-  lösen) ist teurer.
+  hinein. Deshalb bleibt `adapters/decision_clicker.py` eine guarded
+  Verfügbarkeitsprobe statt eines Imports auf Modulebene. Decision Clicker
+  bleibt für Wartung und Wiederherstellung direkt startbar; das widerspricht
+  seiner festen Bundle-Mitgliedschaft nicht.
+
+Historischer Beleg: Die optionale Wahl vom 2026-08-24 bleibt in Git-Historie
+und Changelog nachvollziehbar, ist aber für die aktuelle Komposition nicht
+mehr maßgeblich.
 
 ## Präzedenz und TOM-lm
 

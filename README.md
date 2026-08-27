@@ -11,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20125%2F125%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20127%2F127%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 [🇩🇪 Deutsch](README_de.md) | **🇬🇧 English**
@@ -21,14 +21,21 @@
 
 `policy-registry` is an autonomous, reusable **LOCAL-FIRST** registry for policies, rules, and decisions. It stores metadata pointers and SHA-256 hashes referencing canonical sources rather than duplicating full text. This ensures local sources remain authoritative and discoverable even when OneDrive, `.SYNC`, or `system-gap-master` are unreachable.
 
+The complete decision-system bundle always includes
+[`decision-clicker`](https://github.com/ellmos-ai/decision-clicker) as its
+human writer and UI. Policy Registry owns pointer discovery and resolution;
+Decision Clicker performs guarded writes to the same `_DECISIONS` chain. This
+required composition does not create a Python import dependency between the
+two packages.
+
 ---
 
 ## Test Status
 
-Verified local test pass as of 2026-08-26 (Python 3.12.10):
+Verified local test pass as of 2026-08-27 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 126 tests.
-- `python -m pytest` passes 126/126 tests (100% green).
+- `python -m pytest --collect-only` collects 127 tests.
+- `python -m pytest` passes 127/127 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 
 ---

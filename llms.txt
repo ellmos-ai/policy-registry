@@ -2,8 +2,8 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-26
-Test-suite: 126/126 passed (pytest, Python 3.12.10)
+Last-checked: 2026-08-27
+Test-suite: 127/127 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -17,7 +17,10 @@ Test-suite: 126/126 passed (pytest, Python 3.12.10)
 - **Multi-Interface Support**: CLI (`policy-registry`), Python API (`PolicyRegistry`), and optional Model Context Protocol (MCP) server adapter.
 - **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
 - **Decision Location Pointers**: `adapters/decisions.py` registers a small, fixed set of stable pointers onto the real `_DECISIONS` chain (chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated machine index, and the project-local `DECISIONS.md` convention) via `policy-registry seed-decisions --control-center-root <path>`. Individual decisions are never duplicated into the registry.
-- **decision-clicker Seam**: `adapters/decision_clicker.py` offers an optional, importable availability probe (`available()`) onto the sibling decision-writing tool -- no hard bundle dependency, decision-clicker stays independently startable.
+- **decision-clicker Bundle Member**: The module manifest requires the sibling
+  `decision.clicker` capability as the human writer/UI of the decision system.
+  `adapters/decision_clicker.py` remains a guarded availability probe so the
+  fixed composition does not become a Python import cycle.
 - **BYUM v2 Candidate Pointer**: `adapters/byum.py` projects an already validated, closed BYUM v2 pointer envelope into non-authoritative `decision-candidate` metadata. It imports no BYUM code, reads/parses no events, copies no private content, and cannot grant adoption, execution, or receipt authority.
 - **Shared Scope Contract**: `*`/`all`/`global`/`system-wide` are global; normal scopes inherit to descendants, `/*` matches descendants only, exact outranks wildcard, wildcard outranks parent, and siblings do not match. Consumer lists are universal when empty or `*`, otherwise exact.
 - **Signed Delegation Resolver**: Cryptographic Ed25519 issuer-grant and delegate-candidate verification against external pinned trust store.

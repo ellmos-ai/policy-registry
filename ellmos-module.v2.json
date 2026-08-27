@@ -1,7 +1,7 @@
 {
   "schema": "ellmos.module.v2",
   "id": "policy-registry",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "display_name": "policy-registry",
   "category": "control",
   "kind": "library",
@@ -18,12 +18,13 @@
     "authority.mode-switch",
     "byum.decision-candidate.pointer"
   ],
-  "requires": [],
+  "requires": [
+    "decision.clicker"
+  ],
   "optional": [
     "sync.yard",
     "tom.advisory",
     "mcp",
-    "decision.clicker",
     "byum.decision-prediction"
   ],
   "conflicts": [],
@@ -69,8 +70,8 @@
       "type": "seam",
       "id": "decision-clicker-v1",
       "target": "decision-clicker",
-      "status": "optional",
-      "note": "Structural sub-module relationship (T-20260824-474639761): decision-clicker writes into the same _DECISIONS chain that this registry's adapters.decisions module indexes as pointers. Bound as an importable optional seam (adapters.decision_clicker.available()), not a fixed manifest bundle, so decision-clicker stays independently and manually startable."
+      "status": "required",
+      "note": "Fixed decision-system bundle relationship by user decision on 2026-08-27, superseding the optional composition choice from T-20260824-474639761: the registry requires decision.clicker as its human writer/UI component. The Python availability probe remains guarded because composition and runtime import coupling are separate; both modules continue to share the on-disk _DECISIONS chain without importing each other's internals."
     },
     {
       "type": "seam",
