@@ -35,7 +35,8 @@ registriert dafür eine feste, bewusst kleine Menge **stabiler Orts-Pointer**
 1. Kopf der globalen `TO-DECIDE-USER.txt`-Kette,
 2. das Namensmuster hostbezogener Dateien (`TO-DECIDE-USER-<HOST>.txt`),
 3. `DECIDED-AND-DONE.md` (umgesetzte Entscheidungen),
-4. der generierte Maschinenindex `decisions.index.json` (kind `evidence`, also
+4. der generierte Maschinenindex `_DECISIONS/_tools/decisions.index.json`
+   (kind `evidence`, also
    nicht-autoritativ — kanonisch bleiben die Kettendateien selbst),
 5. die projektlokale `DECISIONS.md`-Konvention (kind `rule`, zeigt auf die
    Vorlage in `.AI/_templates/project-docs/DECISIONS.md`).

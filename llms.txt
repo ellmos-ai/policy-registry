@@ -2,7 +2,7 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-27
+Last-checked: 2026-08-29
 Test-suite: 127/127 passed (pytest, Python 3.12.10)
 
 ## Summary
@@ -16,7 +16,7 @@ Test-suite: 127/127 passed (pytest, Python 3.12.10)
 - **TOM-lm Fallback Guidance**: Missing or conflicting norms trigger advisory fallback notices without automatic execution.
 - **Multi-Interface Support**: CLI (`policy-registry`), Python API (`PolicyRegistry`), and optional Model Context Protocol (MCP) server adapter.
 - **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
-- **Decision Location Pointers**: `adapters/decisions.py` registers a small, fixed set of stable pointers onto the real `_DECISIONS` chain (chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated machine index, and the project-local `DECISIONS.md` convention) via `policy-registry seed-decisions --control-center-root <path>`. Individual decisions are never duplicated into the registry.
+- **Decision Location Pointers**: `adapters/decisions.py` registers a small, fixed set of stable pointers onto the real `_DECISIONS` chain (chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated `_tools/decisions.index.json` machine index, and the project-local `DECISIONS.md` convention) via `policy-registry seed-decisions --control-center-root <path>`. Individual decisions are never duplicated into the registry.
 - **decision-clicker Bundle Member**: The module manifest requires the sibling
   `decision.clicker` capability as the human writer/UI of the decision system.
   `adapters/decision_clicker.py` remains a guarded availability probe so the

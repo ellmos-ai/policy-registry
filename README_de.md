@@ -32,7 +32,7 @@ Python-Importabhängigkeit zwischen beiden Paketen.
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-27 (Python 3.12.10):
+Aktueller lokaler Nachweis vom 2026-08-29 (Python 3.12.10):
 
 - `python -m pytest --collect-only` sammelt 127 Tests.
 - `python -m pytest` besteht mit 127/127 Tests (100% grün).
@@ -165,7 +165,7 @@ policy-registry resolve --scope system-wide --query "OneDrive"
 policy-registry verify
 ```
 
-`seed-decisions` registriert eine kleine, feste Menge Pointer-Einträge auf die realen Entscheidungs-Ablagen (Kettenkopf, Namensmuster hostbezogener Dateien, das Ledger der umgesetzten Entscheidungen, den generierten Maschinenindex und die projektlokale `DECISIONS.md`-Konvention) — niemals einzelne Entscheidungen selbst. Details in [`ARCHITECTURE.md`](ARCHITECTURE.md).
+`seed-decisions` registriert eine kleine, feste Menge Pointer-Einträge auf die realen Entscheidungs-Ablagen (Kettenkopf, Namensmuster hostbezogener Dateien, das Ledger der umgesetzten Entscheidungen, den generierten Maschinenindex `_DECISIONS/_tools/decisions.index.json` und die projektlokale `DECISIONS.md`-Konvention) — niemals einzelne Entscheidungen selbst. Details in [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 Der reine Python-Seam `policy_registry.adapters.byum` erhält ein bereits validiertes Mapping nach
 `ellmos.policy-registry.byum-pointer.v1`. Er importiert BYUM nicht und liest oder parst keine Datei

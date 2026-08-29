@@ -32,7 +32,7 @@ two packages.
 
 ## Test Status
 
-Verified local test pass as of 2026-08-27 (Python 3.12.10):
+Verified local test pass as of 2026-08-29 (Python 3.12.10):
 
 - `python -m pytest --collect-only` collects 127 tests.
 - `python -m pytest` passes 127/127 tests (100% green).
@@ -164,7 +164,7 @@ policy-registry resolve --scope system-wide --query "OneDrive"
 policy-registry verify
 ```
 
-`seed-decisions` registers a small, fixed set of pointer entries onto the real decision-record locations (chain head, host-file naming pattern, the settled-decisions ledger, the generated machine index, and the project-local `DECISIONS.md` convention) -- never individual decisions themselves. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full contract.
+`seed-decisions` registers a small, fixed set of pointer entries onto the real decision-record locations (chain head, host-file naming pattern, the settled-decisions ledger, the generated `_DECISIONS/_tools/decisions.index.json` machine index, and the project-local `DECISIONS.md` convention) -- never individual decisions themselves. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full contract.
 
 The Python-only BYUM seam in `policy_registry.adapters.byum` receives an already validated
 `ellmos.policy-registry.byum-pointer.v1` mapping. It performs no BYUM import or file/event parsing;
