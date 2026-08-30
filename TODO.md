@@ -46,3 +46,27 @@
 - [ ] Ein Entfernen darf frühere Adoptionsbelege nicht löschen: Status
       `removed`, letzter geprüfter Commit, Grund und Export-/Rollbackbeleg müssen
       weiterhin auflösbar bleiben.
+## Rückspiegelung aus sentinel-fleet (T-20260830-294539438, 2026-08-30)
+
+Quelle: `ellmos-ai/sentinel-fleet` @ `e7f9c74` (2026-08-29, unter Judging-Lock, nur gelesen),
+`src/sentinel_fleet/core/policy_catalog.py`, `permissions.py`, `binding_rules.py`.
+Herkunft bei jeder Übernahme im Code-Kommentar mitführen (Repo, Commit, Datei::Symbol).
+
+- [ ] **Projektion statt Registrierung für code-abgeleitete Einträge** (Vorbild
+      `PolicyCatalog._permission_entries` / `_engine_entries` / `list_all`): Regeln, die
+      bereits in Code oder Konfiguration leben (z. B. `LOCK.permissions.json`-Regeln via
+      lock-master `permissions.evaluate`), werden **bei jedem Lesen** als Einträge mit
+      `source="permission-registry"`, `source_ref="<datei>::<symbol>"`, `enforced_by`
+      projiziert — nie gespeichert. Gespeichert bleibt nur der Nutzer-Slot. Damit kann die
+      Registry nicht in eine zweite Kopie des Rechtesystems driften; `verify()` behält
+      seine Rolle nur für **verfasste** Pointer. Entwurfsfrage: Adapter
+      `adapters/projected_permissions.py` (read-only), Kennzeichnung `origin: projected`
+      im `search/resolve`-Ergebnis, damit Konsumenten Projektion von Verfasstem unterscheiden.
+- [ ] **Begründete Verdicts statt nackter Strings** (Vorbild `BindingVerdict`:
+      `verdict + reason + triggered_rule + applied_rules + decisive_rule`): `resolve()`
+      liefert heute den Gewinner; ergänzen um die Kette der geprüften Kandidaten und die
+      entscheidende Regel (Scope-Relation, priority, precedence), damit ein Konflikt oder
+      ein Gleichstand erklärbar ist statt nur gemeldet.
+- **Verworfen (beitragsspezifisch):** `policies.py::PolicyEngine` (§ 14 UStG
+  Rechnungsprüfung, Hackathon-Domäne), Mandanten-/Organisationsmodell (`users.py`,
+  `organization_id`, Demo-Tenancy) — gehört nicht in eine local-first Einzelnutzer-Registry.
