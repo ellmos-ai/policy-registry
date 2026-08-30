@@ -235,3 +235,22 @@ Stufe 1 kein Verhalten. Kein USMC-Umbau, keine Handover-Logik.
 (siehe `cli.py`).
 
 Für `policy-registry` wurde keine Kollision gefunden.
+
+## Autoritätsmodi — zweite Achse `POLICY_INTERACTION_MODE` (Stufe 1)
+[U 2026-08-30, T-20260830-167725484]
+
+`POLICY_AUTHORITY_MODE` beantwortet, **wo** Normen liegen (Registry/USMC). Die
+Nutzervorgabe vom 2026-08-30 fragt etwas anderes: **wer rangiert** — die laufende
+Chat-Anweisung, die gespeicherte Governance oder der aktuelle Nutzerwille. Dafür
+gibt es einen zweiten, unabhängigen Schalter mit drei Werten:
+`chat-authority-only` (Chat allein, Ausnahmemodus), `governance-bound` (Default:
+Policies/Entscheidungen > Chat, Änderung nur per transparenter Decision-Change-
+Aktion) und `user-sovereign` (aktuelle Nutzeranweisung > Governance > Vorhersage
+des Decision-Avatars; Hintergrund-Reconciler zieht Alteinträge nach). Harte
+Außenwirkungs-Gates bleiben in allen Modi beim Nutzer.
+
+Stufe 1 benennt nur: Konstanten, `current_interaction_mode()` (fail-closed auf
+`governance-bound`), `describe()` mit `interaction_mode`/`interaction_effective`
+— wirksam ist weiterhin ausschließlich der Status quo. Rangfolge in `resolve()`,
+`propose-change`, Reconciler und Projekt-Ebene sind eigene Folgestufen. Konzept,
+Namensbegründung und Bausteintabelle: `docs/AUTORITAETS-MODI.md`.

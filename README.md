@@ -134,6 +134,9 @@ sequenceDiagram
 
 ---
 
+### Authority modes (ranking of chat / governance / user will)
+Independent of `POLICY_AUTHORITY_MODE` (where norms live), `POLICY_INTERACTION_MODE` names who ranks first: `chat-authority-only` (chat alone, exception mode), `governance-bound` (default: policies/decisions above chat, changes only through a transparent decision-change action) or `user-sovereign` (current user instruction above governance above prediction). Stage 1 only names the modes — `governance-bound` remains the effective behaviour, and outward-facing gates stay with the user in every mode. Concept: [`docs/AUTORITAETS-MODI.md`](docs/AUTORITAETS-MODI.md) (German).
+
 ## Metadata Model
 
 Every entry supports the following fields:

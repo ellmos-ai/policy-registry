@@ -122,6 +122,9 @@ sequenceDiagram
   Aktionsdaten oder Receipts und erzeugt ausschließlich Metadaten als `decision-candidate`,
   `adoption=pending` und `authority=advisory-pointer`.
 
+### Autoritätsmodi (Rangfolge Chat / Governance / Nutzerwille)
+Unabhängig von `POLICY_AUTHORITY_MODE` (wo Normen liegen) benennt `POLICY_INTERACTION_MODE`, wer rangiert: `chat-authority-only` (nur Chat, Ausnahmemodus), `governance-bound` (Default: Policies/Entscheidungen über Chat, Änderung nur per transparenter Decision-Change-Aktion) oder `user-sovereign` (aktuelle Nutzeranweisung über Governance über Vorhersage). Stufe 1 benennt die Modi nur — wirksam bleibt `governance-bound`; Außenwirkungs-Gates bleiben in jedem Modus beim Nutzer. Konzept: [`docs/AUTORITAETS-MODI.md`](docs/AUTORITAETS-MODI.md).
+
 ### Scope-Vertrag
 
 `PolicyRegistry` und der signierte Delegation-Resolver teilen den Matcher aus [`src/policy_registry/scope.py`](src/policy_registry/scope.py):

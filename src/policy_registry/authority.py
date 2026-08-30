@@ -32,6 +32,25 @@ KNOWN_MODES = {POLICY_ONLY, MEMORY_ONLY, MEMORY_AND_POLICY}
 ENV_VAR = "POLICY_AUTHORITY_MODE"
 DEFAULT_MODE = POLICY_ONLY
 
+# Zweite, unabhaengige Achse (T-20260830-167725484, docs/AUTORITAETS-MODI.md):
+# nicht WO Normen liegen, sondern WER RANGIERT -- Chat, Governance oder der
+# aktuelle Nutzerwille. Stufe 1: nur benannt, kein Verhalten geaendert.
+CHAT_AUTHORITY_ONLY = "chat-authority-only"   # Chat allein; Governance weder gelesen noch geschrieben
+GOVERNANCE_BOUND = "governance-bound"         # Policies/Entscheidungen > Chat (Default)
+USER_SOVEREIGN = "user-sovereign"             # aktuelle Nutzeranweisung > Governance > Vorhersage
+KNOWN_INTERACTION_MODES = {CHAT_AUTHORITY_ONLY, GOVERNANCE_BOUND, USER_SOVEREIGN}
+INTERACTION_ENV_VAR = "POLICY_INTERACTION_MODE"
+DEFAULT_INTERACTION_MODE = GOVERNANCE_BOUND
+
+
+def current_interaction_mode() -> str:
+    """Liest den Interaktionsmodus (Sitzungsebene); unbekannter oder fehlender
+    Wert faellt fail-closed auf `governance-bound` zurueck -- den Status quo,
+    in dem Governance gilt und der Chat sie nicht aendert. Projekt-Ebene
+    (Eintrag im Projekt) ist Stufe 2 und hier bewusst nicht aufgeloest."""
+    value = os.environ.get(INTERACTION_ENV_VAR, DEFAULT_INTERACTION_MODE)
+    return value if value in KNOWN_INTERACTION_MODES else DEFAULT_INTERACTION_MODE
+
 
 def current_mode() -> str:
     """Liest den konfigurierten Modus; fällt auf den sicheren Default
@@ -64,6 +83,10 @@ def describe() -> dict[str, object]:
     return {
         "mode": mode,
         "effective": POLICY_ONLY,  # heute IMMER policy-only, unabhängig vom Schalter
+        # zweite Achse (Rangfolge Chat/Governance/Nutzerwille) -- Stufe 1 ebenfalls
+        # nur benannt: wirksam ist immer der Status quo governance-bound.
+        "interaction_mode": current_interaction_mode(),
+        "interaction_effective": GOVERNANCE_BOUND,
         "note": (
             "Schalter ist vorbereitet, aber wirkungslos: policy-registry bleibt "
             "in dieser Stufe (Stufe 1) in jedem Modus die alleinige Autorität. "

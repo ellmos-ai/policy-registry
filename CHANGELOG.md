@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Second, independent authority axis `POLICY_INTERACTION_MODE` (`chat-authority-only`,
+  `governance-bound` default, `user-sovereign`) in `authority.py` — names the ranking
+  between the running chat instruction, stored governance (policies + decisions) and the
+  user's current will. Stage 1 only: constants, `current_interaction_mode()` with
+  fail-closed default, `describe()` reports both axes; no behaviour change
+  (`interaction_effective` is always `governance-bound`). Concept, naming rationale and
+  the four design consequences (decision-change action, background reconciler, shared
+  register as read source, per-project/session mode) in `docs/AUTORITAETS-MODI.md`
+  (T-20260830-167725484, user specification of 2026-08-30).
+
 ### Fixed
 - Point the decision-location adapter at the consolidated generated index under
   `_DECISIONS/_tools/decisions.index.json` and cover the exact path in the adapter
