@@ -46,11 +46,41 @@ def parser() -> argparse.ArgumentParser:
     register_rule = commands.add_parser("register-rule")
     register_rule.add_argument("entry_json")
     register_rule.add_argument("--supersedes")
+    propose_change = commands.add_parser("propose-change")
+    propose_change.add_argument("--id", required=True)
+    propose_change.add_argument("--title", required=True)
+    propose_change.add_argument("--scope", required=True)
+    propose_change.add_argument("--owner", required=True)
+    propose_change.add_argument("--session", required=True)
+    propose_change.add_argument("--quote", required=True)
+    propose_change.add_argument("--at", required=True)
+    propose_change.add_argument("--consumer", action="append", dest="consumers")
+    propose_change.add_argument("--priority", type=int, default=100)
+    propose_change.add_argument("--precedence", type=int, default=100)
+    propose_change.add_argument("--version", default="1")
+    propose_change.add_argument(
+        "--privacy",
+        choices=("public", "internal", "private", "restricted"),
+        default="private",
+    )
+    adopt = commands.add_parser("adopt")
+    adopt.add_argument("candidate_id")
+    adopt.add_argument("--rule-id", required=True)
+    adopt.add_argument("--at", required=True)
+    adopt.add_argument("--supersedes")
     resolve = commands.add_parser("resolve")
     resolve.add_argument("--scope", required=True)
     resolve.add_argument("--consumer")
     resolve.add_argument("--query", default="")
     resolve.add_argument("--require-kind")
+    resolve.add_argument(
+        "--mode",
+        choices=("chat-authority-only", "governance-bound", "user-sovereign"),
+    )
+    resolve.add_argument("--project-root")
+    resolve.add_argument("--instruction")
+    resolve.add_argument("--session")
+    resolve.add_argument("--instruction-at")
     delegation = commands.add_parser("resolve-delegation")
     delegation.add_argument("--grant", required=True)
     delegation.add_argument("--candidate", required=True)
@@ -60,7 +90,12 @@ def parser() -> argparse.ArgumentParser:
         help="Expliziter UTC-Prüfzeitpunkt für reproduzierbare Audits",
     )
     commands.add_parser("verify")
-    commands.add_parser("authority-status")
+    authority_status = commands.add_parser("authority-status")
+    authority_status.add_argument(
+        "--mode",
+        choices=("chat-authority-only", "governance-bound", "user-sovereign"),
+    )
+    authority_status.add_argument("--project-root")
     migrate = commands.add_parser("import-sync")
     migrate.add_argument("--root", required=True)
     migrate.add_argument("--slot", required=True)
@@ -102,12 +137,43 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "register-rule":
             entry = json.loads(Path(args.entry_json).read_text(encoding="utf-8"))
             _print(registry.register_rule(entry, supersedes=args.supersedes))
+        elif args.command == "propose-change":
+            _print(
+                registry.propose_change(
+                    change_id=args.id,
+                    title=args.title,
+                    scope=args.scope,
+                    owner=args.owner,
+                    session=args.session,
+                    quote=args.quote,
+                    captured_at=args.at,
+                    consumers=args.consumers,
+                    priority=args.priority,
+                    precedence=args.precedence,
+                    version=args.version,
+                    privacy=args.privacy,
+                )
+            )
+        elif args.command == "adopt":
+            _print(
+                registry.adopt_change(
+                    args.candidate_id,
+                    rule_id=args.rule_id,
+                    adopted_at=args.at,
+                    supersedes=args.supersedes,
+                )
+            )
         elif args.command == "resolve":
             result = registry.resolve(
                 scope=args.scope,
                 consumer=args.consumer,
                 query=args.query,
                 required_kind=args.require_kind,
+                mode=args.mode,
+                project_root=args.project_root,
+                current_instruction=args.instruction,
+                session=args.session,
+                instruction_at=args.instruction_at,
             )
             _print(result)
             return 0 if result["status"] == "resolved" else 2
@@ -139,8 +205,13 @@ def main(argv: list[str] | None = None) -> int:
             result = registry.verify()
             _print(result)
         elif args.command == "authority-status":
-            _print(describe_authority())
-            return 0 if result["ok"] else 1
+            _print(
+                describe_authority(
+                    session_mode=args.mode,
+                    project_root=args.project_root,
+                )
+            )
+            return 0
         elif args.command == "import-sync":
             imported = import_sync_pointers(
                 registry, args.root, slot=args.slot, replace=not args.no_replace

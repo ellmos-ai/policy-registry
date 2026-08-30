@@ -48,7 +48,10 @@
         "uri": {"type": "string", "minLength": 1},
         "type": {"type": "string"},
         "canonical": {"type": "boolean"},
-        "origin": {"type": "string"}
+        "origin": {"type": "string"},
+        "session": {"type": "string", "minLength": 1, "maxLength": 256},
+        "quote": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "captured_at": {"type": "string", "format": "date-time"}
       },
       "not": {
         "anyOf": [
@@ -63,7 +66,10 @@
     "status": {"enum": ["active", "draft", "superseded", "revoked", "expired"]},
     "adoption": {"enum": ["adopted", "partial", "pending", "exempt"]},
     "valid_from": {"type": "string", "format": "date"},
-    "valid_until": {"type": "string", "format": "date"}
+    "valid_until": {"type": "string", "format": "date"},
+    "adopted_from": {"type": "string", "minLength": 1},
+    "adopted_as": {"type": "string", "minLength": 1},
+    "adopted_at": {"type": "string", "format": "date-time"}
   },
   "not": {
     "anyOf": [
@@ -74,4 +80,3 @@
     ]
   }
 }
-

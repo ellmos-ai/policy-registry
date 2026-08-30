@@ -23,6 +23,13 @@ from __future__ import annotations
 
 import importlib.util
 import os
+from pathlib import Path
+from typing import Any
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python 3.10
+    import tomli as tomllib
 
 POLICY_ONLY = "policy-only"
 MEMORY_ONLY = "memory-only"
@@ -31,6 +38,116 @@ KNOWN_MODES = {POLICY_ONLY, MEMORY_ONLY, MEMORY_AND_POLICY}
 
 ENV_VAR = "POLICY_AUTHORITY_MODE"
 DEFAULT_MODE = POLICY_ONLY
+
+# Independent interaction/ranking axis. Unlike POLICY_AUTHORITY_MODE, this
+# axis is effective: it controls how the same registry candidates and the
+# current chat instruction are ranked.
+CHAT_AUTHORITY_ONLY = "chat-authority-only"
+GOVERNANCE_BOUND = "governance-bound"
+USER_SOVEREIGN = "user-sovereign"
+KNOWN_INTERACTION_MODES = {
+    CHAT_AUTHORITY_ONLY,
+    GOVERNANCE_BOUND,
+    USER_SOVEREIGN,
+}
+INTERACTION_ENV_VAR = "POLICY_INTERACTION_MODE"
+DEFAULT_INTERACTION_MODE = GOVERNANCE_BOUND
+PROJECT_CONFIG = ".policy-registry.toml"
+
+
+def _interaction_fallback(source: str, issue: str, config_path: Path | None = None) -> dict[str, Any]:
+    return {
+        "mode": DEFAULT_INTERACTION_MODE,
+        "source": source,
+        "config_path": str(config_path) if config_path else None,
+        "issue": issue,
+    }
+
+
+def resolve_interaction_mode(
+    *,
+    session_mode: str | None = None,
+    project_root: str | Path | None = None,
+) -> dict[str, Any]:
+    """Resolve session > project > safe default for the interaction mode.
+
+    The explicit API/CLI argument and ``POLICY_INTERACTION_MODE`` are both
+    session-level choices; the explicit argument wins. Invalid or ambiguous
+    configuration never falls through to a less restrictive mode. It fails
+    closed to ``governance-bound`` and reports the issue.
+    """
+    if session_mode is not None:
+        if session_mode in KNOWN_INTERACTION_MODES:
+            return {
+                "mode": session_mode,
+                "source": "session-argument",
+                "config_path": None,
+                "issue": None,
+            }
+        return _interaction_fallback(
+            "session-invalid-fallback",
+            f"Unbekannter Sitzungsmodus: {session_mode}",
+        )
+
+    environment_mode = os.environ.get(INTERACTION_ENV_VAR)
+    if environment_mode is not None:
+        if environment_mode in KNOWN_INTERACTION_MODES:
+            return {
+                "mode": environment_mode,
+                "source": "session-environment",
+                "config_path": None,
+                "issue": None,
+            }
+        return _interaction_fallback(
+            "session-invalid-fallback",
+            f"Unbekannter Wert in {INTERACTION_ENV_VAR}: {environment_mode}",
+        )
+
+    root = Path(project_root) if project_root is not None else Path.cwd()
+    config_path = root / PROJECT_CONFIG
+    if config_path.exists():
+        try:
+            with config_path.open("rb") as handle:
+                config = tomllib.load(handle)
+            section = config.get("policy_registry")
+            if not isinstance(section, dict):
+                raise ValueError("Abschnitt [policy_registry] fehlt")
+            project_mode = section.get("interaction_mode")
+            if project_mode not in KNOWN_INTERACTION_MODES:
+                raise ValueError(f"unbekannter interaction_mode: {project_mode}")
+        except (OSError, tomllib.TOMLDecodeError, ValueError) as exc:
+            return _interaction_fallback(
+                "project-invalid-fallback",
+                f"Projekt-TOML ist ungültig: {exc}",
+                config_path,
+            )
+        return {
+            "mode": project_mode,
+            "source": "project",
+            "config_path": str(config_path),
+            "issue": None,
+        }
+
+    return {
+        "mode": DEFAULT_INTERACTION_MODE,
+        "source": "default",
+        "config_path": str(config_path),
+        "issue": None,
+    }
+
+
+def current_interaction_mode(
+    *,
+    session_mode: str | None = None,
+    project_root: str | Path | None = None,
+) -> str:
+    """Return only the effective interaction mode."""
+    return str(
+        resolve_interaction_mode(
+            session_mode=session_mode,
+            project_root=project_root,
+        )["mode"]
+    )
 
 
 def current_mode() -> str:
@@ -56,18 +173,29 @@ def usmc_present() -> dict[str, object]:
     }
 
 
-def describe() -> dict[str, object]:
-    """Kompakter Statusbericht für CLI/Diagnose: konfigurierter Modus,
-    USMC-Anwesenheit, und die ausdrückliche Klarstellung, dass der Modus
-    heute nichts am Verhalten ändert (nur `policy-only` ist verdrahtet)."""
+def describe(
+    *,
+    session_mode: str | None = None,
+    project_root: str | Path | None = None,
+) -> dict[str, object]:
+    """Report the inert source axis and effective interaction axis."""
     mode = current_mode()
+    interaction = resolve_interaction_mode(
+        session_mode=session_mode,
+        project_root=project_root,
+    )
     return {
         "mode": mode,
-        "effective": POLICY_ONLY,  # heute IMMER policy-only, unabhängig vom Schalter
+        "effective": POLICY_ONLY,  # source axis remains intentionally inert
+        "interaction_mode": interaction["mode"],
+        "interaction_effective": interaction["mode"],
+        "interaction_source": interaction["source"],
+        "interaction_config_path": interaction["config_path"],
+        "interaction_issue": interaction["issue"],
         "note": (
-            "Schalter ist vorbereitet, aber wirkungslos: policy-registry bleibt "
-            "in dieser Stufe (Stufe 1) in jedem Modus die alleinige Autorität. "
-            "Echtes Handover ist Stufe 2 (eigenes Folgeticket)."
+            "POLICY_AUTHORITY_MODE bleibt ein vorbereiteter Quellen-Schalter; "
+            "die unabhängige Interaktionsachse ist wirksam und rangiert Chat "
+            "und Governance. TOM-lm/BYUM bleiben beratend."
         ),
         "usmc": usmc_present(),
     }

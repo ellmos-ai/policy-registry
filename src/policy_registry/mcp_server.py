@@ -23,9 +23,23 @@ def create_server(registry_path: str | None = None):
         return registry.get(entry_id)
 
     @server.tool()
-    def policy_resolve(scope: str, query: str = "", consumer: str = ""):
+    def policy_resolve(
+        scope: str,
+        query: str = "",
+        consumer: str = "",
+        mode: str = "",
+        current_instruction: str = "",
+        project_root: str = "",
+    ):
         """Resolve explicit norms; return TOM-lm advisory fallback when unresolved."""
-        return registry.resolve(scope=scope, query=query, consumer=consumer or None)
+        return registry.resolve(
+            scope=scope,
+            query=query,
+            consumer=consumer or None,
+            mode=mode or None,
+            current_instruction=current_instruction or None,
+            project_root=project_root or None,
+        )
 
     return server
 
@@ -36,4 +50,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

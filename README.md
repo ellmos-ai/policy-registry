@@ -11,7 +11,7 @@
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20127%2F127%20Passing-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20149%2F149%20Passing-brightgreen.svg)](tests/)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
 [🇩🇪 Deutsch](README_de.md) | **🇬🇧 English**
@@ -32,10 +32,10 @@ two packages.
 
 ## Test Status
 
-Verified local test pass as of 2026-08-27 (Python 3.12.10):
+Verified local test pass as of 2026-08-30 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 127 tests.
-- `python -m pytest` passes 127/127 tests (100% green).
+- `python -m pytest --collect-only` collects 149 tests.
+- `python -m pytest` passes 149/149 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 
 ---
@@ -117,6 +117,8 @@ sequenceDiagram
 - Valid, explicitly adopted `policy`, `rule`, or `decision` entries resolve according to the shared hierarchical scope contract, followed by priority and precedence.
 - If a norm is missing, insufficient, or in conflict, resolution reports an **advisory TOM-lm fallback notice** without automatic execution or unwarranted authority.
 - TOM results may be recorded as `evidence` or `decision-candidate`. An explicit adoption is required to generalize into a policy.
+- Interaction authority is effective and independent from the storage-source switch: `governance-bound` (default) ranks adopted registry governance over chat, `user-sovereign` ranks the current user instruction first while reporting governance follow-up candidates, and `chat-authority-only` intentionally removes governance binding. External-effect gates remain user-controlled in every mode.
+- Session mode overrides project mode; projects can set `[policy_registry].interaction_mode` in `.policy-registry.toml`. Invalid or ambiguous mode configuration fails closed to `governance-bound`.
 - The optional BYUM v2 seam accepts only a prevalidated, closed pointer envelope. It copies no
   options, rationales, prompts, decision text, private payloads, action data, or receipts and always
   emits `decision-candidate` / `pending` / `advisory-pointer` metadata.
@@ -161,8 +163,13 @@ policy-registry import-sync --root "$HOME\OneDrive\.SYNC\_policies" --slot works
 policy-registry seed-decisions --control-center-root "$HOME\OneDrive\.TOPICS\_control-center"
 policy-registry search "OneDrive" --consumer codex
 policy-registry resolve --scope system-wide --query "OneDrive"
+policy-registry resolve --scope project:alpha --mode user-sovereign --instruction "Use alpha mode"
+policy-registry propose-change --id change:alpha --title "Use alpha" --scope project:alpha --owner LG --session session-501 --quote "Use alpha mode" --at 2026-08-30T18:45:00Z
+policy-registry adopt change:alpha --rule-id rule:alpha@v1 --at 2026-08-30T19:00:00Z
 policy-registry verify
 ```
+
+`propose-change` is deliberately non-authoritative: it records a hash-bound chat provenance envelope as `decision-candidate` / `pending`. `adopt` is the separate explicit step that materializes an audited `rule` through the append-only `register_rule()` contract; `--supersedes` replaces a predecessor without deleting its row. See [`docs/AUTORITAETS-MODI.md`](docs/AUTORITAETS-MODI.md).
 
 `seed-decisions` registers a small, fixed set of pointer entries onto the real decision-record locations (chain head, host-file naming pattern, the settled-decisions ledger, the generated machine index, and the project-local `DECISIONS.md` convention) -- never individual decisions themselves. See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full contract.
 
@@ -185,6 +192,14 @@ from policy_registry import PolicyRegistry
 registry = PolicyRegistry()
 matches = registry.search("release", scope=".AI/.MODULES", consumer="codex")
 decision = registry.resolve(scope="system-wide", query="OneDrive")
+
+candidate = registry.propose_change(
+    change_id="change:alpha", title="Use alpha", scope="project:alpha", owner="LG",
+    session="session-501", quote="Use alpha mode", captured_at="2026-08-30T18:45:00Z",
+)
+registry.adopt_change(
+    candidate["id"], rule_id="rule:alpha@v1", adopted_at="2026-08-30T19:00:00Z"
+)
 ```
 
 ### Signed Delegation Resolver
@@ -245,6 +260,7 @@ The MCP extra is bounded to the maintained MCP SDK v1 line `>=1.28.1,<2`.
 - No automated full-text duplication or indexing.
 - No automated TOM-lm execution.
 - No automated adoption without explicit command.
+- No Stage-3 norm reconciler or automatic BYUM/TOM feedback; reconciliation output is advisory and `automatic: false`.
 - No cloud hosted dependencies (100% Local-First).
 - No unauthenticated remote host mutations.
 

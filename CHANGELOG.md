@@ -5,6 +5,33 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- W501 authority stage 2: `PolicyRegistry.propose_change()` and CLI
+  `propose-change` record hash-bound chat instructions as
+  `decision-candidate` / `adoption=pending` with session, quote, and UTC time.
+- Explicit `PolicyRegistry.adopt_change()` and CLI `adopt` validate candidate
+  provenance and materialize an active audited rule through the append-only
+  `register_rule()` / optional `supersedes` contract.
+- Effective interaction modes `chat-authority-only`, `governance-bound`
+  (default), and `user-sovereign`; `resolve()` accepts a mode and current
+  instruction while preserving the same governance candidate set.
+- Project-level mode selection via `.policy-registry.toml`, resolved after
+  session argument/environment and before the safe default. Invalid or
+  ambiguous TOML fails closed to `governance-bound`.
+
+### Security
+- Governance conflicts remain unresolved in `governance-bound`; chat cannot
+  break a same-rank conflict. `user-sovereign` reports governance follow-up as
+  non-automatic (`automatic: false`) and never invokes a Stage-3 reconciler.
+- All resolver modes explicitly retain user-controlled external-effect gates;
+  TOM-lm and BYUM remain advisory only.
+
+### Verified
+- 149/149 tests, Ruff, Python compilation, JSON/schema/manifest contracts, and
+  the three CLI use cases (`propose-change`, `adopt`, `resolve --mode`).
+
 ## [0.2.0] - 2026-08-27
 
 ### Changed

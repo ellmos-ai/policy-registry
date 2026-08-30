@@ -86,7 +86,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-08-27" in content
+    assert "Last-checked: 2026-08-30" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 

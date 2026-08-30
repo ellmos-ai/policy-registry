@@ -2,8 +2,8 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-08-27
-Test-suite: 127/127 passed (pytest, Python 3.12.10)
+Last-checked: 2026-08-30
+Test-suite: 149/149 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -14,6 +14,8 @@ Test-suite: 127/127 passed (pytest, Python 3.12.10)
 - **Local-First Authority**: Authoritative metadata stored in `~/.policy-registry/registry.json`.
 - **Pointer Model**: Stores `id`, `kind`, `scope`, `owner`, `priority`, `precedence`, `version`, `privacy`, and canonical `source.uri`.
 - **TOM-lm Fallback Guidance**: Missing or conflicting norms trigger advisory fallback notices without automatic execution.
+- **Effective Interaction Authority**: `resolve()` ranks the same registry candidates as `governance-bound` (default), `user-sovereign`, or `chat-authority-only`; project mode lives in `.policy-registry.toml`, below session choice and above the safe default.
+- **Explicit Decision Change**: `propose-change` records hash-bound chat provenance as a pending candidate; `adopt` materializes an audited append-only rule and can supersede a predecessor without deleting it.
 - **Multi-Interface Support**: CLI (`policy-registry`), Python API (`PolicyRegistry`), and optional Model Context Protocol (MCP) server adapter.
 - **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
 - **Decision Location Pointers**: `adapters/decisions.py` registers a small, fixed set of stable pointers onto the real `_DECISIONS` chain (chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated machine index, and the project-local `DECISIONS.md` convention) via `policy-registry seed-decisions --control-center-root <path>`. Individual decisions are never duplicated into the registry.

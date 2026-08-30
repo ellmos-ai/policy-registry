@@ -2,6 +2,13 @@
 
 - [x] Metadata-only Schema und lokale atomare Speicherung.
 - [x] CLI und Python-API für Register, Suche, Auflösung und Prüfung.
+- [x] W501 Stufe 2: Decision-Change als pending Kandidat plus explizite,
+      hashgebundene Rule-Adoption; wirksames modusabhängiges Ranking in
+      `resolve()` und Projektmodus über `.policy-registry.toml` mit
+      Sitzung > Projekt > Default `governance-bound`.
+- [ ] Stufe 3 nur als eigenes Ticket: Norm-Reconciler für `user-sovereign`
+      auf der Supersede-Kette und transparentes BYUM-Feedback. Der in Stufe 2
+      ausgegebene Reconciliation-Kandidat bleibt bis dahin `automatic=false`.
 - [x] Optionaler MCP-Seam.
 - [x] Import bestehender `.SYNC/_policies`-Pointer.
 - [x] Optionaler system-gap-/`.SYNC`-Exportseam.

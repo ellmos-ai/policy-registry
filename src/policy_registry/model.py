@@ -29,7 +29,7 @@ class ValidationError(ValueError):
 
 
 def expand_uri(uri: str) -> Path | None:
-    if uri.startswith(("http://", "https://", "git+")):
+    if uri.startswith(("http://", "https://", "git+", "chat://")):
         return None
     expanded = os.path.expandvars(os.path.expanduser(uri))
     return Path(expanded)

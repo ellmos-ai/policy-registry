@@ -88,6 +88,42 @@ Bei `missing`, `insufficient` oder `conflict` ist TOM-lm ausschließlich
 beratender Fallback. Sein Ergebnis ist Evidence oder Decision-Kandidat.
 Generalisierung erfordert eine explizite Adoption.
 
+## Interaktionsautorität und Decision-Change [U 2026-08-30, W501 Stufe 2]
+
+Die bestehende Quellenachse `POLICY_AUTHORITY_MODE` bleibt vom wirksamen
+Interaktionsmodus getrennt. `resolve()` liest weiterhin dieselbe lokale
+Registry-Kandidatenmenge und nimmt zusätzlich `mode`, `project_root` und eine
+optionale aktuelle Anweisung entgegen. Die Rangfolge ist:
+
+- `governance-bound` (Default): aufgelöste Governance vor Chat; ein
+  Governance-Konflikt bleibt fail-closed und kann nicht durch Chat gebrochen
+  werden;
+- `user-sovereign`: aktuelle Nutzeranweisung vor Governance; alle gelesenen
+  Governance-Einträge bleiben als nicht-automatische Reconciliation-Kandidaten
+  sichtbar;
+- `chat-authority-only`: die aktuelle Chat-Anweisung bindet allein; Governance
+  wird für Audit/Transparenz gelesen, aber nicht gebunden.
+
+Die Moduswahl folgt explizitem Sitzungsparameter >
+`POLICY_INTERACTION_MODE` > Projektdatei `.policy-registry.toml` mit
+`[policy_registry].interaction_mode` > `governance-bound`. Ungültige oder
+mehrdeutige Konfiguration fällt unmittelbar auf `governance-bound`, statt eine
+weniger restriktive Ebene zu übernehmen. `authority.describe()` meldet den
+tatsächlich wirksamen Modus und seine Quelle.
+
+`propose_change()` legt eine Chat-Anweisung als pending
+`decision-candidate` mit Sitzung, begrenztem Zitat, UTC-Zeit und SHA-256 an.
+`adopt_change()` ist ein separater expliziter Schritt: Er prüft den
+Kandidatenhash und materialisiert über den `register_rule()`-Vertrag eine
+aktive adoptierte Rule mit `valid_from`. Optionales `supersedes` erhält die
+bestehende auditierbare Kette. Kandidaten lösen nie selbst als Norm auf.
+
+Der Resolver meldet `external_effect_gates=user-controlled`. Diese
+Interaktionsrangfolge kann keine Freigabe für Außenwirkung erzeugen. Ein
+Norm-Reconciler oder automatisches BYUM-Feedback ist ausdrücklich Stufe 3 und
+hier nicht implementiert. Der vollständige Vertrag steht in
+`docs/AUTORITAETS-MODI.md`.
+
 ## BYUM-v2-Pointer-Seam (`adapters/byum.py`) [U 2026-08-26]
 
 `build-your-users-mind` (BYUM) bleibt Eigentümer seines privaten, append-only

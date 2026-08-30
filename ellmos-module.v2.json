@@ -16,6 +16,10 @@
     "rule.append-only",
     "rule.audit-fields",
     "authority.mode-switch",
+    "authority.interaction.resolve",
+    "authority.project-mode",
+    "decision.change.propose",
+    "decision.change.adopt",
     "byum.decision-candidate.pointer"
   ],
   "requires": [
