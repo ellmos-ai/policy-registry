@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from policy_registry import PolicyRegistry
 from policy_registry.adapters.decisions import (
@@ -21,7 +22,9 @@ def build_control_center_root(tmp_path):
         "# Umgesetzte Entscheidungen\n\nEcht getroffene Entscheidung, Volltext hier.\n",
         encoding="utf-8",
     )
-    (decisions / "decisions.index.json").write_text("{}\n", encoding="utf-8")
+    tools = decisions / "_tools"
+    tools.mkdir()
+    (tools / "decisions.index.json").write_text("{}\n", encoding="utf-8")
 
     templates = root.parent / ".AI" / "_templates" / "project-docs"
     templates.mkdir(parents=True)
@@ -65,6 +68,11 @@ def test_register_decision_locations_stores_no_decision_text(tmp_path):
 
     chain_head = registry.get("decision-location:chain-head")
     assert chain_head["source"]["uri"].endswith("TO-DECIDE-USER.txt")
+
+    machine_index = registry.get("decision-location:machine-index")
+    assert machine_index["source"]["uri"].endswith(
+        str(Path("_DECISIONS") / "_tools" / "decisions.index.json")
+    )
 
     serialized = registry.path.read_text(encoding="utf-8")
     assert "Reale Entscheidungskette" not in serialized

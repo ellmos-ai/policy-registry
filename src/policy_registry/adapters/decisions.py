@@ -52,7 +52,7 @@ def location_entries(
 
     chain_head = decisions_root / "TO-DECIDE-USER.txt"
     decided = decisions_root / "DECIDED-AND-DONE.md"
-    index_file = decisions_root / "decisions.index.json"
+    index_file = decisions_root / "_tools" / "decisions.index.json"
     convention = templates_root / "DECISIONS.md"
 
     return [
@@ -142,7 +142,7 @@ def location_entries(
             "kind": "evidence",
             "title": "Maschinenlesbarer Entscheidungsindex (generiert)",
             "summary": (
-                "decisions.index.json / INDEX-REPORT.md -- generierte Artefakte "
+                "_tools/decisions.index.json / _tools/INDEX-REPORT.md -- generierte Artefakte "
                 "ueber die gesamte Kette (_tools/decisions_index.py). Kanonisch "
                 "bleiben die Kettendateien selbst, nicht der Index."
             ),
