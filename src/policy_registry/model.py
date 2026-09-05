@@ -29,7 +29,11 @@ class ValidationError(ValueError):
 
 
 def expand_uri(uri: str) -> Path | None:
-    if uri.startswith(("http://", "https://", "git+", "chat://")):
+    # Nicht-Dateisystem-Schemata: nichts zum Hashen, also auch nichts zu pruefen.
+    # "usmc://" gehoert dazu -- USMC-Fakten liegen in der USMC-DB, nicht als Datei.
+    # Fehlte es hier, landeten sie als "missing" in verify() und hielten das
+    # Gesamtflag "ok" dauerhaft auf False (6 von 38 Eintraegen, gemessen 2026-09-05).
+    if uri.startswith(("http://", "https://", "git+", "chat://", "usmc://")):
         return None
     expanded = os.path.expandvars(os.path.expanduser(uri))
     return Path(expanded)
