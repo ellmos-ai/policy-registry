@@ -1,9 +1,16 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
 .venv/
 dist/
 build/
 *.egg-info/
 .coverage
 .tmp-sync/
+*.conflict
+*-ASUS-GEI*
+*-WORKSTATION-LG*
+LOCK.*
+!LOCK.md

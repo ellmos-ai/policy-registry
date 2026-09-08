@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "policy-registry"
-version = "0.2.0"
+version = "0.2.1"
 description = "Local-first pointer registry for policies, rules and decisions"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -50,6 +50,7 @@ Repository = "https://github.com/ellmos-ai/policy-registry.git"
 Issues = "https://github.com/ellmos-ai/policy-registry/issues"
 Changelog = "https://github.com/ellmos-ai/policy-registry/blob/main/CHANGELOG.md"
 Security = "https://github.com/ellmos-ai/policy-registry/blob/main/SECURITY.md"
+Parent-Organization = "https://github.com/ellmos-ai"
 Umbrella = "https://github.com/open-bricks"
 
 [project.optional-dependencies]

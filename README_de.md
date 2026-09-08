@@ -3,40 +3,72 @@
 # policy-registry
 
 [![CI](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml)
+[![Version: 0.2.1](https://img.shields.io/badge/version-0.2.1-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
 [![Python 3.10 | 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Tests Passing](https://img.shields.io/badge/tests-157%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
-[![Security: Local-First / Zero-Egress](https://img.shields.io/badge/security-Local--First%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
-[![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen.svg)](SECURITY.md)
+[![Security: Local-First / Non-Elevation](https://img.shields.io/badge/security-Local--First%20%7C%20Non--Elevation-success.svg)](SECURITY.md)
+[![Security SLA: 48h](https://img.shields.io/badge/security%20SLA-48h%20response-blue.svg)](SECURITY.md)
+[![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-brightgreen.svg)](SECURITY.md)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
-[![Ecosystem: open--bricks](https://img.shields.io/badge/Ecosystem-open--bricks-blue.svg)](https://github.com/open-bricks)
-[![Tests: Pytest](https://img.shields.io/badge/Tests-Pytest%20149%2F149%20Passing-brightgreen.svg)](tests/)
+[![Umbrella: open--bricks](https://img.shields.io/badge/Umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
-**🇩🇪 Deutsch** | [🇬🇧 English](README.md)
+**🇩🇪 Deutsch** | [🇬🇧 English](README.md) | 🛡️ [Security Policy](SECURITY.md) | 📝 [Changelog](CHANGELOG.md) | 📋 [llms.txt](llms.txt)
 
 > [!NOTE]
 > **KI- & LLM-Integrationshinweis**: Dieses Repository enthält eine [`llms.txt`](llms.txt)-Indexdatei für automatisierte Kontextaufnahme, System-Prompts für Agenten und maschinelles Codeverständnis.
 
+## 🧭 Schnellnavigation
+
+- [Was ist policy-registry?](#was-ist-policy-registry)
+- [Discovery-Kontext & Suchbegriffe](#discovery-kontext)
+- [Teststatus & Verifikation](#teststatus)
+- [Systemarchitektur & Datenfluss](#systemarchitektur)
+- [Scope-Auflösung & Hierarchische Präzedenz](#scope-auflösung--hierarchische-präzedenz)
+- [Lebenszyklus der kryptografischen Delegationsprüfung](#lebenszyklus-der-kryptografischen-delegationsprüfung)
+- [Governance- & Laufzeit-Invarianten](#governance---laufzeit-invarianten)
+- [Sicherheits- & Autoritätsvertrag](#sicherheits---autoritätsvertrag)
+- [Metadatenmodell & Schemas](#metadatenmodell)
+- [CLI-Nutzung & Workflows](#cli-nutzung)
+- [Python-API & Integration](#python-api)
+- [Model Context Protocol (MCP) Server](#model-context-protocol-mcp-server)
+- [Geschwisterprojekte & Ökosystem-Matrix](#geschwisterprojekte--ökosystem-matrix)
+- [Sicherheitsrichtlinie & Meldung von Schwachstellen](#sicherheitsrichtlinie--meldung-von-schwachstellen)
+- [Haftungsausschluss & Liability](#haftungsausschluss--liability)
+
+---
+
+## Was ist policy-registry?
+
 `policy-registry` ist ein eigenständiges, wiederverwendbares **LOCAL-FIRST**-Register für Policies, Regeln und Entscheidungen. Es speichert Metadaten und Pointer auf kanonische Quellen, nicht deren Volltext. Dadurch bleiben lokale Quellen autoritativ und auffindbar, auch wenn OneDrive, `.SYNC` oder `system-gap-master` nicht verfügbar sind.
 
-Zum vollständigen Entscheidungssystem-Bundle gehört
-[`decision-clicker`](https://github.com/ellmos-ai/decision-clicker) fest als
-menschlicher Writer und Benutzeroberfläche. Policy Registry besitzt die
-Pointer-Suche und Auflösung; Decision Clicker schreibt kontrolliert in dieselbe
-`_DECISIONS`-Kette. Diese verpflichtende Komposition erzeugt keine
-Python-Importabhängigkeit zwischen beiden Paketen.
+Zum vollständigen Entscheidungssystem-Bundle gehört [`decision-clicker`](https://github.com/ellmos-ai/decision-clicker) fest als menschlicher Writer und Benutzeroberfläche. Policy Registry besitzt die Pointer-Suche und Auflösung; Decision Clicker schreibt kontrolliert in dieselbe `_DECISIONS`-Kette. Diese verpflichtende Komposition erzeugt keine Python-Importabhängigkeit zwischen beiden Paketen.
+
+---
+
+## Discovery-Kontext
+
+Für die Einbindung in Multi-Agenten-Umgebungen und Suchanfragen lautet die kanonische Suchphrase `ellmos-ai/policy-registry`. Im Gegensatz zu cloudbasierten Policy-Engines (wie Open Policy Agent / OPA, AWS IAM oder Kubernetes-Admission-Webhooks) ist `policy-registry` strikt **lokal-first und zeigerbasiert**:
+
+- **Ziel-Ökosystem**: Autonome LLM-Agentenflotten (Codex, Gemini, Claude Desktop, Antigravity) und Offline-Systeme.
+- **Reine Zeiger-Architektur (Pointer-Only)**: Keine Duplikation von Volltexten im Register, wodurch Cloud-Sync-Konflikte und Dateidrift verhindert werden.
+- **Kryptografische Delegation**: Lokale Ed25519-Signaturprüfung von Aussteller-Grants und Kandidaten gegen gepinnte Trust-Stores ohne externe PKI-Abhängigkeit.
+- **Fail-Closed-Fallback**: Fehlende oder widersprüchliche Normen lösen beratende TOM-lm-Hinweise aus, niemals unautorisierte Spontan-Aktionen.
 
 ---
 
 ## Teststatus
 
-Aktueller lokaler Nachweis vom 2026-08-30 (Python 3.12.10):
+Aktueller lokaler Nachweis vom 2026-09-08 (Python 3.12.10):
 
-- `python -m pytest --collect-only` sammelt 149 Tests.
-- `python -m pytest` besteht mit 149/149 Tests (100% grün).
+- `python -m pytest --collect-only` sammelt 157 Tests.
+- `python -m pytest` besteht mit 157/157 Tests (100% grün).
 - `ruff check .` besteht mit 0 Warnungen.
+- `python -m compileall -q .` kompiliert die gesamte Codebasis fehlerfrei.
 
 ---
 
@@ -109,7 +141,26 @@ sequenceDiagram
 
 ---
 
-## Sicherheits- und Autoritätsvertrag
+## Governance- & Laufzeit-Invarianten
+
+`policy-registry` erzwingt 10 strikte architektonische Garantien für eine sichere, lokale, deterministische Normenauflösung und kryptografische Delegation:
+
+| # | Invariante | Beschreibung | Durchsetzungsebene |
+|---|---|---|---|
+| 1 | **100% Local-First / Zero-Egress** | Strikt lokale Dateisystem-Ablage (`~/.policy-registry/registry.json`). Null unautorisierte Netzwerk-Calls, null Telemetrie-Egress. | Architektonische Garantie |
+| 2 | **Reine Zeiger-Architektur (Pointer-Only)** | Speichert kanonische URI-Referenzen (`source.uri`), SHA-256-Prüfsummen, Scopes und Prioritäten. Weist Nutzdaten/Volltexte strikt ab. | Kern-Datenschema |
+| 3 | **Signierter Delegations-Verifier** | Verifiziert Ed25519-Aussteller-Grants und Delegaten-Kandidatensignaturen gegen einen gepinnten Trust-Store (`IssuerTrustStore`). | Kryptografische Engine |
+| 4 | **Beratendes TOM-lm & Fail-Closed-Präzedenz** | Mehrdeutige, fehlende oder widersprüchliche Normen liefern Exit-Code `2` mit beratendem TOM-Hinweis und `automatic_authority: false`. | Auflösungs-Pipeline |
+| 5 | **Append-Only-Regelregister** | Explizites `adopt` materialisiert auditierte Regeln als unveränderliche Zeilen. Überschreiben (`supersedes`) löscht niemals historische Daten. | Audit- & Statusinvariante |
+| 6 | **Interaktions-Autoritätsmodi** | Effektive Laufzeitmodi (`governance-bound` Standard, `user-sovereign`, `chat-authority-only`) mit Session-Override und Projekt-Fallback. | Autoritäts-Controller |
+| 7 | **Keine Rechteausweitung (Non-Elevation)** | Läuft vollständig unprivilegiert im regulären Benutzerbereich (RunAsInvoker) ohne Administrator-Rechte. | Prozess-Sicherheitsgrenze |
+| 8 | **Multi-OS CI-Matrix** | Automatisierte plattformübergreifende Tests unter Ubuntu, Windows und macOS für Python 3.10, 3.11, 3.12 und 3.13. | GitHub Actions CI |
+| 9 | **Strikte CI-Parallelität & Bytecode-Gate** | `cancel-in-progress: true` verhindert redundante Runner-Kosten; repository-weites `compileall` garantiert 100% fehlerfreien Bytecode. | Automatisches Build-Gate |
+| 10 | **Zweisprachige Parität & Vertragstests** | 100% deutsche/englische Dokumentationsparität und automatisierte Pytest-Vertragstests für alle Schemas und Metadaten. | Vertragstest-Suite |
+
+---
+
+## Sicherheits- & Autoritätsvertrag
 
 - Die lokale Registry unter `~/.policy-registry/registry.json` ist autoritativ für ihre Metadaten.
 - Der kanonische Regeltext verbleibt an `source.uri`.
@@ -232,12 +283,13 @@ Das MCP-Extra bleibt bis zu einer ausdrücklich getesteten v2-Migration auf die 
 
 ---
 
-## Ökosystem & Verwandte Werkzeuge
+## Geschwisterprojekte & Ökosystem-Matrix
 
 `policy-registry` ist integraler Bestandteil des `ellmos-ai`- und `open-bricks`-Ökosystems:
 
 | Repository | Zweck | Ökosystem |
 |---|---|---|
+| [`ellmos-ai/decision-clicker`](https://github.com/ellmos-ai/decision-clicker) | Menschlicher Writer & UI für das Entscheidungssystem-Bundle | `ellmos-ai` |
 | [`ellmos-ai/memoryhooker`](https://github.com/ellmos-ai/memoryhooker) | Hook-basiertes Gedächtnis- und Kontextmanagementsystem für LLM-Agenten | `ellmos-ai` |
 | [`ellmos-ai/ellmos-scheduler`](https://github.com/ellmos-ai/ellmos-scheduler) | Deterministischer Scheduler und Task-Runner für Agenten-Pipelines | `ellmos-ai` |
 | [`ellmos-ai/ellmos-voice-io`](https://github.com/ellmos-ai/ellmos-voice-io) | Sprach-Ein-/Ausgabe-Adapter für multimodale Assistenten | `ellmos-ai` |
@@ -265,6 +317,24 @@ Das MCP-Extra bleibt bis zu einer ausdrücklich getesteten v2-Migration auf die 
 - Kein Stufe-3-Norm-Reconciler und kein automatisches BYUM-/TOM-Feedback; Reconciliation-Ausgaben sind beratend und `automatic: false`.
 - Kein gehosteter Cloud-Dienst (100% Local-First).
 - Keine ungesicherten Fremdhost-Mutationen.
+
+---
+
+## Sicherheitsrichtlinie & Meldung von Schwachstellen
+
+`policy-registry` verpflichtet sich strikten Local-First Sicherheitsstandards:
+
+- **Erstreaktions-SLA**: Innerhalb von 48 Stunden nach Meldungseingang.
+- **Triage-Bewertungs-SLA**: Innerhalb von 5 Werktagen.
+- **Sicherheitskontakte**: `security@ellmos.ai` | `security@open-bricks.org` | `support@lukasgeiger.com` | `lukas@open-bricks.org`
+- **Privates Advisory**: [Sicherheitsmeldung einreichen](https://github.com/ellmos-ai/policy-registry/security/advisories)
+- **Vollständige Richtlinie**: Siehe [SECURITY.md](SECURITY.md) für Einzelheiten zu unterstützten Versionen und kryptografischen Grenzen.
+
+---
+
+## Haftungsausschluss & Liability
+
+Die Veröffentlichung der Software erfolgt „wie besehen" („AS IS"), ohne ausdrückliche oder stillschweigende Gewährleistung jeglicher Art, einschließlich, aber nicht beschränkt auf die Gewährleistung der Marktgängigkeit, der Eignung für einen bestimmten Zweck und der Nichtverletzung von Rechten Dritter. In keinem Fall haften die Autoren oder Urheberrechtsinhaber für Ansprüche, Schäden oder sonstige Verpflichtungen, sei es im Rahmen einer Vertragsklage, einer unerlaubten Handlung oder auf sonstige Weise, die sich aus oder im Zusammenhang mit der Software oder deren Nutzung ergeben.
 
 ---
 

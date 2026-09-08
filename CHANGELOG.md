@@ -5,7 +5,7 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.1] - 2026-09-08
 
 ### Added
 - W501 authority stage 2: `PolicyRegistry.propose_change()` and CLI
@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project-level mode selection via `.policy-registry.toml`, resolved after
   session argument/environment and before the safe default. Invalid or
   ambiguous TOML fails closed to `governance-bound`.
+- Bilingual 14-point structured Quick Navigation across `README.md` and `README_de.md`.
+- Explicit Discovery Context & Search Keywords section for LLMs and developers.
+- Governance & Runtime Invariants Matrix detailing 10 strict local-first and security guarantees.
+- Expanded Sibling Tools & Ecosystem Matrix with 16 partner repositories across `ellmos-ai`, `dev-bricks`, `file-bricks`, `doc-bricks`, and `open-bricks`.
+- Supported Versions table, 48h response SLA, and 5-business-day triage SLA in `SECURITY.md`.
+- Concurrency group with `cancel-in-progress: true` and whole-repository bytecode compilation validation gate in `.github/workflows/ci.yml`.
+- Local marketing audit register `MARKETING-LOG.txt`.
+- Automated metadata and parity contract tests in `tests/test_metadata.py`.
 
 ### Security
 - Governance conflicts remain unresolved in `governance-bound`; chat cannot
@@ -27,10 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   non-automatic (`automatic: false`) and never invokes a Stage-3 reconciler.
 - All resolver modes explicitly retain user-controlled external-effect gates;
   TOM-lm and BYUM remain advisory only.
+- Strict multi-agent lock patterns and cloud-sync conflict guardrails in `.gitignore`.
 
 ### Verified
-- 149/149 tests, Ruff, Python compilation, JSON/schema/manifest contracts, and
-  the three CLI use cases (`propose-change`, `adopt`, `resolve --mode`).
+- Automated test suite, Ruff linting, Python compilation, JSON/schema/manifest contracts, and
+  CLI use cases (`propose-change`, `adopt`, `resolve --mode`).
 
 ## [0.2.0] - 2026-08-27
 

@@ -86,7 +86,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-08-30" in content
+    assert "Last-checked: 2026-09-08" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
@@ -219,6 +219,7 @@ def test_pyproject_pep621_classifiers_and_urls():
     assert "Changelog" in urls
     assert "Security" in urls
     assert "Umbrella" in urls
+    assert "Parent-Organization" in urls
 
 
 def test_pep639_license_expression_has_no_legacy_trove_classifier():
@@ -266,3 +267,133 @@ def test_offline_and_privacy_invariants():
                 assert module not in forbidden_modules, (
                     f"Forbidden network module '{module}' imported in {py_file.name}"
                 )
+
+
+def test_readme_quick_navigation_and_anchors():
+    """Verify both English and German READMEs have structured Quick Navigation."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "## 🧭 Quick Navigation" in readme_en
+    assert "## 🧭 Schnellnavigation" in readme_de
+
+    # Ensure all key sections are referenced in Quick Navigation
+    en_nav_items = [
+        "#what-is-policy-registry",
+        "#discovery-context",
+        "#test-status",
+        "#system-architecture",
+        "#scope-resolution--hierarchical-precedence",
+        "#signed-delegation-verification-lifecycle",
+        "#governance--runtime-invariants",
+        "#security--authority-contract",
+        "#metadata-model",
+        "#cli-usage",
+        "#python-api",
+        "#model-context-protocol-mcp-server",
+        "#sibling-projects--ecosystem-matrix",
+        "#security-policy--vulnerability-reporting",
+        "#haftung--liability",
+    ]
+    for item in en_nav_items:
+        assert item in readme_en, f"Quick navigation missing anchor '{item}' in README.md"
+
+    de_nav_items = [
+        "#was-ist-policy-registry",
+        "#discovery-kontext",
+        "#teststatus",
+        "#systemarchitektur",
+        "#scope-auflösung--hierarchische-präzedenz",
+        "#lebenszyklus-der-kryptografischen-delegationsprüfung",
+        "#governance---laufzeit-invarianten",
+        "#sicherheits---autoritätsvertrag",
+        "#metadatenmodell",
+        "#cli-nutzung",
+        "#python-api",
+        "#model-context-protocol-mcp-server",
+        "#geschwisterprojekte--ökosystem-matrix",
+        "#sicherheitsrichtlinie--meldung-von-schwachstellen",
+        "#haftungsausschluss--liability",
+    ]
+    for item in de_nav_items:
+        assert item in readme_de, f"Schnellnavigation missing anchor '{item}' in README_de.md"
+
+
+def test_governance_invariants_matrix_parity():
+    """Verify that both READMEs contain the 10 Governance & Runtime Invariants."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "## Governance & Runtime Invariants" in readme_en
+    assert "## Governance- & Laufzeit-Invarianten" in readme_de
+
+    # Verify 10 numbered rows exist in both tables
+    for i in range(1, 11):
+        assert f"| {i} |" in readme_en, f"Invariant {i} missing from README.md"
+        assert f"| {i} |" in readme_de, f"Invariante {i} missing from README_de.md"
+
+
+def test_security_policy_slas_and_contacts():
+    """Verify SECURITY.md defines explicit SLAs, non-elevation, and contact emails."""
+    sec_path = REPO_ROOT / "SECURITY.md"
+    assert sec_path.is_file(), "SECURITY.md is missing"
+    content = sec_path.read_text(encoding="utf-8")
+
+    assert "48 hours" in content or "48 Stunden" in content
+    assert "5 business days" in content or "5 Werktagen" in content
+    assert "RunAsInvoker" in content or "Non-Elevation" in content
+    assert "security@ellmos.ai" in content
+    assert "security@open-bricks.org" in content
+    assert "support@lukasgeiger.com" in content
+    assert "lukas@open-bricks.org" in content
+
+
+def test_ci_concurrency_and_bytecode_gate():
+    """Verify CI workflow enforces cancel-in-progress and byte-compilation validation."""
+    ci_path = REPO_ROOT / ".github" / "workflows" / "ci.yml"
+    assert ci_path.is_file(), ".github/workflows/ci.yml missing"
+    content = ci_path.read_text(encoding="utf-8")
+
+    assert "concurrency:" in content
+    assert "cancel-in-progress: true" in content
+    assert "python -m compileall -q ." in content
+
+
+def test_local_marketing_log():
+    """Verify local MARKETING-LOG.txt audit log exists and documents discovery updates."""
+    log_path = REPO_ROOT / "MARKETING-LOG.txt"
+    assert log_path.is_file(), "MARKETING-LOG.txt is missing"
+    content = log_path.read_text(encoding="utf-8")
+
+    assert "[GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN]" in content
+    assert "AUDIT FINDINGS" in content
+    assert "RECOMMENDATIONS FOR FUTURE WORK" in content or "RECOMMENDATIONS" in content
+
+
+def test_sibling_ecosystem_matrix_parity():
+    """Verify that both READMEs list the sibling ecosystem tools."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    siblings = [
+        "decision-clicker",
+        "memoryhooker",
+        "ellmos-scheduler",
+        "ellmos-voice-io",
+        "lock-master",
+        "ticket-master",
+        "clutch",
+        "ellmos-controlcenter-mcp",
+        "ellmos-filecommander-mcp",
+        "ellmos-codecommander-mcp",
+        "n8n-manager-mcp",
+        "automation-master",
+        "DevCenter",
+        "CodeBox",
+        "companion-for-agy",
+        "safe-start-for-codex",
+        "open-bricks",
+    ]
+    for sibling in siblings:
+        assert sibling in readme_en, f"Sibling '{sibling}' missing in README.md"
+        assert sibling in readme_de, f"Sibling '{sibling}' missing in README_de.md"
