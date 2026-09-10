@@ -3,10 +3,10 @@
 # policy-registry
 
 [![CI](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml)
-[![Version: 0.2.1](https://img.shields.io/badge/version-0.2.1-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
+[![Version: 0.2.2](https://img.shields.io/badge/version-0.2.2-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
 [![Python 3.10 | 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests Passing](https://img.shields.io/badge/tests-157%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-161%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
@@ -63,10 +63,10 @@ When searching or integrating policy management in multi-agent environments, use
 
 ## Test Status
 
-Verified local test pass as of 2026-09-08 (Python 3.12.10):
+Verified local test pass as of 2026-09-10 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 157 tests.
-- `python -m pytest` passes 157/157 tests (100% green).
+- `python -m pytest --collect-only` collects 161 tests.
+- `python -m pytest` passes 161/161 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 - `python -m compileall -q .` succeeds across the entire codebase.
 

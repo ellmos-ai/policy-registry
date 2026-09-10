@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "policy-registry"
-version = "0.2.1"
+version = "0.2.2"
 description = "Local-first pointer registry for policies, rules and decisions"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -70,7 +70,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-ra -v"
 pythonpath = ["src"]
 
 [tool.ruff]

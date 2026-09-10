@@ -1,7 +1,7 @@
 {
   "schema": "ellmos.module.v2",
   "id": "policy-registry",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "display_name": "policy-registry",
   "category": "control",
   "kind": "library",

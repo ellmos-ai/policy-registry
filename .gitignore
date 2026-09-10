@@ -8,9 +8,34 @@ dist/
 build/
 *.egg-info/
 .coverage
+coverage/
+htmlcov/
+wheelhouse/
+.wheel-smoke/
 .tmp-sync/
+*.tmp
+*.bak
+*.swp
+*~
+*.log
+
+# Cloud sync & multi-host conflict files
+*-conflict-*
+*.sync-conflict-*
 *.conflict
+*-CONFLIT-*
+*.sync-temp-*
 *-ASUS-GEI*
+*-ASUS-GEI.*
 *-WORKSTATION-LG*
+*-WORKSTATION-LG.*
+*-WORKSTATION.*
+
+# Multi-agent locks
+LOCK
 LOCK.*
+*.lock
+LOCK*.txt
+LOCK.permissions.json
+uv.lock
 !LOCK.md

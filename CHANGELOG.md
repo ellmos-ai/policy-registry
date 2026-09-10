@@ -5,6 +5,17 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-09-10
+
+### Changed
+- Standardized pytest test runner options across `pyproject.toml` (`addopts = "-ra -v"`) and GitHub Actions CI workflow (`pytest -ra -v`).
+- Comprehensive hardening of `.gitignore` against multi-host synchronization conflicts (`*-conflict-*`, `*.sync-conflict-*`, `*.conflict`, `*-CONFLIT-*`, `*.sync-temp-*`, `*-ASUS-GEI.*`, `*-WORKSTATION-LG.*`, `*-WORKSTATION.*`), multi-agent locks (`LOCK`, `LOCK.*`, `*.lock`, `LOCK*.txt`, `LOCK.permissions.json`, `uv.lock`), test/packaging caches (`coverage/`, `htmlcov/`, `wheelhouse/`, `.wheel-smoke/`), and temporary editor artifacts.
+- Synchronized version `0.2.2` across `pyproject.toml`, `src/policy_registry/__init__.py`, `ellmos-module.v2.json`, `README.md`, `README_de.md`, and `llms.txt`.
+- Updated `llms.txt` timestamp to 2026-09-10 and aligned verified test suite assertion counts (161/161 passed | 100% green).
+
+### Added
+- Expanded automated metadata and repository hygiene contract test suite in `tests/test_metadata.py` with 4 new contract tests (`test_gitignore_hygiene_patterns`, `test_pytest_configuration_and_flags`, `test_ci_workflow_pytest_flags`, `test_changelog_recent_pfad_a_entry`).
+
 ## [0.2.1] - 2026-09-08
 
 ### Added

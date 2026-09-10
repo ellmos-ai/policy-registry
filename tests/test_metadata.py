@@ -86,7 +86,7 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-09-08" in content
+    assert "Last-checked: 2026-09-10" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
@@ -397,3 +397,69 @@ def test_sibling_ecosystem_matrix_parity():
     for sibling in siblings:
         assert sibling in readme_en, f"Sibling '{sibling}' missing in README.md"
         assert sibling in readme_de, f"Sibling '{sibling}' missing in README_de.md"
+
+
+def test_gitignore_hygiene_patterns():
+    """Verify that .gitignore contains standardized multi-host conflict, multi-agent lock, and cache rules."""
+    gitignore_path = REPO_ROOT / ".gitignore"
+    assert gitignore_path.is_file(), ".gitignore missing"
+    content = gitignore_path.read_text(encoding="utf-8")
+
+    required_patterns = [
+        "*-conflict-*",
+        "*.sync-conflict-*",
+        "*.conflict",
+        "*-CONFLIT-*",
+        "*.sync-temp-*",
+        "*-ASUS-GEI*",
+        "*-ASUS-GEI.*",
+        "*-WORKSTATION-LG*",
+        "*-WORKSTATION-LG.*",
+        "*-WORKSTATION.*",
+        "LOCK",
+        "LOCK.*",
+        "*.lock",
+        "LOCK*.txt",
+        "LOCK.permissions.json",
+        "uv.lock",
+        "!LOCK.md",
+        "coverage/",
+        "htmlcov/",
+        "wheelhouse/",
+        ".wheel-smoke/",
+    ]
+    for pattern in required_patterns:
+        assert pattern in content, f"Missing required .gitignore pattern: {pattern}"
+
+
+def test_pytest_configuration_and_flags():
+    """Verify pyproject.toml configures standardized pytest runner flags."""
+    pyproject_path = REPO_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        data = tomllib.load(f)
+
+    pytest_opts = data.get("tool", {}).get("pytest", {}).get("ini_options", {})
+    addopts = pytest_opts.get("addopts", "")
+    assert "-ra" in addopts and "-v" in addopts, (
+        f"Expected standardized '-ra -v' in pyproject.toml [tool.pytest.ini_options].addopts, got: '{addopts}'"
+    )
+
+
+def test_ci_workflow_pytest_flags():
+    """Verify CI workflow executes pytest with standardized -ra -v flags."""
+    ci_file = REPO_ROOT / ".github" / "workflows" / "ci.yml"
+    assert ci_file.is_file(), "CI workflow missing"
+    ci_content = ci_file.read_text(encoding="utf-8")
+
+    assert "pytest -ra -v" in ci_content, "CI workflow does not use standardized 'pytest -ra -v'"
+
+
+def test_changelog_recent_pfad_a_entry():
+    """Verify CHANGELOG.md contains the latest 0.2.2 release entry with hygiene updates."""
+    changelog_path = REPO_ROOT / "CHANGELOG.md"
+    assert changelog_path.is_file(), "CHANGELOG.md missing"
+    content = changelog_path.read_text(encoding="utf-8")
+
+    assert "## [0.2.2] - 2026-09-10" in content
+    assert "Standardized pytest test runner options" in content
+    assert "Comprehensive hardening of `.gitignore`" in content
