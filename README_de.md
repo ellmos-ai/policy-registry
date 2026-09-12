@@ -3,21 +3,23 @@
 # policy-registry
 
 [![CI](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml)
-[![Version: 0.2.2](https://img.shields.io/badge/version-0.2.2-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
+[![Version: 0.2.3](https://img.shields.io/badge/version-0.2.3-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
 [![Python 3.10 | 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests Passing](https://img.shields.io/badge/tests-161%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-164%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
 [![Security: Local-First / Non-Elevation](https://img.shields.io/badge/security-Local--First%20%7C%20Non--Elevation-success.svg)](SECURITY.md)
-[![Security SLA: 48h](https://img.shields.io/badge/security%20SLA-48h%20response-blue.svg)](SECURITY.md)
+[![Security SLA: 48h / 5d](https://img.shields.io/badge/security%20SLA-48h%20%7C%205d%20triage-blue.svg)](SECURITY.md)
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-brightgreen.svg)](SECURITY.md)
+[![Third-Party Audited](https://img.shields.io/badge/third--party-100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Marketing Log: Active](https://img.shields.io/badge/marketing%20log-active-blue.svg)](MARKETING-LOG.txt)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open--bricks](https://img.shields.io/badge/Umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
-**🇩🇪 Deutsch** | [🇬🇧 English](README.md) | 🛡️ [Security Policy](SECURITY.md) | 📝 [Changelog](CHANGELOG.md) | 📋 [llms.txt](llms.txt)
+**🇩🇪 Deutsch** | [🇬🇧 English](README.md) | 🛡️ [Security Policy](SECURITY.md) | 📝 [Changelog](CHANGELOG.md) | 📋 [llms.txt](llms.txt) | 📜 [Drittanbieter-Lizenzen](THIRD_PARTY_LICENSES.md)
 
 > [!NOTE]
 > **KI- & LLM-Integrationshinweis**: Dieses Repository enthält eine [`llms.txt`](llms.txt)-Indexdatei für automatisierte Kontextaufnahme, System-Prompts für Agenten und maschinelles Codeverständnis.
@@ -37,6 +39,8 @@
 - [Python-API & Integration](#python-api)
 - [Model Context Protocol (MCP) Server](#model-context-protocol-mcp-server)
 - [Geschwisterprojekte & Ökosystem-Matrix](#geschwisterprojekte--ökosystem-matrix)
+- [Drittanbieter-Lizenzen & Transparenz](#drittanbieter-lizenzen--transparenz)
+- [Marketing & Zielgruppen](#marketing--zielgruppen)
 - [Sicherheitsrichtlinie & Meldung von Schwachstellen](#sicherheitsrichtlinie--meldung-von-schwachstellen)
 - [Haftungsausschluss & Liability](#haftungsausschluss--liability)
 
@@ -147,16 +151,16 @@ sequenceDiagram
 
 | # | Invariante | Beschreibung | Durchsetzungsebene |
 |---|---|---|---|
-| 1 | **100% Local-First / Zero-Egress** | Strikt lokale Dateisystem-Ablage (`~/.policy-registry/registry.json`). Null unautorisierte Netzwerk-Calls, null Telemetrie-Egress. | Architektonische Garantie |
-| 2 | **Reine Zeiger-Architektur (Pointer-Only)** | Speichert kanonische URI-Referenzen (`source.uri`), SHA-256-Prüfsummen, Scopes und Prioritäten. Weist Nutzdaten/Volltexte strikt ab. | Kern-Datenschema |
-| 3 | **Signierter Delegations-Verifier** | Verifiziert Ed25519-Aussteller-Grants und Delegaten-Kandidatensignaturen gegen einen gepinnten Trust-Store (`IssuerTrustStore`). | Kryptografische Engine |
-| 4 | **Beratendes TOM-lm & Fail-Closed-Präzedenz** | Mehrdeutige, fehlende oder widersprüchliche Normen liefern Exit-Code `2` mit beratendem TOM-Hinweis und `automatic_authority: false`. | Auflösungs-Pipeline |
-| 5 | **Append-Only-Regelregister** | Explizites `adopt` materialisiert auditierte Regeln als unveränderliche Zeilen. Überschreiben (`supersedes`) löscht niemals historische Daten. | Audit- & Statusinvariante |
-| 6 | **Interaktions-Autoritätsmodi** | Effektive Laufzeitmodi (`governance-bound` Standard, `user-sovereign`, `chat-authority-only`) mit Session-Override und Projekt-Fallback. | Autoritäts-Controller |
-| 7 | **Keine Rechteausweitung (Non-Elevation)** | Läuft vollständig unprivilegiert im regulären Benutzerbereich (RunAsInvoker) ohne Administrator-Rechte. | Prozess-Sicherheitsgrenze |
-| 8 | **Multi-OS CI-Matrix** | Automatisierte plattformübergreifende Tests unter Ubuntu, Windows und macOS für Python 3.10, 3.11, 3.12 und 3.13. | GitHub Actions CI |
-| 9 | **Strikte CI-Parallelität & Bytecode-Gate** | `cancel-in-progress: true` verhindert redundante Runner-Kosten; repository-weites `compileall` garantiert 100% fehlerfreien Bytecode. | Automatisches Build-Gate |
-| 10 | **Zweisprachige Parität & Vertragstests** | 100% deutsche/englische Dokumentationsparität und automatisierte Pytest-Vertragstests für alle Schemas und Metadaten. | Vertragstest-Suite |
+| 1 | **INV-LOCAL-01: 100% Local-First / Zero-Egress** | Strikt lokale Dateisystem-Ablage (`~/.policy-registry/registry.json`). Null unautorisierte Netzwerk-Calls, null Telemetrie-Egress. | Architektonische Garantie |
+| 2 | **INV-PTR-02: Reine Zeiger-Architektur (Pointer-Only)** | Speichert kanonische URI-Referenzen (`source.uri`), SHA-256-Prüfsummen, Scopes und Prioritäten. Weist Nutzdaten/Volltexte strikt ab. | Kern-Datenschema |
+| 3 | **INV-CRYPTO-03: Signierter Delegations-Verifier** | Verifiziert Ed25519-Aussteller-Grants und Delegaten-Kandidatensignaturen gegen einen gepinnten Trust-Store (`IssuerTrustStore`). | Kryptografische Engine |
+| 4 | **INV-FAIL-04: Beratendes TOM-lm & Fail-Closed-Präzedenz** | Mehrdeutige, fehlende oder widersprüchliche Normen liefern Exit-Code `2` mit beratendem TOM-Hinweis und `automatic_authority: false`. | Auflösungs-Pipeline |
+| 5 | **INV-APPEND-05: Append-Only-Regelregister** | Explizites `adopt` materialisiert auditierte Regeln als unveränderliche Zeilen. Überschreiben (`supersedes`) löscht niemals historische Daten. | Audit- & Statusinvariante |
+| 6 | **INV-MODE-06: Interaktions-Autoritätsmodi** | Effektive Laufzeitmodi (`governance-bound` Standard, `user-sovereign`, `chat-authority-only`) mit Session-Override und Projekt-Fallback. | Autoritäts-Controller |
+| 7 | **INV-PRIV-07: Keine Rechteausweitung (RunAsInvoker)** | Läuft vollständig unprivilegiert im regulären Benutzerbereich (RunAsInvoker) ohne Administrator-Rechte. | Prozess-Sicherheitsgrenze |
+| 8 | **INV-MAT-08: Multi-OS CI-Matrix** | Automatisierte plattformübergreifende Tests unter Ubuntu, Windows und macOS für Python 3.10, 3.11, 3.12 und 3.13. | GitHub Actions CI |
+| 9 | **INV-GATE-09: Strikte CI-Parallelität & Bytecode-Gate** | `cancel-in-progress: true` verhindert redundante Runner-Kosten; repository-weites `compileall` garantiert 100% fehlerfreien Bytecode. | Automatisches Build-Gate |
+| 10 | **INV-SLA-10: Duale Sicherheits-SLA & Vertragstests** | 48h Antwort- / 5-Tage-Triage-SLA, zweisprachige Parität und automatisierte Vertragstests für alle Metadaten- und Schemagrenzen. | Vertragstest-Suite |
 
 ---
 
@@ -317,6 +321,30 @@ Das MCP-Extra bleibt bis zu einer ausdrücklich getesteten v2-Migration auf die 
 - Kein Stufe-3-Norm-Reconciler und kein automatisches BYUM-/TOM-Feedback; Reconciliation-Ausgaben sind beratend und `automatic: false`.
 - Kein gehosteter Cloud-Dienst (100% Local-First).
 - Keine ungesicherten Fremdhost-Mutationen.
+
+---
+
+## Drittanbieter-Lizenzen & Transparenz
+
+`policy-registry` erfüllt strikte Open-Source-Governance- und Compliance-Standards:
+
+- **100% Permissiver Open-Source-Stack**: Alle direkten Laufzeitabhängigkeiten (`cryptography`, `tomli`, Python-Standardbibliothek) sowie Entwicklungswerkzeuge (`pytest`, `jsonschema`, `ruff`, `setuptools`) unterliegen permissiven Lizenzen (MIT, Apache-2.0, BSD-3-Clause, PSFL-2.0).
+- **Kein restriktives Copyleft**: Es wird keinerlei AGPL-, GPL- oder proprietärer Code gebündelt oder vorausgesetzt.
+- **Local-First & Non-Elevation-Garantien**: Läuft strikt im unprivilegierten Benutzermodus (`RunAsInvoker`) ohne externe Netzwerkverbindungen.
+- **Vollständiges Inventar**: Sämtliche Paketlizenzen, Versionsgrenzen und Upstream-Quellen sind in [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md) offengelegt.
+
+---
+
+## Marketing & Zielgruppen
+
+Detaillierte Informationen zu strategischer Positionierung, High-Intent-Suchbegriffen, Wettbewerbsmatrix (vs. Cloud-Policy-SaaS, Open Policy Agent, statische YAML/JSON-Dateien) und Zielgruppen:
+
+- **Autonome KI-Agenten-Entwickler & Schwarm-Operatoren**: Schlanke Zeiger-Abfragen ohne kontextüberlastenden Volltext im Prompt.
+- **Multi-Agenten-Governance- & System-Architekten**: Deterministische Scope-Präzedenz mit kryptografischer Ed25519-Delegationsprüfung.
+- **DevOps- & CI/CD-Automatisierungsingenieure**: 100% Offline-Compliance-Gates mit standardisierten Exit-Codes ohne Cloud-Abhängigkeiten.
+- **Enterprise-Sicherheits- & Datenschutz-Auditoren**: Volltext-abweisende Speicherung, auditierte permissive Lizenzen und verbindliche 48h/5d-SLA.
+
+Das vollständige [MARKETING-LOG.txt](MARKETING-LOG.txt) enthält alle Vergleichstabellen und Audit-Einträge.
 
 ---
 

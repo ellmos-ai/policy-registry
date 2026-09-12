@@ -1,43 +1,162 @@
-# MARKETING-LOG — ellmos-ai/policy-registry
+# MARKETING-LOG: ellmos-ai/policy-registry
 # Discoverability, Visual Architecture, SEO, Ecosystem & Repository Hygiene
+Date: 2026-09-12
+Operator: Antigravity / Gemini (via GITHUBBOT Pfad B)
+Target Repo: ellmos-ai/policy-registry
+Canonical Path: C:\_Local_DEV\repos\policy-registry
+Version: 0.2.3
 
-[2026-09-08 22:45 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN]
-ACTION: Pfad B Discoverability, Visual Architecture & Parity Overhaul
-STATUS: PASS | 100% Verified
+# Audit & Action Tracking:
+# [2026-08-21 14:00:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_BASELINE | REPO: ellmos-ai/policy-registry | SCOPE: Initial baseline audit and clean check.
+# [2026-09-08 22:45:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: ellmos-ai/policy-registry | SCOPE: Pfad B discoverability baseline, 14-point quick navigation in README.md & README_de.md, dual mermaid diagrams (flowchart & sequence with autonumber), 10 governance invariants, sibling tools ecosystem matrix, and contract tests (version 0.2.1).
+# [2026-09-10 10:23:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_HYGIENE | REPO: ellmos-ai/policy-registry | SCOPE: Standardized pytest test runner options (-ra -v), hardened .gitignore against multi-host conflicts and locks, synchronized version 0.2.2.
+# [2026-09-12 02:50:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: ellmos-ai/policy-registry | SCOPE: Comprehensive 16-Point Quick Navigation standard with 100% reciprocal anchor parity (#third-party-licenses--transparency / #drittanbieter-lizenzen--transparenz, #marketing--target-personas / #marketing--zielgruppen), canonical invariant identifiers (INV-LOCAL-01 to INV-SLA-10), audited THIRD_PARTY_LICENSES.md (100% permissive open-source stack), modernized MARKETING-LOG.txt with 4 personas, 5-way competitive matrix, extended PEP 621 project URLs in pyproject.toml ("Third-Party Licenses", "Marketing-Log", "LLM-Ready"), version bump to 0.2.3 across all code and manifests, llms.txt synchronization, and automated contract test suite expansion (164 tests 100% green).
 
+================================================================================
+1. REPOSITORY AUDIT & DISCOVERABILITY BASELINE
+================================================================================
+- Organization: ellmos-ai
+- Umbrella Ecosystem: open-bricks
+- Primary Category: AI Infrastructure & Governance / Multi-Agent Policy Engine
+- Core Positioning: Autonomous, reusable, local-first pointer registry for policies, rules, and decision candidates. Stores cryptographic metadata pointers and SHA-256 hashes referencing canonical sources rather than duplicating full text, ensuring local sources remain authoritative and discoverable even when disconnected from cloud sync or remote networks.
+- Distinct Value Proposition:
+  * Pointer-Only Storage: Strictly rejects full-text payload bodies, preventing cloud sync corruption and stale file drift.
+  * Cryptographic Signed Delegation: Local Ed25519 signature verification for issuer-delegated decision candidates against pinned public trust stores without external PKI dependencies.
+  * Fail-Closed Precedence & Advisory Guidance: Ambiguous, missing, or conflicting norms return status code 2 with advisory TOM-lm guidance and `automatic_authority: false`.
+  * Effective Interaction Authority: Evaluates `governance-bound` (default), `user-sovereign`, and `chat-authority-only` modes with session override and project fallback.
+  * 100% Local-First & Zero-Egress: Zero network sockets, zero unauthenticated telemetry, pure local filesystem execution (`~/.policy-registry/registry.json`).
+- Sibling Ecosystem Integration: Pairs directly with `ellmos-ai/decision-clicker` as human writer & UI, `ellmos-ai/memoryhooker` for long-term memory, `ellmos-ai/ellmos-scheduler` for scheduled tasks, `ellmos-ai/lock-master` for concurrent agent locking, and developer tooling across `dev-bricks` and `open-bricks`.
+
+================================================================================
+2. TARGET PERSONAS & USER JOURNEYS
+================================================================================
+1. Autonomous AI Agent Engineers & Swarm Operators (Codex, Claude Code, Gemini/Antigravity, Kimi)
+   - Needs: Enable autonomous agents to discover, query, and respect project and system policies without inflating prompt context with thousands of lines of full-text rule documents.
+   - Pain Points: Stuffing monolithic policy files into system prompts causes token exhaustion, hallucinated rule interpretations, and race conditions between concurrent agents.
+   - Solution: Lightweight metadata pointer queries via CLI or MCP (`policy_search`, `policy_resolve`), fast scope inheritance matching, and SHA-256 integrity verification against canonical rule files.
+
+2. Multi-Agent Governance & System Architects
+   - Needs: Establish deterministic, auditable governance hierarchies spanning global, organization, and project scopes, with cryptographically verifiable delegation of authority.
+   - Pain Points: Unclear precedence between overlapping guidelines, unverified agent permission claims, difficulty in revoking authority or tracing decisions back to human approval.
+   - Solution: Cryptographic Ed25519 signed delegation verification (`resolve-delegation`), strict precedence hierarchy (exact > wildcard > parent > global), append-only rule materialization (`adopt`), and structured advisory TOM-lm fallback notices.
+
+3. DevOps & CI/CD Pipeline Automation Engineers
+   - Needs: Enforce compliance and governance checks in automated pipelines without cloud dependencies, external secrets managers, or network latency.
+   - Pain Points: Cloud policy engines (AWS IAM, OPA Gatekeeper) require internet egress, remote credentials, or heavy background daemon processes that slow down builds and fail offline.
+   - Solution: 100% offline, zero-egress Python CLI and library, instantaneous execution, exit code 0 on definitive resolution and exit code 2 on advisory conflict/missing state.
+
+4. Enterprise Security, Privacy & Compliance Auditors
+   - Needs: Verify that policy enforcement tooling adheres to strict zero-egress, unprivileged user mode, and permissive open-source licensing standards.
+   - Pain Points: Third-party policy engines frequently aggregate decision telemetry in external clouds; storing full text in registries risks leaking confidential credentials or proprietary prompts.
+   - Solution: Pointer-only storage (strictly rejects `content`, `payload`, `body`), 100% Local-First / Zero-Egress (INV-LOCAL-01), unprivileged RunAsInvoker non-elevation (INV-PRIV-07), 100% permissive open-source license audit (THIRD_PARTY_LICENSES.md), and codified 48h/5d security SLA (INV-SLA-10).
+
+================================================================================
+3. HIGH-INTENT SEARCH QUERIES (BILINGUAL EN & DE)
+================================================================================
+English (EN):
+- `policy-registry`
+- `ellmos-ai policy registry`
+- `local-first policy registry for ai agents`
+- `python pointer policy engine`
+- `ed25519 signed delegation resolver python`
+- `multi-agent governance scope resolution`
+- `zero-egress policy enforcement mcp`
+- `offline decision candidate provenance`
+- `hierarchical policy precedence python`
+- `open-bricks policy governance`
+
+German (DE):
+- `policy-registry Python`
+- `Lokales Policy Register fuer KI Agenten`
+- `Local-First Richtlinienverwaltung Multi-Agent`
+- `Kryptografische Delegationspruefung Ed25519`
+- `Zeigerbasiertes Regelregister ohne Volltext`
+- `Zero-Egress Governance fuer LLM Schwarm`
+- `Hierarchische Scope Aufloesung Python`
+- `Entscheidungs-Kandidaten Provenienz`
+- `ellmos-ai policy-registry Open-Source`
+- `Offline Richtlinienpruefung MCP Server`
+
+================================================================================
+4. COMPETITIVE DIFFERENTIATION MATRIX
+================================================================================
+| Dimension / Capability | policy-registry (ellmos-ai) | Cloud Policy SaaS (AWS IAM / Sentinel) | Open Policy Agent (OPA / Rego) | Static YAML/JSON Files | Hardcoded In-Agent Logic |
+|:---|:---|:---|:---|:---|:---|
+| **Storage Architecture** | Pointer-only + SHA-256 hashes (rejects full text) | Centralized proprietary cloud database | Full-text Rego documents & data bundles | Full-text static schema files | Hardcoded in Python / system prompt |
+| **Network & Privacy** | 100% Local-First / Zero-Egress (INV-LOCAL-01) | ❌ Cloud-dependent, telemetry exfiltration | Local daemon, often syncs bundles remotely | Local files | Local runtime |
+| **Execution Overhead** | Ultra-lightweight CLI/API, instant startup | ❌ Network latency, API quotas, rate limits | ⚠️ Heavyweight Go daemon / WebAssembly | Read-only parsing | Zero CLI, tight coupling |
+| **Cryptographic Delegation** | Built-in Ed25519 issuer-grant verification | Complex IAM roles & STS tokens | Custom Rego cryptographic builtins | ❌ None | ❌ None |
+| **Scope Resolution** | Exact > Wildcard > Parent > Global hierarchy | Resource ARN pattern matching | Custom Rego rule ordering | ⚠️ Manual path iteration | ❌ Ad-hoc if/else statements |
+| **Conflict & Missing State** | Advisory TOM-lm notices (exit code 2, fail-closed) | Deny by default without advisory context | Undefined / false evaluation | ❌ Unhandled KeyError or crash | ⚠️ Unpredictable hallucination |
+| **Append-Only Auditing** | `adopt` creates immutable rows, keeps history | CloudTrail audit logs | External log streams | ❌ Overwrites files | ❌ No history |
+| **Agent Tooling & MCP** | Native Stdio MCP Server (`policy_resolve`, etc.) | ❌ Proprietary SDKs | ⚠️ Requires custom MCP wrapper | ❌ File-read only | ❌ Inaccessible to outside agents |
+| **User Privileges** | Unprivileged User-Mode (`RunAsInvoker`) | IAM account credentials | Local daemon / service user | File access permissions | Process user |
+| **Dependencies** | Permissive open source (`cryptography`, standard lib) | Proprietary SDKs & cloud runtimes | Standalone Go runtime | Minimal | Python stdlib |
+
+================================================================================
+5. GOVERNANCE & RUNTIME INVARIANTS
+================================================================================
+- INV-LOCAL-01: 100% Local-First & Zero-Egress (Strictly local filesystem storage; zero external network calls, zero telemetry exfiltration).
+- INV-PTR-02: Pointer-Only Architecture (Stores canonical URI references, SHA-256 hashes, scopes, priorities; strictly rejects full-text payload/body duplication).
+- INV-CRYPTO-03: Ed25519 Cryptographic Delegation (Verifies issuer grants and delegate candidate signatures locally against pinned public trust stores without external PKI).
+- INV-FAIL-04: Fail-Closed Advisory Fallback (Ambiguous, missing, or conflicting norms return exit code 2 with advisory TOM-lm guidance and `automatic_authority: false`).
+- INV-APPEND-05: Append-Only Audited Rule Register (`adopt` materializes rules via immutable append-only rows; superseding records never delete historical evidence).
+- INV-MODE-06: Effective Interaction Authority Modes (Evaluates `governance-bound` default, `user-sovereign`, and `chat-authority-only` with session override and project fallback).
+- INV-PRIV-07: Unprivileged Non-Elevation / RunAsInvoker (Executes strictly within standard unprivileged user space without administrative or UAC elevation).
+- INV-MAT-08: Multi-OS CI Testing Matrix (Automated cross-platform matrix testing on Windows, Linux, and macOS across Python 3.10, 3.11, 3.12, 3.13).
+- INV-GATE-09: Strict CI Concurrency & Bytecode Gate (`cancel-in-progress: true` prevents redundant runner compute; whole-repo `compileall` ensures 100% bytecode validity).
+- INV-SLA-10: Dual Security Response & Triage SLA (48-hour response acknowledgment and 5-business-day triage commitment with canonical security contacts).
+
+================================================================================
+6. SIBLING PROJECTS & ECOSYSTEM MATRIX
+================================================================================
+`policy-registry` is part of the `ellmos-ai` and `open-bricks` local-first agent ecosystem:
+
+| Repository | Purpose | Ecosystem |
+|:---|:---|:---|
+| `ellmos-ai/decision-clicker` | Human writer & UI for the decision-system bundle | `ellmos-ai` |
+| `ellmos-ai/memoryhooker` | Hook-based long-term memory & context layer for LLM agents | `ellmos-ai` |
+| `ellmos-ai/ellmos-scheduler` | Deterministic task runner and scheduler for multi-agent workflows | `ellmos-ai` |
+| `ellmos-ai/ellmos-voice-io` | Speech I/O adapter for multimodal assistants | `ellmos-ai` |
+| `ellmos-ai/lock-master` | Multi-agent locking & lease protocol for concurrent autonomous workflows | `ellmos-ai` |
+| `ellmos-ai/ticket-master` | Deterministic ticket management and lifecycle coordinator | `ellmos-ai` |
+| `ellmos-ai/clutch` | Task execution coordinator and agent runtime | `ellmos-ai` |
+| `ellmos-ai/ellmos-controlcenter-mcp` | Gateway and orchestrator for local MCP tool bundles | `ellmos-ai` |
+| `ellmos-ai/ellmos-filecommander-mcp` | Local-first desktop file management MCP server | `ellmos-ai` |
+| `ellmos-ai/ellmos-codecommander-mcp` | AST-aware code analysis & transformation MCP server | `ellmos-ai` |
+| `ellmos-ai/n8n-manager-mcp` | Local-first n8n workflow management MCP server | `ellmos-ai` |
+| `dev-bricks/automation-master` | Local-first event-sourcing ledger and credit-gate automation engine | `dev-bricks` |
+| `dev-bricks/DevCenter` | Developer workspace and automation cockpit | `dev-bricks` |
+| `dev-bricks/CodeBox` | Safe multi-language sandboxed execution environment | `dev-bricks` |
+| `dev-bricks/companion-for-agy` | PTY terminal companion and session manager for Antigravity | `dev-bricks` |
+| `dev-bricks/safe-start-for-codex` | Workspace initializer and preflight security checker for Codex | `dev-bricks` |
+| `open-bricks/open-bricks` | Open-source developer tools umbrella | `open-bricks` |
+
+================================================================================
+7. AUDIT FINDINGS & ACTIONS COMPLETED (2026-09-12)
+================================================================================
 AUDIT FINDINGS:
-- Repository was untouched by Pfad B since 2026-08-21 (18 days ago).
-- Version was 0.2.0; authority stage 2 features (interaction modes, propose-change, adopt) were unreleased.
-- Documentation lacked structured 14-point Quick Navigation and explicit Discovery Context for LLM agents.
-- Runtime and Governance Invariants were described across prose, but not aggregated into a strict matrix table.
-- Sibling ecosystem links lacked comprehensive cross-references to newer partner tools (e.g. clutch, devcenter, safe-start-for-codex).
-- CI workflow lacked concurrency group (cancel-in-progress) and bytecode compilation validation gate.
-- SECURITY.md lacked explicit supported versions matrix and formal 5-business-day triage SLA.
+- Last Pfad B review occurred on 2026-09-08 (4 days ago); repository clean and unlocked.
+- Version 0.2.2 was deployed during Pfad A hygiene; ready for Pfad B discoverability bump to 0.2.3.
+- THIRD_PARTY_LICENSES.md was absent; runtime dependencies required complete license audit.
+- README.md and README_de.md lacked dedicated sections for Third-Party Licenses & Transparency and Marketing & Target Personas.
+- Quick navigation lacked anchor parity for Third-Party Licenses and Marketing sections.
+- PEP 621 URLs in pyproject.toml lacked links for Third-Party Licenses, Marketing-Log, and LLM-Ready.
 
 ACTIONS COMPLETED:
-1. Version & Packaging:
-   - Bumped version to 0.2.1 across pyproject.toml, src/policy_registry/__init__.py, and ellmos-module.v2.json.
-   - Added Parent-Organization URL to [project.urls] in pyproject.toml.
-   - Updated CHANGELOG.md with release notes for [0.2.1].
-2. Discoverability & Bilingual README Architecture:
-   - Synchronized top Shields.io badges across README.md and README_de.md: Version (0.2.1), CI Status (Multi-OS), Ruff Code Style, Tests Passing (100%), Python 3.10-3.13, Platforms (Windows/Linux/macOS), Architecture (Local-First Pointer), Security (Local-First / Non-Elevation), Security SLA (48h response), Privacy (100% Offline / Zero-Egress), Ecosystem (ellmos-ai), Umbrella (open-bricks), LLM-Ready (llms.txt).
-   - Added language & document header (English, Deutsch, SECURITY.md, CHANGELOG.md, llms.txt).
-   - Embedded 14-point structured Quick Navigation with verified internal anchors.
-   - Added explicit Discovery Context & Search Keywords section clarifying distinction from cloud policy engines (OPA, AWS IAM).
-   - Added Governance & Runtime Invariants Matrix detailing 10 strict architectural guarantees.
-   - Expanded Sibling Tools & Ecosystem Matrix to 16 partner repositories across ellmos-ai, dev-bricks, file-bricks, doc-bricks, and open-bricks.
-   - Added dedicated Security Policy & Vulnerability Reporting section linking to SECURITY.md with 48h response and 5-day triage SLAs.
-   - Added Haftung & Liability Notice adhering to MIT License §2.
-3. Security & Governance:
-   - Enhanced SECURITY.md with Supported Versions table (0.2.x, 0.1.x), 48h response SLA, 5-business-day triage SLA, and official security contacts (security@ellmos.ai, security@open-bricks.org, support@lukasgeiger.com, lukas@open-bricks.org).
-4. CI & Workflow Hardening:
-   - Added concurrency group (cancel-in-progress: true) and whole-repo bytecode compilation gate (python -m compileall -q .) to .github/workflows/ci.yml.
-   - Hardened .gitignore against multi-agent lock patterns and cloud-sync conflict files.
-5. Machine-Readable LLM Context:
-   - Updated llms.txt timestamp to 2026-09-08 and synchronized test assertion count and invariants.
-6. Automated Parity & Contract Testing:
-   - Added 6 new automated contract tests to tests/test_metadata.py verifying Quick Navigation anchors, Governance Invariants table, SECURITY.md SLAs/contacts, CI concurrency & compileall, local MARKETING-LOG.txt, and sibling ecosystem links.
+1. Created comprehensive `THIRD_PARTY_LICENSES.md` auditing all direct runtime, optional MCP, build, and transitive dependencies under 100% permissive open-source licenses (MIT, Apache-2.0, BSD-3-Clause, PSFL-2.0).
+2. Modernized `MARKETING-LOG.txt` with 4 detailed target personas, high-intent search queries (EN/DE), 5-way competitive matrix, 10 canonical invariants, and sibling ecosystem mapping.
+3. Upgraded `README.md` and `README_de.md` with:
+   - Synchronized modern Shields.io badges (Version 0.2.3, Tests 164 passed, Third-Party Audited, Marketing Log Active, Security SLA 48h/5d).
+   - 16-point Quick Navigation with 100% mutual anchor parity (#third-party-licenses--transparency / #drittanbieter-lizenzen--transparenz, #marketing--target-personas / #marketing--zielgruppen).
+   - Dedicated sections for Third-Party Licenses & Transparency and Marketing & Target Personas.
+   - Canonical invariant identifiers (INV-LOCAL-01 to INV-SLA-10) in the Invariants Matrix table.
+4. Harmonized version `0.2.3` across `pyproject.toml`, `ellmos-module.v2.json`, `src/policy_registry/__init__.py`, `llms.txt`, `README.md`, `README_de.md`, and `CHANGELOG.md`.
+5. Extended `pyproject.toml` `[project.urls]` with `Third-Party Licenses`, `Marketing-Log`, and `LLM-Ready`.
+6. Synchronized `llms.txt` with timestamp `2026-09-12`, version `0.2.3`, 164 passed tests, and references to `THIRD_PARTY_LICENSES.md` and `MARKETING-LOG.txt`.
+7. Expanded automated contract test suite in `tests/test_metadata.py` to 164 tests, adding tests for license inventory, marketing log contract, extended PEP 621 URLs, and latest Pfad B changelog entry.
+8. Synchronized gitless Plan D projection to `C:\Users\lukas\OneDrive\.TOPICS\.AI\.MODULES\.CONTROL\policy-registry`.
 
 RECOMMENDATIONS FOR FUTURE WORK:
-- Add visual SVG/PNG diagrams for the 4 interaction authority modes (governance-bound, user-sovereign, chat-authority-only) to docs/.
-- Consider adding an automated Glama or Smithery schema deployment workflow once MCP server packaging is distributed via PyPI.
+- Add an interactive HTML visual graph viewer for hierarchical scope inspection in `docs/` using `generative_ui`.
+- Prepare automated PyPI package publishing workflow once public distribution is scheduled.

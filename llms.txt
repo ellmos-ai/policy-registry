@@ -2,8 +2,9 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-09-10
-Test-suite: 161/161 passed (pytest, Python 3.12.10)
+Last-checked: 2026-09-12
+Version: 0.2.3
+Test-suite: 164/164 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -19,14 +20,12 @@ Test-suite: 161/161 passed (pytest, Python 3.12.10)
 - **Multi-Interface Support**: CLI (`policy-registry`), Python API (`PolicyRegistry`), and optional Model Context Protocol (MCP) server adapter.
 - **Sync Integration**: Adapter for `.SYNC/_policies` metadata migration and view exporting.
 - **Decision Location Pointers**: `adapters/decisions.py` registers a small, fixed set of stable pointers onto the real `_DECISIONS` chain (chain head, host-file naming pattern, `DECIDED-AND-DONE.md`, the generated machine index, and the project-local `DECISIONS.md` convention) via `policy-registry seed-decisions --control-center-root <path>`. Individual decisions are never duplicated into the registry.
-- **decision-clicker Bundle Member**: The module manifest requires the sibling
-  `decision.clicker` capability as the human writer/UI of the decision system.
-  `adapters/decision_clicker.py` remains a guarded availability probe so the
-  fixed composition does not become a Python import cycle.
+- **decision-clicker Bundle Member**: The module manifest requires the sibling `decision.clicker` capability as the human writer/UI of the decision system. `adapters/decision_clicker.py` remains a guarded availability probe so the fixed composition does not become a Python import cycle.
 - **BYUM v2 Candidate Pointer**: `adapters/byum.py` projects an already validated, closed BYUM v2 pointer envelope into non-authoritative `decision-candidate` metadata. It imports no BYUM code, reads/parses no events, copies no private content, and cannot grant adoption, execution, or receipt authority.
 - **Shared Scope Contract**: `*`/`all`/`global`/`system-wide` are global; normal scopes inherit to descendants, `/*` matches descendants only, exact outranks wildcard, wildcard outranks parent, and siblings do not match. Consumer lists are universal when empty or `*`, otherwise exact.
 - **Signed Delegation Resolver**: Cryptographic Ed25519 issuer-grant and delegate-candidate verification against external pinned trust store.
 - **Zero-Egress Security Invariant**: 100% offline, local-first operation without unauthorized network telemetry or credential exfiltration.
+- **Third-Party Transparency**: 100% permissive open-source license audit documented in `THIRD_PARTY_LICENSES.md`.
 
 ## Primary Documentation & References
 
@@ -34,6 +33,8 @@ Test-suite: 161/161 passed (pytest, Python 3.12.10)
 - [README_de.md](file:///README_de.md): Deutsche Dokumentation, Architekturübersicht und Scope-Diagramme.
 - [ARCHITECTURE.md](file:///ARCHITECTURE.md): Structural details and metadata schema hierarchy.
 - [SECURITY.md](file:///SECURITY.md): Bilingual security policy, authority boundaries, and vulnerability contacts.
+- [THIRD_PARTY_LICENSES.md](file:///THIRD_PARTY_LICENSES.md): Audited inventory of runtime, optional MCP, and build dependencies under permissive open-source licenses.
+- [MARKETING-LOG.txt](file:///MARKETING-LOG.txt): Target personas, competitive matrix, high-intent keywords, and governance invariants audit.
 - [pyproject.toml](file:///pyproject.toml): Dependencies, classifiers (Python 3.10-3.13), and script entry points.
 - [schemas/policy-entry.schema.json](file:///schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
 - [schemas/byum-decision-candidate-pointer.v1.schema.json](file:///schemas/byum-decision-candidate-pointer.v1.schema.json): Closed prevalidated BYUM v2 pointer envelope.

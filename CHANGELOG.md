@@ -5,6 +5,20 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3] - 2026-09-12
+
+### Added
+- Created `THIRD_PARTY_LICENSES.md` with complete audit of runtime (`cryptography`, `tomli`, Python Standard Library), optional MCP (`mcp`), build, and transitive dependencies under 100% permissive open-source licenses (MIT, Apache-2.0, BSD-3-Clause, PSFL-2.0).
+- Upgraded `README.md` and `README_de.md` to 16-point Quick Navigation standard with 100% mutual reciprocal anchor parity, including dedicated sections for `#third-party-licenses--transparency` / `#drittanbieter-lizenzen--transparenz` and `#marketing--target-personas` / `#marketing--zielgruppen`.
+- Added canonical invariant identifiers (`INV-LOCAL-01` to `INV-SLA-10`) in the Governance & Runtime Invariants Matrix across both READMEs.
+- Modernized `MARKETING-LOG.txt` with 4 detailed personas (AI Agent Engineers, Multi-Agent Architects, DevOps Engineers, Enterprise Auditors), high-intent bilingual search queries, 5-way competitive matrix, 10 canonical invariants, and sibling ecosystem mapping.
+- Extended `pyproject.toml` `[project.urls]` with canonical metadata links for `"Third-Party Licenses"`, `"Marketing-Log"`, and `"LLM-Ready"`.
+- Expanded automated contract test suite in `tests/test_metadata.py` to 164 tests covering third-party license audit integrity, marketing log contract, extended PEP 621 URLs, and latest release changelog entries.
+
+### Changed
+- Bumped version to `0.2.3` across `pyproject.toml`, `src/policy_registry/__init__.py`, `ellmos-module.v2.json`, `README.md`, `README_de.md`, `llms.txt`, and `CHANGELOG.md`.
+- Synchronized `llms.txt` with timestamp `2026-09-12`, version `0.2.3`, 164 passing tests, and links to `THIRD_PARTY_LICENSES.md` and `MARKETING-LOG.txt`.
+
 ## [0.2.2] - 2026-09-10
 
 ### Changed

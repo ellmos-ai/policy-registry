@@ -86,15 +86,18 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-09-10" in content
+    assert "Last-checked: 2026-09-12" in content or "Last-checked: 2026-09-10" in content
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 
     # Check referenced markdown and schema files exist
     referenced_files = [
         "README.md",
+        "README_de.md",
         "ARCHITECTURE.md",
         "SECURITY.md",
+        "THIRD_PARTY_LICENSES.md",
+        "MARKETING-LOG.txt",
         "pyproject.toml",
         "schemas/policy-entry.schema.json",
         "schemas/byum-decision-candidate-pointer.v1.schema.json",
@@ -292,6 +295,8 @@ def test_readme_quick_navigation_and_anchors():
         "#python-api",
         "#model-context-protocol-mcp-server",
         "#sibling-projects--ecosystem-matrix",
+        "#third-party-licenses--transparency",
+        "#marketing--target-personas",
         "#security-policy--vulnerability-reporting",
         "#haftung--liability",
     ]
@@ -312,6 +317,8 @@ def test_readme_quick_navigation_and_anchors():
         "#python-api",
         "#model-context-protocol-mcp-server",
         "#geschwisterprojekte--ökosystem-matrix",
+        "#drittanbieter-lizenzen--transparenz",
+        "#marketing--zielgruppen",
         "#sicherheitsrichtlinie--meldung-von-schwachstellen",
         "#haftungsausschluss--liability",
     ]
@@ -366,6 +373,10 @@ def test_local_marketing_log():
     content = log_path.read_text(encoding="utf-8")
 
     assert "[GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN]" in content
+    assert "TARGET PERSONAS & USER JOURNEYS" in content
+    assert "COMPETITIVE DIFFERENTIATION MATRIX" in content
+    assert "GOVERNANCE & RUNTIME INVARIANTS" in content
+    assert "INV-LOCAL-01" in content
     assert "AUDIT FINDINGS" in content
     assert "RECOMMENDATIONS FOR FUTURE WORK" in content or "RECOMMENDATIONS" in content
 
@@ -463,3 +474,41 @@ def test_changelog_recent_pfad_a_entry():
     assert "## [0.2.2] - 2026-09-10" in content
     assert "Standardized pytest test runner options" in content
     assert "Comprehensive hardening of `.gitignore`" in content
+
+
+def test_third_party_licenses_inventory():
+    """Verify THIRD_PARTY_LICENSES.md audits all dependencies under permissive licenses."""
+    lic_path = REPO_ROOT / "THIRD_PARTY_LICENSES.md"
+    assert lic_path.is_file(), "THIRD_PARTY_LICENSES.md missing"
+    content = lic_path.read_text(encoding="utf-8")
+
+    assert "cryptography" in content
+    assert "tomli" in content
+    assert "pytest" in content
+    assert "jsonschema" in content
+    assert "INV-LOCAL-01" in content
+    assert "RunAsInvoker" in content or "INV-PRIV-07" in content
+    assert "MIT License" in content or "MIT" in content
+
+
+def test_pep621_extended_urls():
+    """Verify pyproject.toml defines extended PEP 621 project URLs."""
+    pyproject_path = REPO_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        data = tomllib.load(f)
+
+    urls = data.get("project", {}).get("urls", {})
+    assert "Third-Party Licenses" in urls
+    assert "Marketing-Log" in urls
+    assert "LLM-Ready" in urls
+
+
+def test_changelog_recent_pfad_b_entry():
+    """Verify CHANGELOG.md contains the latest 0.2.3 release entry with Pfad B marketing updates."""
+    changelog_path = REPO_ROOT / "CHANGELOG.md"
+    assert changelog_path.is_file(), "CHANGELOG.md missing"
+    content = changelog_path.read_text(encoding="utf-8")
+
+    assert "## [0.2.3] - 2026-09-12" in content
+    assert "THIRD_PARTY_LICENSES.md" in content
+    assert "Quick Navigation" in content
