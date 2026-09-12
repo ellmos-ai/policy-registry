@@ -31,6 +31,20 @@ def _uri(path: Path) -> str:
     return str(path.resolve()) if path.exists() else str(path)
 
 
+def _decisions_root(root: Path) -> Path:
+    """Locate ``_DECISIONS`` under the control-center root.
+
+    The ledger moved from ``_control-center/_DECISIONS`` to
+    ``_control-center/_CONTROL/_DECISIONS`` on 2026-09-06 (same move that took
+    ``_TOM-lm`` to ``_CONTROL/_USER-MIND``). Prefer the current location and
+    fall back to the legacy one, so a host that has not been migrated yet still
+    resolves instead of registering five pointers at a path that no longer
+    exists.
+    """
+    moved = root / "_CONTROL" / "_DECISIONS"
+    return moved if moved.exists() else root / "_DECISIONS"
+
+
 def location_entries(
     control_center_root: str | Path,
     *,
@@ -46,7 +60,8 @@ def location_entries(
     is the place that reports a missing source, not this builder.
     """
     root = Path(control_center_root)
-    decisions_root = root / "_DECISIONS"
+    decisions_root = _decisions_root(root)
+    origin = f"_control-center/{decisions_root.relative_to(root).as_posix()}"
     templates_root = root.parent / ".AI" / "_templates" / "project-docs"
     version = curated_on or date.today().isoformat()
 
@@ -76,7 +91,7 @@ def location_entries(
                 "uri": _uri(chain_head),
                 "type": "file",
                 "canonical": True,
-                "origin": "_control-center/_DECISIONS",
+                "origin": origin,
             },
             "consumers": ["*"],
             "status": "active",
@@ -103,7 +118,7 @@ def location_entries(
                 "uri": _uri(decisions_root),
                 "type": "directory",
                 "canonical": True,
-                "origin": "_control-center/_DECISIONS",
+                "origin": origin,
                 "pattern": "TO-DECIDE-USER-<HOST>.txt",
             },
             "consumers": ["*"],
@@ -130,7 +145,7 @@ def location_entries(
                 "uri": _uri(decided),
                 "type": "file",
                 "canonical": True,
-                "origin": "_control-center/_DECISIONS",
+                "origin": origin,
             },
             "consumers": ["*"],
             "status": "active",
@@ -157,7 +172,7 @@ def location_entries(
                 "uri": _uri(index_file),
                 "type": "file",
                 "canonical": False,
-                "origin": "_control-center/_DECISIONS/_tools",
+                "origin": f"{origin}/_tools",
             },
             "consumers": ["*"],
             "status": "active",

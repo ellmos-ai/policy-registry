@@ -128,3 +128,41 @@ def test_json_serialization_round_trip(tmp_path):
     data = json.loads(registry.path.read_text(encoding="utf-8"))
     assert data["schema"] == "ellmos.policy-registry.v1"
     assert len(data["entries"]) == 5
+
+
+def test_pointers_follow_the_control_move_and_fall_back_to_legacy(tmp_path):
+    """_DECISIONS moved under _CONTROL on 2026-09-06; pointers must follow it.
+
+    Regression for the live finding of 2026-09-12: five location pointers on
+    ASUS-GEI verified as ``missing`` because the adapter kept building
+    ``_control-center/_DECISIONS`` after the ledger had moved to
+    ``_control-center/_CONTROL/_DECISIONS``.
+    """
+    # Legacy layout still resolves.
+    legacy_root = build_control_center_root(tmp_path / "legacy")
+    legacy = {e["id"]: e for e in location_entries(legacy_root, curated_on="2026-09-12")}
+    assert legacy["decision-location:chain-head"]["source"]["origin"] == (
+        "_control-center/_DECISIONS"
+    )
+    assert Path(legacy["decision-location:chain-head"]["source"]["uri"]).exists()
+
+    # Moved layout wins when it exists, and the origin label follows.
+    moved_root = tmp_path / "moved" / "_control-center"
+    control = moved_root / "_CONTROL"
+    control.mkdir(parents=True)
+    inner = build_control_center_root(tmp_path / "moved" / "_staging")
+    (inner / "_DECISIONS").rename(control / "_DECISIONS")
+    moved = {e["id"]: e for e in location_entries(moved_root, curated_on="2026-09-12")}
+    assert moved["decision-location:chain-head"]["source"]["origin"] == (
+        "_control-center/_CONTROL/_DECISIONS"
+    )
+    assert moved["decision-location:machine-index"]["source"]["origin"] == (
+        "_control-center/_CONTROL/_DECISIONS/_tools"
+    )
+    for entry_id in (
+        "decision-location:chain-head",
+        "decision-location:decided-and-done",
+        "decision-location:host-file-pattern",
+        "decision-location:machine-index",
+    ):
+        assert Path(moved[entry_id]["source"]["uri"]).exists(), entry_id
