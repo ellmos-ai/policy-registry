@@ -1,6 +1,6 @@
 {
   "schema_datei": "ellmos.module.v2.schema.json",
-  "sha256": "d2d06335b77c9ebb97a3a3bf575e07967bb970829837c59daf02bacc06e6ba21",
+  "sha256": "f2f837a1cedb85168a3197409164c7dc2f792e22d45c15f993022491f82c0be8",
   "kanonische_quelle": ".TOPICS/.AI/.MODULES/_templates/ellmos.module.v2.schema.json",
   "hinweis": "Kopie. Nicht von Hand aendern -- bei Abweichung neu synchronisieren mit _scripts/sync_schema_to_repo.py."
 }

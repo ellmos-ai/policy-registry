@@ -229,9 +229,10 @@
               "connector",
               "repository-writer",
               "provider-hook",
+              "provider",
               "seam"
             ],
-            "description": "Art des Adapters. mcp/plugin/skill/cli-wrapper/connector/repository-writer/provider-hook sind Integrationspunkte (das Modul spricht etwas an oder wird angesprochen). seam ist eine Vertragsnaht zu einem anderen Modul -- der Begriff stammt aus den bestehenden Notizen der Module selbst, er ist nicht neu erfunden."
+            "description": "Art des Adapters. mcp/plugin/skill/cli-wrapper/connector/repository-writer/provider-hook/provider sind Integrationspunkte (das Modul spricht etwas an oder wird angesprochen). seam ist eine Vertragsnaht zu einem anderen Modul -- der Begriff stammt aus den bestehenden Notizen der Module selbst, er ist nicht neu erfunden. provider benennt einen unterstuetzten Agenten-/Backend-Anbieter, den das Modul selbst startet oder bedient (agent-launcher: claude/codex/agy/kimi aus PROVIDERS); das ist NICHT provider-hook (ein Einhaengepunkt, an dem ein fremder Anbieter andockt) und NICHT cli-wrapper (das Modul liest oder umhuellt ein fremdes CLI-Artefakt)."
           },
           "id": {
             "type": [
@@ -267,6 +268,10 @@
             "type": "string",
             "description": "Paket, das die Naht nutzt, wenn es vorhanden ist."
           },
+          "instruction_file": {
+            "type": "string",
+            "description": "Dateiname der Anweisungsdatei, die dieser Anbieter liest (CLAUDE.md, AGENTS.md, GEMINI.md). Nur fuer type provider sinnvoll. Real belegt: agent_launcher/providers.py INSTRUCTION_FILES und coma/session.py ProviderPlan.instruction_file."
+          },
           "required_for": {
             "type": "array",
             "items": {
@@ -277,6 +282,15 @@
           }
         }
       }
+    },
+    "repo_aliases": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$"
+      },
+      "description": "Zusaetzliche <org>/<repo>-Namen, unter denen dieses Modul ebenfalls auffindbar ist (z.B. eine getrennte Provenienz-/Belegablage). Ersetzt NICHT source_of_truth.repository, das bleibt der primaere Kanon."
     },
     "provenance": {
       "type": "object",
@@ -307,6 +321,13 @@
           "description": "Datum der Herausloesung (ISO 8601)."
         }
       }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/role"
+      },
+      "description": "Optional declarative agent roles. Omission preserves v2 compatibility. No activation or launch authorization is implied."
     }
   },
   "$defs": {
@@ -317,6 +338,62 @@
         "type": "string",
         "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
       }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "prompt",
+        "request",
+        "modes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]*$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt": {
+          "$ref": "#/$defs/rolePath"
+        },
+        "request": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Neutral initial instruction and role origin; data, never a shell command."
+        },
+        "modes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          }
+        },
+        "providers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9._-]*$"
+          }
+        },
+        "starter": {
+          "$ref": "#/$defs/rolePath",
+          "description": "Optional existing neutral starter. Absent means no declared starter; never infer a launch target."
+        }
+      }
+    },
+    "rolePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\:\\x00-\\x1f\\x7f]+$",
+      "description": "Canonical forward-slash repository-relative file path. No drive, URI, traversal, backslash, or control character. Filesystem containment and existence are checked by the validator."
     }
   }
 }
