@@ -1,98 +1,1921 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 680" width="100%" height="100%">
   <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap');
-      
-      .title {
-        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-weight: 900;
-        letter-spacing: -1.5px;
-      }
-      .subtitle {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-weight: 500;
-        letter-spacing: -0.2px;
-      }
-      .badge-text {
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
-        font-size: 11px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-      }
-      .pill-text {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-weight: 700;
-        font-size: 11.5px;
-        letter-spacing: 0.5px;
-      }
-      .mono-code {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12px;
-      }
-    </style>
-    
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#080c14"/>
-      <stop offset="50%" stop-color="#111a2e"/>
-      <stop offset="100%" stop-color="#05070a"/>
+    <!-- Filters -->
+    <filter id="shadow-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shelf-shadow-blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+    </filter>
+    <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+    <filter id="emboss-gold">
+      <feDropShadow dx="0.8" dy="1.2" stdDeviation="0.5" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+    <!-- Library Background & Lighting Gradients -->
+    <linearGradient id="wall-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#100704"/>
+      <stop offset="40%" stop-color="#1a0b07"/>
+      <stop offset="70%" stop-color="#140804"/>
+      <stop offset="100%" stop-color="#0a0402"/>
     </linearGradient>
-    <linearGradient id="title-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="50%" stop-color="#818cf8"/>
-      <stop offset="100%" stop-color="#c084fc"/>
-    </linearGradient>
-    <radialGradient id="glow-shield" cx="300" cy="170" r="260" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#080c14" stop-opacity="0"/>
+
+    <!-- Warm Library Sconce / Atmospheric Ambient Spotlight -->
+    <radialGradient id="library-light" cx="50%" cy="18%" r="65%" fx="50%" fy="12%">
+      <stop offset="0%" stop-color="#ffbe53" stop-opacity="0.22"/>
+      <stop offset="25%" stop-color="#d97706" stop-opacity="0.13"/>
+      <stop offset="55%" stop-color="#92400e" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
     </radialGradient>
-    
+
+    <radialGradient id="shelf-light" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.16"/>
+      <stop offset="60%" stop-color="#b45309" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Wooden Shelf Gradients -->
+    <linearGradient id="shelf-top" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6e3c1d"/>
+      <stop offset="30%" stop-color="#542d15"/>
+      <stop offset="100%" stop-color="#3b1d0b"/>
+    </linearGradient>
+
+    <linearGradient id="shelf-fascia" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4a2511"/>
+      <stop offset="8%" stop-color="#361a0b"/>
+      <stop offset="70%" stop-color="#241006"/>
+      <stop offset="100%" stop-color="#150903"/>
+    </linearGradient>
+
+    <linearGradient id="shelf-under" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d0502"/>
+      <stop offset="40%" stop-color="#080301"/>
+      <stop offset="100%" stop-color="#030101"/>
+    </linearGradient>
+
+    <linearGradient id="upright-wood-left" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1a0c06"/>
+      <stop offset="70%" stop-color="#2e150a"/>
+      <stop offset="90%" stop-color="#3d1d0f"/>
+      <stop offset="100%" stop-color="#150904"/>
+    </linearGradient>
+
+    <linearGradient id="upright-wood-right" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#1a0c06"/>
+      <stop offset="70%" stop-color="#2e150a"/>
+      <stop offset="90%" stop-color="#3d1d0f"/>
+      <stop offset="100%" stop-color="#150904"/>
+    </linearGradient>
+
+    <!-- Gold Foil Gradients -->
+    <linearGradient id="gold-foil" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="25%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="75%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+
+    <linearGradient id="gold-title" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fef9ee"/>
+      <stop offset="35%" stop-color="#fcebc2"/>
+      <stop offset="70%" stop-color="#eac275"/>
+      <stop offset="100%" stop-color="#c99738"/>
+    </linearGradient>
+
+    <linearGradient id="gold-line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#d4af37" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#fff1be" stop-opacity="1"/>
+      <stop offset="80%" stop-color="#d4af37" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Book Spine 3D Cylindrical Bordeaux Leather Gradient -->
+    <linearGradient id="spine-bordeaux" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#140406"/>
+      <stop offset="8%" stop-color="#24070b"/>
+      <stop offset="22%" stop-color="#3d0e15"/>
+      <stop offset="48%" stop-color="#5a1620"/>
+      <stop offset="62%" stop-color="#47111a"/>
+      <stop offset="85%" stop-color="#29090e"/>
+      <stop offset="96%" stop-color="#1a0508"/>
+      <stop offset="100%" stop-color="#0e0204"/>
+    </linearGradient>
+
+    <!-- Highlighted spine for pulled-out book P -->
+    <linearGradient id="spine-bordeaux-pulled" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22070b"/>
+      <stop offset="10%" stop-color="#380c13"/>
+      <stop offset="30%" stop-color="#54151f"/>
+      <stop offset="52%" stop-color="#6d1b27"/>
+      <stop offset="72%" stop-color="#561520"/>
+      <stop offset="90%" stop-color="#380c13"/>
+      <stop offset="100%" stop-color="#180407"/>
+    </linearGradient>
+
+    <!-- Top Gilded Page Block Gradient for Pulled Book -->
+    <linearGradient id="gilt-pages" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b8860b"/>
+      <stop offset="35%" stop-color="#e9c875"/>
+      <stop offset="60%" stop-color="#ffd700"/>
+      <stop offset="85%" stop-color="#c59b27"/>
+      <stop offset="100%" stop-color="#8a6508"/>
+    </linearGradient>
+
+    <!-- Side Cover Face Gradient for Pulled Book -->
+    <linearGradient id="cover-side-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#150406"/>
+      <stop offset="50%" stop-color="#2c090f"/>
+      <stop offset="100%" stop-color="#3d0e15"/>
+    </linearGradient>
   </defs>
-  
-  
-    <rect width="1200" height="340" fill="url(#bg)"/>
-    <rect width="1200" height="340" fill="none" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.2"/>
-    <circle cx="300" cy="170" r="260" fill="url(#glow-shield)"/>
-    
-    <!-- Security Shield & Compliance Lock -->
-    <g transform="translate(180, 65)">
-      <!-- Outer Shield -->
-      <path d="M100 10 L170 40 L170 120 Q170 180 100 205 Q30 180 30 120 L30 40 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
-      <!-- Inner Shield Core -->
-      <path d="M100 25 L155 50 L155 115 Q155 165 100 188 Q45 165 45 115 L45 50 Z" fill="#1e293b" stroke="#818cf8" stroke-width="1.5" opacity="0.8"/>
-      
-      <!-- Keyhole / Checkmark -->
-      <circle cx="100" cy="95" r="14" fill="#38bdf8"/>
-      <polygon points="94,105 106,105 110,135 90,135" fill="#38bdf8"/>
-      <circle cx="100" cy="95" r="6" fill="#0f172a"/>
-    </g>
-    
-  
-    <g transform="translate(480, 0)">
-      <g transform="translate(0, 58)">
-        <rect width="180" height="26" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
-        <text x="90" y="17" text-anchor="middle" class="badge-text" fill="#7dd3fc">POLICY &amp; COMPLIANCE</text>
+  <!-- 1. Background Library Wall & Wainscoting -->
+  <rect width="2400" height="680" fill="url(#wall-grad)"/>
+  <g opacity="0.08">
+    <line x1="120" y1="0" x2="120" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="121" y1="0" x2="121" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="270" y1="0" x2="270" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="271" y1="0" x2="271" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="420" y1="0" x2="420" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="421" y1="0" x2="421" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="570" y1="0" x2="570" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="571" y1="0" x2="571" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="720" y1="0" x2="720" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="721" y1="0" x2="721" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="870" y1="0" x2="870" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="871" y1="0" x2="871" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1020" y1="0" x2="1020" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1021" y1="0" x2="1021" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1170" y1="0" x2="1170" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1171" y1="0" x2="1171" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1320" y1="0" x2="1320" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1321" y1="0" x2="1321" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1470" y1="0" x2="1470" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1471" y1="0" x2="1471" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1620" y1="0" x2="1620" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1621" y1="0" x2="1621" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1770" y1="0" x2="1770" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1771" y1="0" x2="1771" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="1920" y1="0" x2="1920" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1921" y1="0" x2="1921" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="2070" y1="0" x2="2070" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="2071" y1="0" x2="2071" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="2220" y1="0" x2="2220" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="2221" y1="0" x2="2221" y2="575" stroke="#000000" stroke-width="2"/>
+    <line x1="2370" y1="0" x2="2370" y2="575" stroke="#ffffff" stroke-width="1"/>
+    <line x1="2371" y1="0" x2="2371" y2="575" stroke="#000000" stroke-width="2"/>
+  </g>
+  <rect width="2400" height="680" fill="url(#library-light)"/>
+  <rect x="96" y="235" width="2208" height="345" fill="#070201" opacity="0.65"/>
+  <!-- 2. Header Typography & Wordmark -->
+  <g text-anchor="middle">
+    <text x="1200" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="bold" letter-spacing="4" fill="url(#gold-title)" filter="url(#soft-shadow)">policy-registry</text>
+    <text x="1200" y="165" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="600" letter-spacing="9" fill="#dfcaa8" opacity="0.92">LOCAL-FIRST POLICY &amp; DECISION REGISTRY</text>
+    <path d="M 820 196 L 1580 196" stroke="url(#gold-line)" stroke-width="1.5"/>
+    <circle cx="1200" cy="196" r="3.5" fill="#ffd700"/>
+    <circle cx="1182" cy="196" r="2" fill="#d4af37"/>
+    <circle cx="1218" cy="196" r="2" fill="#d4af37"/>
+    <polygon points="1200,190 1206,196 1200,202 1194,196" fill="#ffe28a"/>
+  </g>
+  <!-- 3. Solid Wood Bookshelf Construction -->
+  <!-- Shelf Upper Surface -->
+  <rect x="0" y="575" width="2400" height="12" fill="url(#shelf-top)"/>
+  <line x1="0" y1="575" x2="2400" y2="575" stroke="#925026" stroke-width="1.5" opacity="0.9"/>
+  <rect x="96" y="575" width="2208" height="5" fill="#0b0301" opacity="0.75"/>
+  <!-- Shelf Front Fascia Edge -->
+  <rect x="0" y="587" width="2400" height="42" fill="url(#shelf-fascia)"/>
+  <line x1="0" y1="587" x2="2400" y2="587" stroke="#b46733" stroke-width="2"/>
+  <line x1="0" y1="589" x2="2400" y2="589" stroke="#331407" stroke-width="1.5"/>
+  <line x1="0" y1="612" x2="2400" y2="612" stroke="#180a04" stroke-width="1.5"/>
+  <line x1="0" y1="613" x2="2400" y2="613" stroke="#522a14" stroke-width="1" opacity="0.7"/>
+  <!-- Shelf Lower Recess Shadow -->
+  <rect x="0" y="629" width="2400" height="51" fill="url(#shelf-under)"/>
+  <line x1="0" y1="629" x2="2400" y2="629" stroke="#080201" stroke-width="2"/>
+  <!-- Bookcase Side Uprights (Pillars) -->
+  <rect x="0" y="0" width="96" height="680" fill="url(#upright-wood-left)"/>
+  <line x1="94" y1="0" x2="94" y2="680" stroke="#4a2412" stroke-width="1.5"/>
+  <line x1="96" y1="0" x2="96" y2="680" stroke="#080301" stroke-width="3"/>
+  <rect x="96" y="240" width="16" height="340" fill="#000000" opacity="0.6" filter="url(#shadow-blur)"/>
+  <rect x="2304" y="0" width="96" height="680" fill="url(#upright-wood-right)"/>
+  <line x1="2306" y1="0" x2="2306" y2="680" stroke="#4a2412" stroke-width="1.5"/>
+  <line x1="2304" y1="0" x2="2304" y2="680" stroke="#080301" stroke-width="3"/>
+  <rect x="2288" y="240" width="16" height="340" fill="#000000" opacity="0.6" filter="url(#shadow-blur)"/>
+  <!-- 4. Encyclopedia Volumes (A to Z) -->
+  <g id="bookshelf-volumes">
+    <!-- Volume A (Index 0) -->
+    <g id="vol-A">
+      <rect x="95.0" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 96.0,254 Q 137.0,250 178.0,254 L 178.0,573 Q 137.0,577 96.0,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="124.7" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="98.0" y1="286.0" x2="176.0" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="98.0" y1="288.0" x2="176.0" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="98.0" y1="290.0" x2="176.0" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="101.0" y1="283.5" x2="173.0" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="101.0" y1="292.5" x2="173.0" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="98.0" y1="356.0" x2="176.0" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="98.0" y1="358.0" x2="176.0" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="98.0" y1="360.0" x2="176.0" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="101.0" y1="353.5" x2="173.0" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="101.0" y1="362.5" x2="173.0" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="98.0" y1="420.0" x2="176.0" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="98.0" y1="422.0" x2="176.0" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="98.0" y1="424.0" x2="176.0" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="101.0" y1="417.5" x2="173.0" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="101.0" y1="426.5" x2="173.0" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="98.0" y1="484.0" x2="176.0" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="98.0" y1="486.0" x2="176.0" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="98.0" y1="488.0" x2="176.0" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="101.0" y1="481.5" x2="173.0" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="101.0" y1="490.5" x2="173.0" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="98.0" y1="538.0" x2="176.0" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="98.0" y1="540.0" x2="176.0" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="98.0" y1="542.0" x2="176.0" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="101.0" y1="535.5" x2="173.0" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="101.0" y1="544.5" x2="173.0" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter A -->
+      <rect x="103.0" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="106.0" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="108.0" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="166.0" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="108.0" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="166.0" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="137.0" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">A</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(137.0, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
       </g>
-      
-      <text x="0" y="142" class="title" font-size="54" fill="url(#title-grad)">policy-registry</text>
-      
-      <text x="0" y="184" class="subtitle" font-size="20" fill="#e2e8f0">Central Compliance, Security &amp; Architectural Policy Hub</text>
-      <text x="0" y="210" class="subtitle" font-size="14" fill="#94a3b8" opacity="0.8">Machine-readable safety rules, boundary constraints, and ecosystem compliance standards.</text>
-      
-      <g transform="translate(0, 246)">
-        <g transform="translate(0, 0)">
-          <rect width="145" height="32" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-          <text x="72" y="20" text-anchor="middle" class="pill-text" fill="#bae6fd">🛡️ Security Policies</text>
-        </g>
-        <g transform="translate(157, 0)">
-          <rect width="145" height="32" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-          <text x="72" y="20" text-anchor="middle" class="pill-text" fill="#bae6fd">📋 Schema Registry</text>
-        </g>
-        <g transform="translate(314, 0)">
-          <rect width="145" height="32" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-          <text x="72" y="20" text-anchor="middle" class="pill-text" fill="#bae6fd">⚙️ Automated Audits</text>
-        </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(137.0, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
       </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(137.0, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="102.0" y1="558.0" x2="172.0" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="106.0" y1="561.0" x2="168.0" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="102.0" y1="268.0" x2="172.0" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="106.0" y1="265.0" x2="168.0" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
     </g>
-    
+    <!-- Volume B (Index 1) -->
+    <g id="vol-B">
+      <rect x="179.9" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 180.9,254 Q 221.9,250 262.9,254 L 262.9,573 Q 221.9,577 180.9,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="209.6" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="182.9" y1="286.0" x2="260.9" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="182.9" y1="288.0" x2="260.9" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="182.9" y1="290.0" x2="260.9" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="185.9" y1="283.5" x2="257.9" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="185.9" y1="292.5" x2="257.9" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="182.9" y1="356.0" x2="260.9" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="182.9" y1="358.0" x2="260.9" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="182.9" y1="360.0" x2="260.9" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="185.9" y1="353.5" x2="257.9" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="185.9" y1="362.5" x2="257.9" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="182.9" y1="420.0" x2="260.9" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="182.9" y1="422.0" x2="260.9" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="182.9" y1="424.0" x2="260.9" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="185.9" y1="417.5" x2="257.9" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="185.9" y1="426.5" x2="257.9" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="182.9" y1="484.0" x2="260.9" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="182.9" y1="486.0" x2="260.9" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="182.9" y1="488.0" x2="260.9" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="185.9" y1="481.5" x2="257.9" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="185.9" y1="490.5" x2="257.9" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="182.9" y1="538.0" x2="260.9" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="182.9" y1="540.0" x2="260.9" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="182.9" y1="542.0" x2="260.9" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="185.9" y1="535.5" x2="257.9" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="185.9" y1="544.5" x2="257.9" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter B -->
+      <rect x="187.9" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="190.9" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="192.9" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="250.9" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="192.9" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="250.9" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="221.9" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">B</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(221.9, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(221.9, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(221.9, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="186.9" y1="558.0" x2="256.9" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="190.9" y1="561.0" x2="252.9" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="186.9" y1="268.0" x2="256.9" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="190.9" y1="265.0" x2="252.9" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume C (Index 2) -->
+    <g id="vol-C">
+      <rect x="264.8" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 265.8,254 Q 306.8,250 347.8,254 L 347.8,573 Q 306.8,577 265.8,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="294.5" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="267.8" y1="286.0" x2="345.8" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="267.8" y1="288.0" x2="345.8" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="267.8" y1="290.0" x2="345.8" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="270.8" y1="283.5" x2="342.8" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="270.8" y1="292.5" x2="342.8" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="267.8" y1="356.0" x2="345.8" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="267.8" y1="358.0" x2="345.8" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="267.8" y1="360.0" x2="345.8" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="270.8" y1="353.5" x2="342.8" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="270.8" y1="362.5" x2="342.8" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="267.8" y1="420.0" x2="345.8" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="267.8" y1="422.0" x2="345.8" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="267.8" y1="424.0" x2="345.8" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="270.8" y1="417.5" x2="342.8" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="270.8" y1="426.5" x2="342.8" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="267.8" y1="484.0" x2="345.8" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="267.8" y1="486.0" x2="345.8" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="267.8" y1="488.0" x2="345.8" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="270.8" y1="481.5" x2="342.8" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="270.8" y1="490.5" x2="342.8" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="267.8" y1="538.0" x2="345.8" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="267.8" y1="540.0" x2="345.8" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="267.8" y1="542.0" x2="345.8" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="270.8" y1="535.5" x2="342.8" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="270.8" y1="544.5" x2="342.8" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter C -->
+      <rect x="272.8" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="275.8" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="277.8" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="335.8" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="277.8" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="335.8" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="306.8" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">C</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(306.8, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(306.8, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(306.8, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="271.8" y1="558.0" x2="341.8" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="275.8" y1="561.0" x2="337.8" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="271.8" y1="268.0" x2="341.8" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="275.8" y1="265.0" x2="337.8" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume D (Index 3) -->
+    <g id="vol-D">
+      <rect x="349.8" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 350.8,254 Q 391.8,250 432.8,254 L 432.8,573 Q 391.8,577 350.8,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="379.5" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="352.8" y1="286.0" x2="430.8" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="352.8" y1="288.0" x2="430.8" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="352.8" y1="290.0" x2="430.8" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="355.8" y1="283.5" x2="427.8" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="355.8" y1="292.5" x2="427.8" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="352.8" y1="356.0" x2="430.8" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="352.8" y1="358.0" x2="430.8" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="352.8" y1="360.0" x2="430.8" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="355.8" y1="353.5" x2="427.8" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="355.8" y1="362.5" x2="427.8" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="352.8" y1="420.0" x2="430.8" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="352.8" y1="422.0" x2="430.8" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="352.8" y1="424.0" x2="430.8" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="355.8" y1="417.5" x2="427.8" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="355.8" y1="426.5" x2="427.8" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="352.8" y1="484.0" x2="430.8" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="352.8" y1="486.0" x2="430.8" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="352.8" y1="488.0" x2="430.8" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="355.8" y1="481.5" x2="427.8" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="355.8" y1="490.5" x2="427.8" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="352.8" y1="538.0" x2="430.8" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="352.8" y1="540.0" x2="430.8" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="352.8" y1="542.0" x2="430.8" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="355.8" y1="535.5" x2="427.8" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="355.8" y1="544.5" x2="427.8" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter D -->
+      <rect x="357.8" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="360.8" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="362.8" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="420.8" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="362.8" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="420.8" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="391.8" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">D</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(391.8, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(391.8, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(391.8, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="356.8" y1="558.0" x2="426.8" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="360.8" y1="561.0" x2="422.8" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="356.8" y1="268.0" x2="426.8" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="360.8" y1="265.0" x2="422.8" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume E (Index 4) -->
+    <g id="vol-E">
+      <rect x="434.7" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 435.7,254 Q 476.7,250 517.7,254 L 517.7,573 Q 476.7,577 435.7,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="464.4" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="437.7" y1="286.0" x2="515.7" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="437.7" y1="288.0" x2="515.7" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="437.7" y1="290.0" x2="515.7" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="440.7" y1="283.5" x2="512.7" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="440.7" y1="292.5" x2="512.7" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="437.7" y1="356.0" x2="515.7" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="437.7" y1="358.0" x2="515.7" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="437.7" y1="360.0" x2="515.7" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="440.7" y1="353.5" x2="512.7" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="440.7" y1="362.5" x2="512.7" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="437.7" y1="420.0" x2="515.7" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="437.7" y1="422.0" x2="515.7" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="437.7" y1="424.0" x2="515.7" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="440.7" y1="417.5" x2="512.7" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="440.7" y1="426.5" x2="512.7" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="437.7" y1="484.0" x2="515.7" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="437.7" y1="486.0" x2="515.7" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="437.7" y1="488.0" x2="515.7" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="440.7" y1="481.5" x2="512.7" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="440.7" y1="490.5" x2="512.7" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="437.7" y1="538.0" x2="515.7" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="437.7" y1="540.0" x2="515.7" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="437.7" y1="542.0" x2="515.7" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="440.7" y1="535.5" x2="512.7" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="440.7" y1="544.5" x2="512.7" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter E -->
+      <rect x="442.7" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="445.7" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="447.7" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="505.7" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="447.7" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="505.7" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="476.7" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">E</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(476.7, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(476.7, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(476.7, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="441.7" y1="558.0" x2="511.7" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="445.7" y1="561.0" x2="507.7" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="441.7" y1="268.0" x2="511.7" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="445.7" y1="265.0" x2="507.7" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume F (Index 5) -->
+    <g id="vol-F">
+      <rect x="519.6" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 520.6,254 Q 561.6,250 602.6,254 L 602.6,573 Q 561.6,577 520.6,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="549.3" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="522.6" y1="286.0" x2="600.6" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="522.6" y1="288.0" x2="600.6" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="522.6" y1="290.0" x2="600.6" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="525.6" y1="283.5" x2="597.6" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="525.6" y1="292.5" x2="597.6" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="522.6" y1="356.0" x2="600.6" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="522.6" y1="358.0" x2="600.6" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="522.6" y1="360.0" x2="600.6" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="525.6" y1="353.5" x2="597.6" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="525.6" y1="362.5" x2="597.6" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="522.6" y1="420.0" x2="600.6" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="522.6" y1="422.0" x2="600.6" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="522.6" y1="424.0" x2="600.6" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="525.6" y1="417.5" x2="597.6" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="525.6" y1="426.5" x2="597.6" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="522.6" y1="484.0" x2="600.6" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="522.6" y1="486.0" x2="600.6" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="522.6" y1="488.0" x2="600.6" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="525.6" y1="481.5" x2="597.6" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="525.6" y1="490.5" x2="597.6" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="522.6" y1="538.0" x2="600.6" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="522.6" y1="540.0" x2="600.6" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="522.6" y1="542.0" x2="600.6" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="525.6" y1="535.5" x2="597.6" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="525.6" y1="544.5" x2="597.6" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter F -->
+      <rect x="527.6" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="530.6" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="532.6" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="590.6" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="532.6" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="590.6" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="561.6" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">F</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(561.6, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(561.6, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(561.6, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="526.6" y1="558.0" x2="596.6" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="530.6" y1="561.0" x2="592.6" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="526.6" y1="268.0" x2="596.6" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="530.6" y1="265.0" x2="592.6" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume G (Index 6) -->
+    <g id="vol-G">
+      <rect x="604.5" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 605.5,254 Q 646.5,250 687.5,254 L 687.5,573 Q 646.5,577 605.5,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="634.2" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="607.5" y1="286.0" x2="685.5" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="607.5" y1="288.0" x2="685.5" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="607.5" y1="290.0" x2="685.5" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="610.5" y1="283.5" x2="682.5" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="610.5" y1="292.5" x2="682.5" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="607.5" y1="356.0" x2="685.5" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="607.5" y1="358.0" x2="685.5" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="607.5" y1="360.0" x2="685.5" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="610.5" y1="353.5" x2="682.5" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="610.5" y1="362.5" x2="682.5" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="607.5" y1="420.0" x2="685.5" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="607.5" y1="422.0" x2="685.5" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="607.5" y1="424.0" x2="685.5" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="610.5" y1="417.5" x2="682.5" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="610.5" y1="426.5" x2="682.5" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="607.5" y1="484.0" x2="685.5" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="607.5" y1="486.0" x2="685.5" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="607.5" y1="488.0" x2="685.5" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="610.5" y1="481.5" x2="682.5" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="610.5" y1="490.5" x2="682.5" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="607.5" y1="538.0" x2="685.5" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="607.5" y1="540.0" x2="685.5" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="607.5" y1="542.0" x2="685.5" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="610.5" y1="535.5" x2="682.5" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="610.5" y1="544.5" x2="682.5" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter G -->
+      <rect x="612.5" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="615.5" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="617.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="675.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="617.5" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="675.5" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="646.5" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">G</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(646.5, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(646.5, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(646.5, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="611.5" y1="558.0" x2="681.5" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="615.5" y1="561.0" x2="677.5" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="611.5" y1="268.0" x2="681.5" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="615.5" y1="265.0" x2="677.5" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume H (Index 7) -->
+    <g id="vol-H">
+      <rect x="689.5" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 690.5,254 Q 731.5,250 772.5,254 L 772.5,573 Q 731.5,577 690.5,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="719.2" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="692.5" y1="286.0" x2="770.5" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="692.5" y1="288.0" x2="770.5" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="692.5" y1="290.0" x2="770.5" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="695.5" y1="283.5" x2="767.5" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="695.5" y1="292.5" x2="767.5" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="692.5" y1="356.0" x2="770.5" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="692.5" y1="358.0" x2="770.5" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="692.5" y1="360.0" x2="770.5" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="695.5" y1="353.5" x2="767.5" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="695.5" y1="362.5" x2="767.5" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="692.5" y1="420.0" x2="770.5" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="692.5" y1="422.0" x2="770.5" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="692.5" y1="424.0" x2="770.5" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="695.5" y1="417.5" x2="767.5" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="695.5" y1="426.5" x2="767.5" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="692.5" y1="484.0" x2="770.5" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="692.5" y1="486.0" x2="770.5" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="692.5" y1="488.0" x2="770.5" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="695.5" y1="481.5" x2="767.5" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="695.5" y1="490.5" x2="767.5" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="692.5" y1="538.0" x2="770.5" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="692.5" y1="540.0" x2="770.5" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="692.5" y1="542.0" x2="770.5" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="695.5" y1="535.5" x2="767.5" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="695.5" y1="544.5" x2="767.5" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter H -->
+      <rect x="697.5" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="700.5" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="702.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="760.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="702.5" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="760.5" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="731.5" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">H</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(731.5, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(731.5, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(731.5, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="696.5" y1="558.0" x2="766.5" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="700.5" y1="561.0" x2="762.5" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="696.5" y1="268.0" x2="766.5" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="700.5" y1="265.0" x2="762.5" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume I (Index 8) -->
+    <g id="vol-I">
+      <rect x="774.4" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 775.4,254 Q 816.4,250 857.4,254 L 857.4,573 Q 816.4,577 775.4,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="804.1" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="777.4" y1="286.0" x2="855.4" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="777.4" y1="288.0" x2="855.4" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="777.4" y1="290.0" x2="855.4" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="780.4" y1="283.5" x2="852.4" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="780.4" y1="292.5" x2="852.4" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="777.4" y1="356.0" x2="855.4" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="777.4" y1="358.0" x2="855.4" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="777.4" y1="360.0" x2="855.4" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="780.4" y1="353.5" x2="852.4" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="780.4" y1="362.5" x2="852.4" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="777.4" y1="420.0" x2="855.4" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="777.4" y1="422.0" x2="855.4" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="777.4" y1="424.0" x2="855.4" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="780.4" y1="417.5" x2="852.4" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="780.4" y1="426.5" x2="852.4" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="777.4" y1="484.0" x2="855.4" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="777.4" y1="486.0" x2="855.4" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="777.4" y1="488.0" x2="855.4" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="780.4" y1="481.5" x2="852.4" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="780.4" y1="490.5" x2="852.4" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="777.4" y1="538.0" x2="855.4" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="777.4" y1="540.0" x2="855.4" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="777.4" y1="542.0" x2="855.4" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="780.4" y1="535.5" x2="852.4" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="780.4" y1="544.5" x2="852.4" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter I -->
+      <rect x="782.4" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="785.4" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="787.4" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="845.4" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="787.4" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="845.4" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="816.4" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">I</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(816.4, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(816.4, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(816.4, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="781.4" y1="558.0" x2="851.4" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="785.4" y1="561.0" x2="847.4" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="781.4" y1="268.0" x2="851.4" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="785.4" y1="265.0" x2="847.4" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume J (Index 9) -->
+    <g id="vol-J">
+      <rect x="859.3" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 860.3,254 Q 901.3,250 942.3,254 L 942.3,573 Q 901.3,577 860.3,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="889.0" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="862.3" y1="286.0" x2="940.3" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="862.3" y1="288.0" x2="940.3" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="862.3" y1="290.0" x2="940.3" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="865.3" y1="283.5" x2="937.3" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="865.3" y1="292.5" x2="937.3" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="862.3" y1="356.0" x2="940.3" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="862.3" y1="358.0" x2="940.3" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="862.3" y1="360.0" x2="940.3" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="865.3" y1="353.5" x2="937.3" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="865.3" y1="362.5" x2="937.3" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="862.3" y1="420.0" x2="940.3" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="862.3" y1="422.0" x2="940.3" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="862.3" y1="424.0" x2="940.3" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="865.3" y1="417.5" x2="937.3" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="865.3" y1="426.5" x2="937.3" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="862.3" y1="484.0" x2="940.3" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="862.3" y1="486.0" x2="940.3" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="862.3" y1="488.0" x2="940.3" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="865.3" y1="481.5" x2="937.3" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="865.3" y1="490.5" x2="937.3" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="862.3" y1="538.0" x2="940.3" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="862.3" y1="540.0" x2="940.3" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="862.3" y1="542.0" x2="940.3" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="865.3" y1="535.5" x2="937.3" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="865.3" y1="544.5" x2="937.3" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter J -->
+      <rect x="867.3" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="870.3" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="872.3" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="930.3" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="872.3" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="930.3" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="901.3" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">J</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(901.3, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(901.3, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(901.3, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="866.3" y1="558.0" x2="936.3" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="870.3" y1="561.0" x2="932.3" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="866.3" y1="268.0" x2="936.3" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="870.3" y1="265.0" x2="932.3" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume K (Index 10) -->
+    <g id="vol-K">
+      <rect x="944.2" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 945.2,254 Q 986.2,250 1027.2,254 L 1027.2,573 Q 986.2,577 945.2,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="973.9" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="947.2" y1="286.0" x2="1025.2" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="947.2" y1="288.0" x2="1025.2" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="947.2" y1="290.0" x2="1025.2" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="950.2" y1="283.5" x2="1022.2" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="950.2" y1="292.5" x2="1022.2" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="947.2" y1="356.0" x2="1025.2" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="947.2" y1="358.0" x2="1025.2" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="947.2" y1="360.0" x2="1025.2" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="950.2" y1="353.5" x2="1022.2" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="950.2" y1="362.5" x2="1022.2" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="947.2" y1="420.0" x2="1025.2" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="947.2" y1="422.0" x2="1025.2" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="947.2" y1="424.0" x2="1025.2" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="950.2" y1="417.5" x2="1022.2" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="950.2" y1="426.5" x2="1022.2" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="947.2" y1="484.0" x2="1025.2" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="947.2" y1="486.0" x2="1025.2" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="947.2" y1="488.0" x2="1025.2" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="950.2" y1="481.5" x2="1022.2" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="950.2" y1="490.5" x2="1022.2" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="947.2" y1="538.0" x2="1025.2" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="947.2" y1="540.0" x2="1025.2" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="947.2" y1="542.0" x2="1025.2" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="950.2" y1="535.5" x2="1022.2" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="950.2" y1="544.5" x2="1022.2" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter K -->
+      <rect x="952.2" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="955.2" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="957.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1015.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="957.2" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1015.2" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="986.2" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">K</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(986.2, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(986.2, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(986.2, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="951.2" y1="558.0" x2="1021.2" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="955.2" y1="561.0" x2="1017.2" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="951.2" y1="268.0" x2="1021.2" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="955.2" y1="265.0" x2="1017.2" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume L (Index 11) -->
+    <g id="vol-L">
+      <rect x="1029.2" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1030.2,254 Q 1071.2,250 1112.2,254 L 1112.2,573 Q 1071.2,577 1030.2,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1058.9" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1032.2" y1="286.0" x2="1110.2" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1032.2" y1="288.0" x2="1110.2" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1032.2" y1="290.0" x2="1110.2" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1035.2" y1="283.5" x2="1107.2" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1035.2" y1="292.5" x2="1107.2" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1032.2" y1="356.0" x2="1110.2" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1032.2" y1="358.0" x2="1110.2" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1032.2" y1="360.0" x2="1110.2" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1035.2" y1="353.5" x2="1107.2" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1035.2" y1="362.5" x2="1107.2" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1032.2" y1="420.0" x2="1110.2" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1032.2" y1="422.0" x2="1110.2" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1032.2" y1="424.0" x2="1110.2" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1035.2" y1="417.5" x2="1107.2" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1035.2" y1="426.5" x2="1107.2" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1032.2" y1="484.0" x2="1110.2" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1032.2" y1="486.0" x2="1110.2" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1032.2" y1="488.0" x2="1110.2" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1035.2" y1="481.5" x2="1107.2" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1035.2" y1="490.5" x2="1107.2" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1032.2" y1="538.0" x2="1110.2" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1032.2" y1="540.0" x2="1110.2" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1032.2" y1="542.0" x2="1110.2" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1035.2" y1="535.5" x2="1107.2" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1035.2" y1="544.5" x2="1107.2" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter L -->
+      <rect x="1037.2" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1040.2" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1042.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1100.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1042.2" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1100.2" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1071.2" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">L</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1071.2, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1071.2, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1071.2, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1036.2" y1="558.0" x2="1106.2" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1040.2" y1="561.0" x2="1102.2" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1036.2" y1="268.0" x2="1106.2" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1040.2" y1="265.0" x2="1102.2" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume M (Index 12) -->
+    <g id="vol-M">
+      <rect x="1114.1" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1115.1,254 Q 1156.1,250 1197.1,254 L 1197.1,573 Q 1156.1,577 1115.1,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1143.8" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1117.1" y1="286.0" x2="1195.1" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1117.1" y1="288.0" x2="1195.1" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1117.1" y1="290.0" x2="1195.1" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1120.1" y1="283.5" x2="1192.1" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1120.1" y1="292.5" x2="1192.1" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1117.1" y1="356.0" x2="1195.1" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1117.1" y1="358.0" x2="1195.1" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1117.1" y1="360.0" x2="1195.1" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1120.1" y1="353.5" x2="1192.1" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1120.1" y1="362.5" x2="1192.1" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1117.1" y1="420.0" x2="1195.1" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1117.1" y1="422.0" x2="1195.1" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1117.1" y1="424.0" x2="1195.1" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1120.1" y1="417.5" x2="1192.1" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1120.1" y1="426.5" x2="1192.1" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1117.1" y1="484.0" x2="1195.1" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1117.1" y1="486.0" x2="1195.1" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1117.1" y1="488.0" x2="1195.1" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1120.1" y1="481.5" x2="1192.1" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1120.1" y1="490.5" x2="1192.1" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1117.1" y1="538.0" x2="1195.1" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1117.1" y1="540.0" x2="1195.1" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1117.1" y1="542.0" x2="1195.1" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1120.1" y1="535.5" x2="1192.1" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1120.1" y1="544.5" x2="1192.1" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter M -->
+      <rect x="1122.1" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1125.1" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1127.1" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1185.1" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1127.1" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1185.1" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1156.1" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">M</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1156.1, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1156.1, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1156.1, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1121.1" y1="558.0" x2="1191.1" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1125.1" y1="561.0" x2="1187.1" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1121.1" y1="268.0" x2="1191.1" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1125.1" y1="265.0" x2="1187.1" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume N (Index 13) -->
+    <g id="vol-N">
+      <rect x="1199.0" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1200.0,254 Q 1241.0,250 1282.0,254 L 1282.0,573 Q 1241.0,577 1200.0,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1228.7" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1202.0" y1="286.0" x2="1280.0" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1202.0" y1="288.0" x2="1280.0" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1202.0" y1="290.0" x2="1280.0" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1205.0" y1="283.5" x2="1277.0" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1205.0" y1="292.5" x2="1277.0" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1202.0" y1="356.0" x2="1280.0" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1202.0" y1="358.0" x2="1280.0" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1202.0" y1="360.0" x2="1280.0" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1205.0" y1="353.5" x2="1277.0" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1205.0" y1="362.5" x2="1277.0" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1202.0" y1="420.0" x2="1280.0" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1202.0" y1="422.0" x2="1280.0" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1202.0" y1="424.0" x2="1280.0" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1205.0" y1="417.5" x2="1277.0" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1205.0" y1="426.5" x2="1277.0" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1202.0" y1="484.0" x2="1280.0" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1202.0" y1="486.0" x2="1280.0" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1202.0" y1="488.0" x2="1280.0" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1205.0" y1="481.5" x2="1277.0" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1205.0" y1="490.5" x2="1277.0" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1202.0" y1="538.0" x2="1280.0" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1202.0" y1="540.0" x2="1280.0" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1202.0" y1="542.0" x2="1280.0" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1205.0" y1="535.5" x2="1277.0" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1205.0" y1="544.5" x2="1277.0" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter N -->
+      <rect x="1207.0" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1210.0" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1212.0" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1270.0" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1212.0" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1270.0" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1241.0" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">N</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1241.0, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1241.0, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1241.0, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1206.0" y1="558.0" x2="1276.0" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1210.0" y1="561.0" x2="1272.0" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1206.0" y1="268.0" x2="1276.0" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1210.0" y1="265.0" x2="1272.0" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume O (Index 14) -->
+    <g id="vol-O">
+      <rect x="1283.9" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1284.9,254 Q 1325.9,250 1366.9,254 L 1366.9,573 Q 1325.9,577 1284.9,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1313.6" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1286.9" y1="286.0" x2="1364.9" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1286.9" y1="288.0" x2="1364.9" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1286.9" y1="290.0" x2="1364.9" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1289.9" y1="283.5" x2="1361.9" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1289.9" y1="292.5" x2="1361.9" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1286.9" y1="356.0" x2="1364.9" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1286.9" y1="358.0" x2="1364.9" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1286.9" y1="360.0" x2="1364.9" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1289.9" y1="353.5" x2="1361.9" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1289.9" y1="362.5" x2="1361.9" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1286.9" y1="420.0" x2="1364.9" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1286.9" y1="422.0" x2="1364.9" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1286.9" y1="424.0" x2="1364.9" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1289.9" y1="417.5" x2="1361.9" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1289.9" y1="426.5" x2="1361.9" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1286.9" y1="484.0" x2="1364.9" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1286.9" y1="486.0" x2="1364.9" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1286.9" y1="488.0" x2="1364.9" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1289.9" y1="481.5" x2="1361.9" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1289.9" y1="490.5" x2="1361.9" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1286.9" y1="538.0" x2="1364.9" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1286.9" y1="540.0" x2="1364.9" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1286.9" y1="542.0" x2="1364.9" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1289.9" y1="535.5" x2="1361.9" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1289.9" y1="544.5" x2="1361.9" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter O -->
+      <rect x="1291.9" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1294.9" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1296.9" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1354.9" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1296.9" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1354.9" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1325.9" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">O</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1325.9, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1325.9, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1325.9, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1290.9" y1="558.0" x2="1360.9" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1294.9" y1="561.0" x2="1356.9" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1290.9" y1="268.0" x2="1360.9" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1294.9" y1="265.0" x2="1356.9" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume Q (Index 16) -->
+    <g id="vol-Q">
+      <rect x="1453.8" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1454.8,254 Q 1495.8,250 1536.8,254 L 1536.8,573 Q 1495.8,577 1454.8,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1483.5" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1456.8" y1="286.0" x2="1534.8" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1456.8" y1="288.0" x2="1534.8" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1456.8" y1="290.0" x2="1534.8" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1459.8" y1="283.5" x2="1531.8" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1459.8" y1="292.5" x2="1531.8" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1456.8" y1="356.0" x2="1534.8" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1456.8" y1="358.0" x2="1534.8" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1456.8" y1="360.0" x2="1534.8" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1459.8" y1="353.5" x2="1531.8" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1459.8" y1="362.5" x2="1531.8" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1456.8" y1="420.0" x2="1534.8" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1456.8" y1="422.0" x2="1534.8" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1456.8" y1="424.0" x2="1534.8" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1459.8" y1="417.5" x2="1531.8" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1459.8" y1="426.5" x2="1531.8" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1456.8" y1="484.0" x2="1534.8" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1456.8" y1="486.0" x2="1534.8" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1456.8" y1="488.0" x2="1534.8" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1459.8" y1="481.5" x2="1531.8" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1459.8" y1="490.5" x2="1531.8" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1456.8" y1="538.0" x2="1534.8" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1456.8" y1="540.0" x2="1534.8" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1456.8" y1="542.0" x2="1534.8" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1459.8" y1="535.5" x2="1531.8" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1459.8" y1="544.5" x2="1531.8" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter Q -->
+      <rect x="1461.8" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1464.8" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1466.8" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1524.8" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1466.8" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1524.8" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1495.8" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">Q</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1495.8, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1495.8, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1495.8, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1460.8" y1="558.0" x2="1530.8" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1464.8" y1="561.0" x2="1526.8" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1460.8" y1="268.0" x2="1530.8" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1464.8" y1="265.0" x2="1526.8" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume R (Index 17) -->
+    <g id="vol-R">
+      <rect x="1538.7" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1539.7,254 Q 1580.7,250 1621.7,254 L 1621.7,573 Q 1580.7,577 1539.7,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1568.4" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1541.7" y1="286.0" x2="1619.7" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1541.7" y1="288.0" x2="1619.7" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1541.7" y1="290.0" x2="1619.7" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1544.7" y1="283.5" x2="1616.7" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1544.7" y1="292.5" x2="1616.7" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1541.7" y1="356.0" x2="1619.7" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1541.7" y1="358.0" x2="1619.7" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1541.7" y1="360.0" x2="1619.7" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1544.7" y1="353.5" x2="1616.7" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1544.7" y1="362.5" x2="1616.7" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1541.7" y1="420.0" x2="1619.7" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1541.7" y1="422.0" x2="1619.7" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1541.7" y1="424.0" x2="1619.7" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1544.7" y1="417.5" x2="1616.7" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1544.7" y1="426.5" x2="1616.7" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1541.7" y1="484.0" x2="1619.7" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1541.7" y1="486.0" x2="1619.7" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1541.7" y1="488.0" x2="1619.7" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1544.7" y1="481.5" x2="1616.7" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1544.7" y1="490.5" x2="1616.7" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1541.7" y1="538.0" x2="1619.7" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1541.7" y1="540.0" x2="1619.7" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1541.7" y1="542.0" x2="1619.7" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1544.7" y1="535.5" x2="1616.7" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1544.7" y1="544.5" x2="1616.7" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter R -->
+      <rect x="1546.7" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1549.7" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1551.7" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1609.7" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1551.7" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1609.7" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1580.7" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">R</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1580.7, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1580.7, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1580.7, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1545.7" y1="558.0" x2="1615.7" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1549.7" y1="561.0" x2="1611.7" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1545.7" y1="268.0" x2="1615.7" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1549.7" y1="265.0" x2="1611.7" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume S (Index 18) -->
+    <g id="vol-S">
+      <rect x="1623.6" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1624.6,254 Q 1665.6,250 1706.6,254 L 1706.6,573 Q 1665.6,577 1624.6,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1653.3" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1626.6" y1="286.0" x2="1704.6" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1626.6" y1="288.0" x2="1704.6" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1626.6" y1="290.0" x2="1704.6" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1629.6" y1="283.5" x2="1701.6" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1629.6" y1="292.5" x2="1701.6" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1626.6" y1="356.0" x2="1704.6" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1626.6" y1="358.0" x2="1704.6" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1626.6" y1="360.0" x2="1704.6" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1629.6" y1="353.5" x2="1701.6" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1629.6" y1="362.5" x2="1701.6" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1626.6" y1="420.0" x2="1704.6" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1626.6" y1="422.0" x2="1704.6" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1626.6" y1="424.0" x2="1704.6" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1629.6" y1="417.5" x2="1701.6" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1629.6" y1="426.5" x2="1701.6" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1626.6" y1="484.0" x2="1704.6" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1626.6" y1="486.0" x2="1704.6" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1626.6" y1="488.0" x2="1704.6" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1629.6" y1="481.5" x2="1701.6" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1629.6" y1="490.5" x2="1701.6" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1626.6" y1="538.0" x2="1704.6" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1626.6" y1="540.0" x2="1704.6" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1626.6" y1="542.0" x2="1704.6" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1629.6" y1="535.5" x2="1701.6" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1629.6" y1="544.5" x2="1701.6" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter S -->
+      <rect x="1631.6" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1634.6" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1636.6" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1694.6" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1636.6" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1694.6" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1665.6" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">S</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1665.6, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1665.6, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1665.6, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1630.6" y1="558.0" x2="1700.6" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1634.6" y1="561.0" x2="1696.6" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1630.6" y1="268.0" x2="1700.6" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1634.6" y1="265.0" x2="1696.6" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume T (Index 19) -->
+    <g id="vol-T">
+      <rect x="1708.5" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1709.5,254 Q 1750.5,250 1791.5,254 L 1791.5,573 Q 1750.5,577 1709.5,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1738.2" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1711.5" y1="286.0" x2="1789.5" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1711.5" y1="288.0" x2="1789.5" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1711.5" y1="290.0" x2="1789.5" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1714.5" y1="283.5" x2="1786.5" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1714.5" y1="292.5" x2="1786.5" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1711.5" y1="356.0" x2="1789.5" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1711.5" y1="358.0" x2="1789.5" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1711.5" y1="360.0" x2="1789.5" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1714.5" y1="353.5" x2="1786.5" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1714.5" y1="362.5" x2="1786.5" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1711.5" y1="420.0" x2="1789.5" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1711.5" y1="422.0" x2="1789.5" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1711.5" y1="424.0" x2="1789.5" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1714.5" y1="417.5" x2="1786.5" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1714.5" y1="426.5" x2="1786.5" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1711.5" y1="484.0" x2="1789.5" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1711.5" y1="486.0" x2="1789.5" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1711.5" y1="488.0" x2="1789.5" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1714.5" y1="481.5" x2="1786.5" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1714.5" y1="490.5" x2="1786.5" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1711.5" y1="538.0" x2="1789.5" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1711.5" y1="540.0" x2="1789.5" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1711.5" y1="542.0" x2="1789.5" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1714.5" y1="535.5" x2="1786.5" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1714.5" y1="544.5" x2="1786.5" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter T -->
+      <rect x="1716.5" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1719.5" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1721.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1779.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1721.5" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1779.5" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1750.5" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">T</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1750.5, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1750.5, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1750.5, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1715.5" y1="558.0" x2="1785.5" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1719.5" y1="561.0" x2="1781.5" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1715.5" y1="268.0" x2="1785.5" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1719.5" y1="265.0" x2="1781.5" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume U (Index 20) -->
+    <g id="vol-U">
+      <rect x="1793.5" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1794.5,254 Q 1835.5,250 1876.5,254 L 1876.5,573 Q 1835.5,577 1794.5,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1823.2" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1796.5" y1="286.0" x2="1874.5" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1796.5" y1="288.0" x2="1874.5" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1796.5" y1="290.0" x2="1874.5" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1799.5" y1="283.5" x2="1871.5" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1799.5" y1="292.5" x2="1871.5" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1796.5" y1="356.0" x2="1874.5" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1796.5" y1="358.0" x2="1874.5" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1796.5" y1="360.0" x2="1874.5" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1799.5" y1="353.5" x2="1871.5" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1799.5" y1="362.5" x2="1871.5" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1796.5" y1="420.0" x2="1874.5" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1796.5" y1="422.0" x2="1874.5" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1796.5" y1="424.0" x2="1874.5" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1799.5" y1="417.5" x2="1871.5" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1799.5" y1="426.5" x2="1871.5" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1796.5" y1="484.0" x2="1874.5" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1796.5" y1="486.0" x2="1874.5" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1796.5" y1="488.0" x2="1874.5" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1799.5" y1="481.5" x2="1871.5" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1799.5" y1="490.5" x2="1871.5" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1796.5" y1="538.0" x2="1874.5" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1796.5" y1="540.0" x2="1874.5" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1796.5" y1="542.0" x2="1874.5" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1799.5" y1="535.5" x2="1871.5" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1799.5" y1="544.5" x2="1871.5" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter U -->
+      <rect x="1801.5" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1804.5" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1806.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1864.5" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1806.5" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1864.5" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1835.5" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">U</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1835.5, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1835.5, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1835.5, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1800.5" y1="558.0" x2="1870.5" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1804.5" y1="561.0" x2="1866.5" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1800.5" y1="268.0" x2="1870.5" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1804.5" y1="265.0" x2="1866.5" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume V (Index 21) -->
+    <g id="vol-V">
+      <rect x="1878.4" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1879.4,254 Q 1920.4,250 1961.4,254 L 1961.4,573 Q 1920.4,577 1879.4,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1908.1" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1881.4" y1="286.0" x2="1959.4" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1881.4" y1="288.0" x2="1959.4" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1881.4" y1="290.0" x2="1959.4" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1884.4" y1="283.5" x2="1956.4" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1884.4" y1="292.5" x2="1956.4" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1881.4" y1="356.0" x2="1959.4" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1881.4" y1="358.0" x2="1959.4" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1881.4" y1="360.0" x2="1959.4" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1884.4" y1="353.5" x2="1956.4" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1884.4" y1="362.5" x2="1956.4" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1881.4" y1="420.0" x2="1959.4" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1881.4" y1="422.0" x2="1959.4" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1881.4" y1="424.0" x2="1959.4" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1884.4" y1="417.5" x2="1956.4" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1884.4" y1="426.5" x2="1956.4" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1881.4" y1="484.0" x2="1959.4" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1881.4" y1="486.0" x2="1959.4" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1881.4" y1="488.0" x2="1959.4" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1884.4" y1="481.5" x2="1956.4" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1884.4" y1="490.5" x2="1956.4" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1881.4" y1="538.0" x2="1959.4" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1881.4" y1="540.0" x2="1959.4" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1881.4" y1="542.0" x2="1959.4" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1884.4" y1="535.5" x2="1956.4" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1884.4" y1="544.5" x2="1956.4" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter V -->
+      <rect x="1886.4" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1889.4" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1891.4" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1949.4" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1891.4" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="1949.4" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="1920.4" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">V</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1920.4, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1920.4, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1920.4, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1885.4" y1="558.0" x2="1955.4" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1889.4" y1="561.0" x2="1951.4" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1885.4" y1="268.0" x2="1955.4" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1889.4" y1="265.0" x2="1951.4" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume W (Index 22) -->
+    <g id="vol-W">
+      <rect x="1963.3" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 1964.3,254 Q 2005.3,250 2046.3,254 L 2046.3,573 Q 2005.3,577 1964.3,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="1993.0" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="1966.3" y1="286.0" x2="2044.3" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1966.3" y1="288.0" x2="2044.3" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1966.3" y1="290.0" x2="2044.3" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1969.3" y1="283.5" x2="2041.3" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1969.3" y1="292.5" x2="2041.3" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1966.3" y1="356.0" x2="2044.3" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1966.3" y1="358.0" x2="2044.3" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1966.3" y1="360.0" x2="2044.3" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1969.3" y1="353.5" x2="2041.3" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1969.3" y1="362.5" x2="2041.3" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1966.3" y1="420.0" x2="2044.3" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1966.3" y1="422.0" x2="2044.3" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1966.3" y1="424.0" x2="2044.3" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1969.3" y1="417.5" x2="2041.3" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1969.3" y1="426.5" x2="2041.3" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1966.3" y1="484.0" x2="2044.3" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1966.3" y1="486.0" x2="2044.3" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1966.3" y1="488.0" x2="2044.3" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1969.3" y1="481.5" x2="2041.3" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1969.3" y1="490.5" x2="2041.3" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1966.3" y1="538.0" x2="2044.3" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1966.3" y1="540.0" x2="2044.3" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1966.3" y1="542.0" x2="2044.3" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1969.3" y1="535.5" x2="2041.3" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1969.3" y1="544.5" x2="2041.3" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter W -->
+      <rect x="1971.3" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1974.3" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1976.3" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2034.3" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="1976.3" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="2034.3" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="2005.3" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">W</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(2005.3, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(2005.3, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(2005.3, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1970.3" y1="558.0" x2="2040.3" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1974.3" y1="561.0" x2="2036.3" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1970.3" y1="268.0" x2="2040.3" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1974.3" y1="265.0" x2="2036.3" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume X (Index 23) -->
+    <g id="vol-X">
+      <rect x="2048.2" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 2049.2,254 Q 2090.2,250 2131.2,254 L 2131.2,573 Q 2090.2,577 2049.2,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="2077.9" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="2051.2" y1="286.0" x2="2129.2" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2051.2" y1="288.0" x2="2129.2" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2051.2" y1="290.0" x2="2129.2" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2054.2" y1="283.5" x2="2126.2" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2054.2" y1="292.5" x2="2126.2" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2051.2" y1="356.0" x2="2129.2" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2051.2" y1="358.0" x2="2129.2" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2051.2" y1="360.0" x2="2129.2" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2054.2" y1="353.5" x2="2126.2" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2054.2" y1="362.5" x2="2126.2" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2051.2" y1="420.0" x2="2129.2" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2051.2" y1="422.0" x2="2129.2" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2051.2" y1="424.0" x2="2129.2" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2054.2" y1="417.5" x2="2126.2" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2054.2" y1="426.5" x2="2126.2" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2051.2" y1="484.0" x2="2129.2" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2051.2" y1="486.0" x2="2129.2" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2051.2" y1="488.0" x2="2129.2" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2054.2" y1="481.5" x2="2126.2" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2054.2" y1="490.5" x2="2126.2" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2051.2" y1="538.0" x2="2129.2" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2051.2" y1="540.0" x2="2129.2" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2051.2" y1="542.0" x2="2129.2" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2054.2" y1="535.5" x2="2126.2" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2054.2" y1="544.5" x2="2126.2" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter X -->
+      <rect x="2056.2" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="2059.2" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="2061.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2119.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2061.2" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="2119.2" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="2090.2" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">X</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(2090.2, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(2090.2, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(2090.2, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="2055.2" y1="558.0" x2="2125.2" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="2059.2" y1="561.0" x2="2121.2" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="2055.2" y1="268.0" x2="2125.2" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="2059.2" y1="265.0" x2="2121.2" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume Y (Index 24) -->
+    <g id="vol-Y">
+      <rect x="2133.2" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 2134.2,254 Q 2175.2,250 2216.2,254 L 2216.2,573 Q 2175.2,577 2134.2,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="2162.9" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="2136.2" y1="286.0" x2="2214.2" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2136.2" y1="288.0" x2="2214.2" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2136.2" y1="290.0" x2="2214.2" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2139.2" y1="283.5" x2="2211.2" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2139.2" y1="292.5" x2="2211.2" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2136.2" y1="356.0" x2="2214.2" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2136.2" y1="358.0" x2="2214.2" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2136.2" y1="360.0" x2="2214.2" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2139.2" y1="353.5" x2="2211.2" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2139.2" y1="362.5" x2="2211.2" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2136.2" y1="420.0" x2="2214.2" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2136.2" y1="422.0" x2="2214.2" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2136.2" y1="424.0" x2="2214.2" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2139.2" y1="417.5" x2="2211.2" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2139.2" y1="426.5" x2="2211.2" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2136.2" y1="484.0" x2="2214.2" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2136.2" y1="486.0" x2="2214.2" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2136.2" y1="488.0" x2="2214.2" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2139.2" y1="481.5" x2="2211.2" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2139.2" y1="490.5" x2="2211.2" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2136.2" y1="538.0" x2="2214.2" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2136.2" y1="540.0" x2="2214.2" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2136.2" y1="542.0" x2="2214.2" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2139.2" y1="535.5" x2="2211.2" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2139.2" y1="544.5" x2="2211.2" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter Y -->
+      <rect x="2141.2" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="2144.2" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="2146.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2204.2" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2146.2" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="2204.2" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="2175.2" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">Y</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(2175.2, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(2175.2, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(2175.2, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="2140.2" y1="558.0" x2="2210.2" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="2144.2" y1="561.0" x2="2206.2" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="2140.2" y1="268.0" x2="2210.2" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="2144.2" y1="265.0" x2="2206.2" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+    <!-- Volume Z (Index 25) -->
+    <g id="vol-Z">
+      <rect x="2218.1" y="250" width="84.0" height="325" fill="#080203"/>
+      <path d="M 2219.1,254 Q 2260.1,250 2301.1,254 L 2301.1,573 Q 2260.1,577 2219.1,573 Z" fill="url(#spine-bordeaux)"/>
+      <rect x="2247.8" y="254" width="24.6" height="319" fill="#ffffff" opacity="0.04"/>
+      <line x1="2221.1" y1="286.0" x2="2299.1" y2="286.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2221.1" y1="288.0" x2="2299.1" y2="288.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2221.1" y1="290.0" x2="2299.1" y2="290.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2224.1" y1="283.5" x2="2296.1" y2="283.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2224.1" y1="292.5" x2="2296.1" y2="292.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2221.1" y1="356.0" x2="2299.1" y2="356.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2221.1" y1="358.0" x2="2299.1" y2="358.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2221.1" y1="360.0" x2="2299.1" y2="360.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2224.1" y1="353.5" x2="2296.1" y2="353.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2224.1" y1="362.5" x2="2296.1" y2="362.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2221.1" y1="420.0" x2="2299.1" y2="420.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2221.1" y1="422.0" x2="2299.1" y2="422.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2221.1" y1="424.0" x2="2299.1" y2="424.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2224.1" y1="417.5" x2="2296.1" y2="417.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2224.1" y1="426.5" x2="2296.1" y2="426.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2221.1" y1="484.0" x2="2299.1" y2="484.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2221.1" y1="486.0" x2="2299.1" y2="486.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2221.1" y1="488.0" x2="2299.1" y2="488.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2224.1" y1="481.5" x2="2296.1" y2="481.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2224.1" y1="490.5" x2="2296.1" y2="490.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2221.1" y1="538.0" x2="2299.1" y2="538.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2221.1" y1="540.0" x2="2299.1" y2="540.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="2221.1" y1="542.0" x2="2299.1" y2="542.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="2224.1" y1="535.5" x2="2296.1" y2="535.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="2224.1" y1="544.5" x2="2296.1" y2="544.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter Z -->
+      <rect x="2226.1" y="297.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="2229.1" y="300.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="2231.1" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2289.1" cy="302.0" r="1" fill="#fef08a"/>
+      <circle cx="2231.1" cy="346.0" r="1" fill="#fef08a"/>
+      <circle cx="2289.1" cy="346.0" r="1" fill="#fef08a"/>
+      <text x="2260.1" y="335.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">Z</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(2260.1, 390.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(2260.1, 454.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(2260.1, 513.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="2225.1" y1="558.0" x2="2295.1" y2="558.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="2229.1" y1="561.0" x2="2291.1" y2="561.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="2225.1" y1="268.0" x2="2295.1" y2="268.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="2229.1" y1="265.0" x2="2291.1" y2="265.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    </g>
+  </g>  <!-- End normal volumes -->
+  <!-- 5. PULLED FORWARD VOLUME P (FEATURE FOCUS) -->
+  <g id="vol-P-pulled-focus">
+    <!-- Empty Shelf Gap Shadow behind Book P -->
+    <rect x="1369.8" y="250" width="82.0" height="325" fill="#030102"/>
+    <rect x="1369.8" y="250" width="82.0" height="325" fill="#000000" opacity="0.7"/>
+    <!-- Shadow on neighbor book O and gap -->
+    <polygon points="1347.8,250 1369.8,276 1369.8,601 1343.8,605" fill="#000000" opacity="0.75" filter="url(#shadow-blur)"/>
+    <!-- Shadow on shelf fascia below pulled volume -->
+    <rect x="1363.8" y="597.0" width="94.0" height="24" rx="6" fill="#000000" opacity="0.8" filter="url(#shelf-shadow-blur)"/>
+    <!-- Left Cover Board (Depth) of Book P -->
+    <polygon points="1355.8,250.0 1369.8,276.0 1369.8,601.0 1355.8,575.0" fill="url(#cover-side-grad)"/>
+    <polygon points="1355.8,250.0 1369.8,276.0 1369.8,601.0 1355.8,575.0" fill="#000000" opacity="0.45"/>
+    <line x1="1369.8" y1="276.0" x2="1369.8" y2="601.0" stroke="#78232e" stroke-width="1.2"/>
+    <!-- Top Gilded Page Block (Gold Leaf Top Edge) -->
+    <polygon points="1369.8,276.0 1355.8,250.0 1437.8,250.0 1451.8,276.0" fill="url(#gilt-pages)"/>
+    <line x1="1366.3" y1="269.5" x2="1448.3" y2="269.5" stroke="#996515" stroke-width="0.8" opacity="0.6"/>
+    <line x1="1362.8" y1="263.0" x2="1444.8" y2="263.0" stroke="#996515" stroke-width="0.8" opacity="0.6"/>
+    <line x1="1359.3" y1="256.5" x2="1441.3" y2="256.5" stroke="#996515" stroke-width="0.8" opacity="0.6"/>
+    <polyline points="1355.8,250.0 1437.8,250.0 1451.8,276.0" fill="none" stroke="#22070b" stroke-width="2"/>
+    <!-- Main Spine Body of Volume P -->
+    <rect x="1369.8" y="276.0" width="82.0" height="325.0" fill="#0b0204"/>
+    <path d="M 1369.8,280 Q 1410.8,276 1451.8,280 L 1451.8,599 Q 1410.8,603 1369.8,599 Z" fill="url(#spine-bordeaux-pulled)"/>
+    <rect x="1398.5" y="280" width="28.7" height="319" fill="#ffedd5" opacity="0.08"/>
+      <line x1="1371.8" y1="312.0" x2="1449.8" y2="312.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1371.8" y1="314.0" x2="1449.8" y2="314.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1371.8" y1="316.0" x2="1449.8" y2="316.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1374.8" y1="309.5" x2="1446.8" y2="309.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1374.8" y1="318.5" x2="1446.8" y2="318.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1371.8" y1="382.0" x2="1449.8" y2="382.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1371.8" y1="384.0" x2="1449.8" y2="384.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1371.8" y1="386.0" x2="1449.8" y2="386.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1374.8" y1="379.5" x2="1446.8" y2="379.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1374.8" y1="388.5" x2="1446.8" y2="388.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1371.8" y1="446.0" x2="1449.8" y2="446.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1371.8" y1="448.0" x2="1449.8" y2="448.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1371.8" y1="450.0" x2="1449.8" y2="450.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1374.8" y1="443.5" x2="1446.8" y2="443.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1374.8" y1="452.5" x2="1446.8" y2="452.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1371.8" y1="510.0" x2="1449.8" y2="510.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1371.8" y1="512.0" x2="1449.8" y2="512.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1371.8" y1="514.0" x2="1449.8" y2="514.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1374.8" y1="507.5" x2="1446.8" y2="507.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1374.8" y1="516.5" x2="1446.8" y2="516.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1371.8" y1="564.0" x2="1449.8" y2="564.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1371.8" y1="566.0" x2="1449.8" y2="566.0" stroke="#78232e" stroke-width="2.6"/>
+      <line x1="1371.8" y1="568.0" x2="1449.8" y2="568.0" stroke="#0b0203" stroke-width="1.2"/>
+      <line x1="1374.8" y1="561.5" x2="1446.8" y2="561.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <line x1="1374.8" y1="570.5" x2="1446.8" y2="570.5" stroke="#d4af37" stroke-width="0.7" opacity="0.75"/>
+      <!-- Gold Cartouche for Letter P -->
+      <rect x="1376.8" y="323.0" width="68.0" height="54.0" rx="3" fill="#1b0508" stroke="url(#gold-foil)" stroke-width="1.2" opacity="0.95"/>
+      <rect x="1379.8" y="326.0" width="62.0" height="48.0" rx="1.5" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.7"/>
+      <circle cx="1381.8" cy="328.0" r="1" fill="#fef08a"/>
+      <circle cx="1439.8" cy="328.0" r="1" fill="#fef08a"/>
+      <circle cx="1381.8" cy="372.0" r="1" fill="#fef08a"/>
+      <circle cx="1439.8" cy="372.0" r="1" fill="#fef08a"/>
+      <text x="1410.8" y="361.0" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="bold" fill="url(#gold-foil)" text-anchor="middle" filter="url(#emboss-gold)">P</text>
+      <!-- Classical Gold Fleuron Ornament in Panel 3 -->
+      <g transform="translate(1410.8, 416.0)" stroke="#d4af37" stroke-width="0.9" fill="none" opacity="0.82">
+        <path d="M 0,-14 C 4,-8 10,-4 10,0 C 10,6 3,10 0,14 C -3,10 -10,6 -10,0 C -10,-4 -4,-8 0,-14 Z"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#d4af37" stroke-width="0.8"/>
+        <circle cx="-14" cy="0" r="1.2" fill="#fef08a"/>
+        <circle cx="14" cy="0" r="1.2" fill="#fef08a"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 4 -->
+      <g transform="translate(1410.8, 480.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <polygon points="0,-12 9,0 0,12 -9,0" stroke-width="0.9"/>
+        <polygon points="0,-6 4.5,0 0,6 -4.5,0" fill="#d4af37" fill-opacity="0.4"/>
+        <line x1="-12" y1="0" x2="12" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Classical Gold Diamond Motif in Panel 5 -->
+      <g transform="translate(1410.8, 539.0)" stroke="#d4af37" stroke-width="0.8" fill="none" opacity="0.75">
+        <circle cx="0" cy="0" r="4.5"/>
+        <circle cx="0" cy="0" r="1.5" fill="#fef08a"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke-width="0.7"/>
+      </g>
+      <!-- Gold Tail Fillet -->
+      <line x1="1375.8" y1="584.0" x2="1445.8" y2="584.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1379.8" y1="587.0" x2="1441.8" y2="587.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+      <!-- Gold Headcap Fillet -->
+      <line x1="1375.8" y1="294.0" x2="1445.8" y2="294.0" stroke="#d4af37" stroke-width="0.9" opacity="0.8"/>
+      <line x1="1379.8" y1="291.0" x2="1441.8" y2="291.0" stroke="#d4af37" stroke-width="0.6" opacity="0.6"/>
+    <!-- Soft shadow on right neighbor Q -->
+    <line x1="1452.8" y1="276" x2="1452.8" y2="601" stroke="#000000" stroke-width="3" opacity="0.6"/>
+  </g>
+  <rect x="0" y="550" width="2400" height="130" fill="url(#shelf-light)" pointer-events="none"/>
 </svg>
