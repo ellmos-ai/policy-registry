@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import stat
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -559,26 +560,32 @@ class PolicyRegistry:
             if source_path is None:
                 checks.append({"id": entry["id"], "state": "remote-unchecked"})
                 continue
-            if not source_path.exists():
+            try:
+                source_stat = source_path.stat()
+                expected = (entry.get("hash") or {}).get("value")
+                if expected and stat.S_ISREG(source_stat.st_mode):
+                    actual = sha256_file(source_path)
+                    checks.append(
+                        {
+                            "id": entry["id"],
+                            "state": "ok" if actual == expected else "hash-mismatch",
+                            "actual": actual,
+                        }
+                    )
+                else:
+                    checks.append({"id": entry["id"], "state": "present"})
+            except FileNotFoundError:
                 checks.append({"id": entry["id"], "state": "missing"})
-                continue
-            expected = (entry.get("hash") or {}).get("value")
-            if expected and source_path.is_file():
-                actual = sha256_file(source_path)
-                checks.append(
-                    {
-                        "id": entry["id"],
-                        "state": "ok" if actual == expected else "hash-mismatch",
-                        "actual": actual,
-                    }
-                )
-            else:
-                checks.append({"id": entry["id"], "state": "present"})
+            except OSError:
+                # A locked, offline or denied source cannot invalidate other
+                # pointer observations or become a successful verification.
+                # Keep private paths and OS error text out of the receipt.
+                checks.append({"id": entry["id"], "state": "unreadable"})
         return {
             "registry": str(self.path),
             "entries": len(entries),
             "checks": checks,
-            "ok": all(item["state"] not in {"missing", "hash-mismatch"} for item in checks),
+            "ok": all(item["state"] not in {"missing", "hash-mismatch", "unreadable"} for item in checks),
         }
 
 __all__ = ["PolicyRegistry", "RegistryError", "ValidationError"]

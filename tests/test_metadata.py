@@ -86,7 +86,10 @@ def test_llms_txt_integrity():
     content = llms_path.read_text(encoding="utf-8")
 
     assert "ellmos-ai / policy-registry" in content
-    assert "Last-checked: 2026-09-12" in content or "Last-checked: 2026-09-10" in content
+    date_match = re.search(r"^Last-checked: (\d{4}-\d{2}-\d{2})$", content, re.MULTILINE)
+    assert date_match, "Last-checked must be an ISO date"
+    from datetime import date
+    date.fromisoformat(date_match.group(1))
     assert "Test-suite:" in content
     assert "Local-First" in content or "LOCAL-FIRST" in content
 

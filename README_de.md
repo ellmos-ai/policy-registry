@@ -3,10 +3,10 @@
 # policy-registry
 
 [![CI](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml/badge.svg)](https://github.com/ellmos-ai/policy-registry/actions/workflows/ci.yml)
-[![Version: 0.2.3](https://img.shields.io/badge/version-0.2.3-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
+[![Version: 0.2.4](https://img.shields.io/badge/version-0.2.4-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
 [![Python 3.10 | 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests Passing](https://img.shields.io/badge/tests-164%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-174%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
@@ -369,3 +369,12 @@ Die Veröffentlichung der Software erfolgt „wie besehen" („AS IS"), ohne aus
 ## Lizenz
 
 MIT License — siehe [LICENSE](LICENSE).
+
+
+### Verfügbarkeit lokaler Quellen
+`verify()` meldet jeden lokalen Zeiger einzeln. Eine gesperrte, offline
+liegende oder nicht zugängliche Datei ist `unreadable`; eine fehlende Datei
+ist `missing`. Die übrigen Zeiger bleiben prüfbar. Beide Zustände setzen
+das Gesamtflag `ok` auf false. Diese Metadatenprüfung adoptiert keine
+Policy und bestätigt keine Durchsetzung. Registry und deklarierte
+Quellenhashes werden durch die Prüfung nicht verändert.

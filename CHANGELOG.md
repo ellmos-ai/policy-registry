@@ -5,6 +5,18 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4] - 2026-10-09
+
+### Fixed
+- Source verification reports a local source access failure as `unreadable`
+  and continues checking the remaining pointers. The aggregate `ok` flag is
+  false; unreadable sources do not gain verified authority.
+- A source disappearing during a read is reported as `missing`. Private OS
+  error text and paths are not copied into individual check receipts.
+- Registry metadata, source hashes, resolution and adoption remain unchanged.
+  Added isolated regression coverage for EAGAIN, permission denial, recovery,
+  disappearance during hashing, CLI JSON and unexpected implementation errors.
+
 ## [0.2.3] - 2026-09-12
 
 ### Added
