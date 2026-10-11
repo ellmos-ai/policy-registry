@@ -39,3 +39,7 @@ Test-suite: 174/174 passed (pytest, Python 3.12.10)
 - [schemas/policy-entry.schema.json](file:///schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
 - [schemas/byum-decision-candidate-pointer.v1.schema.json](file:///schemas/byum-decision-candidate-pointer.v1.schema.json): Closed prevalidated BYUM v2 pointer envelope.
 - [src/policy_registry/scope.py](file:///src/policy_registry/scope.py): Shared scope and consumer matcher used by registry and delegation resolution.
+
+## Related Projects
+
+- [COMA](https://github.com/ellmos-ai/coma): local job-file management and agent process startup/status, complementary to policy-registry's pointer-based policy and decision resolution.

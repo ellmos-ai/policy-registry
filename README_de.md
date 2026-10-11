@@ -298,6 +298,7 @@ Das MCP-Extra bleibt bis zu einer ausdrücklich getesteten v2-Migration auf die 
 | [`ellmos-ai/ellmos-scheduler`](https://github.com/ellmos-ai/ellmos-scheduler) | Deterministischer Scheduler und Task-Runner für Agenten-Pipelines | `ellmos-ai` |
 | [`ellmos-ai/ellmos-voice-io`](https://github.com/ellmos-ai/ellmos-voice-io) | Sprach-Ein-/Ausgabe-Adapter für multimodale Assistenten | `ellmos-ai` |
 | [`ellmos-ai/lock-master`](https://github.com/ellmos-ai/lock-master) | Multi-Agent Locking- & Lease-Protokoll für koordinierte Workflows | `ellmos-ai` |
+| [`ellmos-ai/coma`](https://github.com/ellmos-ai/coma) | Verwaltet lokale Jobdateien und startet Agentenprozesse beziehungsweise erfasst ihren Status über ein Dateiprotokoll; ergänzt die pointerbasierte Richtlinien- und Entscheidungsauflösung von `policy-registry`. | `ellmos-ai` |
 | [`ellmos-ai/ticket-master`](https://github.com/ellmos-ai/ticket-master) | Deterministisches Ticket-Management und Lebenszyklus-Koordination | `ellmos-ai` |
 | [`ellmos-ai/clutch`](https://github.com/ellmos-ai/clutch) | Task-Ausführungs-Koordinator und Agenten-Laufzeitumgebung | `ellmos-ai` |
 | [`ellmos-ai/ellmos-controlcenter-mcp`](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | Gateway und Orchestrator für lokale MCP-Werkzeugbündel | `ellmos-ai` |

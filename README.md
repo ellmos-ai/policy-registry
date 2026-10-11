@@ -296,6 +296,7 @@ The MCP extra is bounded to the maintained MCP SDK v1 line `>=1.28.1,<2`.
 | [`ellmos-ai/ellmos-scheduler`](https://github.com/ellmos-ai/ellmos-scheduler) | Deterministic task runner and scheduler for multi-agent workflows | `ellmos-ai` |
 | [`ellmos-ai/ellmos-voice-io`](https://github.com/ellmos-ai/ellmos-voice-io) | Speech I/O adapter for multimodal assistants | `ellmos-ai` |
 | [`ellmos-ai/lock-master`](https://github.com/ellmos-ai/lock-master) | Multi-agent locking & lease protocol for concurrent autonomous workflows | `ellmos-ai` |
+| [`ellmos-ai/coma`](https://github.com/ellmos-ai/coma) | Manages local job files and agent process startup/status through a file protocol; complements `policy-registry`'s pointer-based policy and decision resolution. | `ellmos-ai` |
 | [`ellmos-ai/ticket-master`](https://github.com/ellmos-ai/ticket-master) | Deterministic ticket management and lifecycle coordinator | `ellmos-ai` |
 | [`ellmos-ai/clutch`](https://github.com/ellmos-ai/clutch) | Task execution coordinator and agent runtime | `ellmos-ai` |
 | [`ellmos-ai/ellmos-controlcenter-mcp`](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | Gateway and orchestrator for local MCP tool bundles | `ellmos-ai` |
