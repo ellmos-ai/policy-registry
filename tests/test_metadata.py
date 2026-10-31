@@ -515,3 +515,53 @@ def test_changelog_recent_pfad_b_entry():
     assert "## [0.2.3] - 2026-09-12" in content
     assert "THIRD_PARTY_LICENSES.md" in content
     assert "Quick Navigation" in content
+
+
+def test_pep561_py_typed_present():
+    """Verify PEP 561 py.typed marker file exists and is declared in package-data."""
+    py_typed = REPO_ROOT / "src" / "policy_registry" / "py.typed"
+    assert py_typed.is_file(), "src/policy_registry/py.typed is missing"
+
+    pyproject_path = REPO_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        data = tomllib.load(f)
+    package_data = data.get("tool", {}).get("setuptools", {}).get("package-data", {})
+    assert "policy_registry" in package_data
+    assert "py.typed" in package_data["policy_registry"]
+
+
+def test_pep639_license_files_declared():
+    """Verify PEP 639 license-files declaration in pyproject.toml."""
+    pyproject_path = REPO_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        data = tomllib.load(f)
+    license_files = data.get("project", {}).get("license-files", [])
+    assert "LICENSE" in license_files
+    assert "THIRD_PARTY_LICENSES.md" in license_files
+
+
+def test_todo_status_table_and_gates():
+    """Verify TODO.md contains structured ## STATUS table with release gates."""
+    todo_path = REPO_ROOT / "TODO.md"
+    assert todo_path.is_file(), "TODO.md is missing"
+    content = todo_path.read_text(encoding="utf-8")
+    assert "## STATUS" in content
+    assert "| Category" in content
+    assert "READY" in content
+
+
+def test_final_gate_check_compliance():
+    """Verify final_gate_check.py passes with 10 PASS and 0 FAIL."""
+    import subprocess
+    import sys
+
+    gate_script = Path.home() / "OneDrive" / ".TOPICS" / ".AI" / ".MODULES" / "_scripts" / "final_gate_check.py"
+    if gate_script.is_file():
+        res = subprocess.run(
+            [sys.executable, str(gate_script), "--repo-path", str(REPO_ROOT)],
+            capture_output=True,
+            text=True,
+        )
+        assert res.returncode == 0, f"final_gate_check.py failed:\n{res.stdout}\n{res.stderr}"
+        assert "10 PASS" in res.stdout
+        assert "READY FOR PUBLIC RELEASE" in res.stdout
