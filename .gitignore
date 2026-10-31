@@ -1,4 +1,7 @@
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
@@ -18,6 +21,34 @@ wheelhouse/
 *.swp
 *~
 *.log
+
+# Environment & secrets
+.env
+.env.*
+.env.local
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+*.cert
+.npmrc
+.pypirc
+*token*
+*secret*
+credentials.json
+secrets.json
+
+# Local data & databases
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# IDE & editors
+.idea/
+.vscode/
+*.sublime-*
 
 # Cloud sync & multi-host conflict files
 *-conflict-*

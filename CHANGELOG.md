@@ -5,6 +5,18 @@ All notable changes to `policy-registry` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- PEP 561 typing marker `src/policy_registry/py.typed` and configured `package-data` in `pyproject.toml`.
+- PEP 639 declaration `license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]` in `pyproject.toml`.
+- Automated contract tests in `tests/test_metadata.py` verifying PEP 561 compliance, PEP 639 license-files, `TODO.md` STATUS table readiness, and `final_gate_check.py` 10/10 PASS.
+
+### Changed
+- Standardized `TODO.md` with structured `## STATUS` table format and 10 release gate categories.
+- Hardened `.gitignore` with standard release patterns (`*.pyc`, `.env`, `*.db`, `.idea/`, `.vscode/`, `data/`).
+- Neutralized personal developer path in `MARKETING-LOG.txt:158` to portable `<OneDrive>` location.
+
 ## [0.2.4] - 2026-10-09
 
 ### Fixed

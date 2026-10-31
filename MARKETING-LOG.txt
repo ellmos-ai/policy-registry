@@ -155,7 +155,7 @@ ACTIONS COMPLETED:
 5. Extended `pyproject.toml` `[project.urls]` with `Third-Party Licenses`, `Marketing-Log`, and `LLM-Ready`.
 6. Synchronized `llms.txt` with timestamp `2026-09-12`, version `0.2.3`, 164 passed tests, and references to `THIRD_PARTY_LICENSES.md` and `MARKETING-LOG.txt`.
 7. Expanded automated contract test suite in `tests/test_metadata.py` to 164 tests, adding tests for license inventory, marketing log contract, extended PEP 621 URLs, and latest Pfad B changelog entry.
-8. Synchronized gitless Plan D projection to `C:\Users\lukas\OneDrive\.TOPICS\.AI\.MODULES\.CONTROL\policy-registry`.
+8. Synchronized gitless Plan D projection to `<OneDrive>/.TOPICS/.AI/.MODULES/.CONTROL/policy-registry`.
 
 RECOMMENDATIONS FOR FUTURE WORK:
 - Add an interactive HTML visual graph viewer for hierarchical scope inspection in `docs/` using `generative_ui`.
