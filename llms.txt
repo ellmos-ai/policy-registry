@@ -2,9 +2,9 @@
 
 > Local-first pointer registry for policies, rules, and decisions.
 
-Last-checked: 2026-10-09
+Last-checked: 2026-11-18
 Version: 0.2.4
-Test-suite: 174/174 passed (pytest, Python 3.12.10)
+Test-suite: 181/181 passed (pytest, Python 3.12.10)
 
 ## Summary
 
@@ -29,16 +29,19 @@ Test-suite: 174/174 passed (pytest, Python 3.12.10)
 
 ## Primary Documentation & References
 
-- [README.md](file:///README.md): Project overview, installation, CLI usage, MCP server setup, and sequence diagrams.
-- [README_de.md](file:///README_de.md): Deutsche Dokumentation, Architekturübersicht und Scope-Diagramme.
-- [ARCHITECTURE.md](file:///ARCHITECTURE.md): Structural details and metadata schema hierarchy.
-- [SECURITY.md](file:///SECURITY.md): Bilingual security policy, authority boundaries, and vulnerability contacts.
-- [THIRD_PARTY_LICENSES.md](file:///THIRD_PARTY_LICENSES.md): Audited inventory of runtime, optional MCP, and build dependencies under permissive open-source licenses.
-- [MARKETING-LOG.txt](file:///MARKETING-LOG.txt): Target personas, competitive matrix, high-intent keywords, and governance invariants audit.
-- [pyproject.toml](file:///pyproject.toml): Dependencies, classifiers (Python 3.10-3.13), and script entry points.
-- [schemas/policy-entry.schema.json](file:///schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
-- [schemas/byum-decision-candidate-pointer.v1.schema.json](file:///schemas/byum-decision-candidate-pointer.v1.schema.json): Closed prevalidated BYUM v2 pointer envelope.
-- [src/policy_registry/scope.py](file:///src/policy_registry/scope.py): Shared scope and consumer matcher used by registry and delegation resolution.
+- [README.md](README.md): Project overview, installation, CLI usage, MCP server setup, and sequence diagrams.
+- [README_de.md](README_de.md): Deutsche Dokumentation, Architekturübersicht und Scope-Diagramme.
+- [SKILL.md](SKILL.md): Portable product skill for LLM agents (CLI, Python API, and MCP workflows).
+- [llm.txt](llm.txt): Compatibility pointer referencing `llms.txt` and `SKILL.md`.
+- [ARCHITECTURE.md](ARCHITECTURE.md): Structural details and metadata schema hierarchy.
+- [SECURITY.md](SECURITY.md): Bilingual security policy, authority boundaries, and vulnerability contacts.
+- [CONTRIBUTING.md](CONTRIBUTING.md): Bilingual contributor guidelines and local check commands.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): Bilingual community code of conduct.
+- [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md): Audited inventory of runtime, optional MCP, and build dependencies under permissive open-source licenses.
+- [pyproject.toml](pyproject.toml): Dependencies, classifiers (Python 3.10-3.13), and script entry points.
+- [schemas/policy-entry.schema.json](schemas/policy-entry.schema.json): Normative JSON schema for policy entries.
+- [schemas/byum-decision-candidate-pointer.v1.schema.json](schemas/byum-decision-candidate-pointer.v1.schema.json): Closed prevalidated BYUM v2 pointer envelope.
+- [src/policy_registry/scope.py](src/policy_registry/scope.py): Shared scope and consumer matcher used by registry and delegation resolution.
 
 ## Related Projects
 

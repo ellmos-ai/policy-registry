@@ -4,6 +4,8 @@ __pycache__/
 *.pyd
 *.py[cod]
 .pytest_cache/
+.pytest_temp/
+.pytest_tmp*/
 .ruff_cache/
 .mypy_cache/
 .venv/
@@ -61,6 +63,22 @@ data/
 *-WORKSTATION-LG*
 *-WORKSTATION-LG.*
 *-WORKSTATION.*
+*-IDEAPAD*
+*-IDEAPAD-GEI*
+*-IDEAPAD-GEI.*
+TASKPLAN_*.md
+*-TASKPLAN*
+Desktop.ini
+Thumbs.db
+ehthumbs.db
+
+# Local agent artifacts & internal logs
+MARKETING-LOG.txt
+*MARKETING-LOG.txt
+.claude/
+.codex/
+.gemini/
+.agent/
 
 # Multi-agent locks
 LOCK

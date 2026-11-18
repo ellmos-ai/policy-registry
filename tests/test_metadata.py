@@ -99,8 +99,11 @@ def test_llms_txt_integrity():
         "README_de.md",
         "ARCHITECTURE.md",
         "SECURITY.md",
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md",
+        "SKILL.md",
+        "llm.txt",
         "THIRD_PARTY_LICENSES.md",
-        "MARKETING-LOG.txt",
         "pyproject.toml",
         "schemas/policy-entry.schema.json",
         "schemas/byum-decision-candidate-pointer.v1.schema.json",
@@ -369,19 +372,22 @@ def test_ci_concurrency_and_bytecode_gate():
     assert "python -m compileall -q ." in content
 
 
-def test_local_marketing_log():
-    """Verify local MARKETING-LOG.txt audit log exists and documents discovery updates."""
-    log_path = REPO_ROOT / "MARKETING-LOG.txt"
-    assert log_path.is_file(), "MARKETING-LOG.txt is missing"
-    content = log_path.read_text(encoding="utf-8")
+def test_marketing_log_not_tracked_and_ignored():
+    """Verify MARKETING-LOG.txt is gitignored and never tracked in the repository (T-20260926-455218633)."""
+    import subprocess
 
-    assert "[GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN]" in content
-    assert "TARGET PERSONAS & USER JOURNEYS" in content
-    assert "COMPETITIVE DIFFERENTIATION MATRIX" in content
-    assert "GOVERNANCE & RUNTIME INVARIANTS" in content
-    assert "INV-LOCAL-01" in content
-    assert "AUDIT FINDINGS" in content
-    assert "RECOMMENDATIONS FOR FUTURE WORK" in content or "RECOMMENDATIONS" in content
+    gitignore_content = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert "MARKETING-LOG.txt" in gitignore_content
+
+    if (REPO_ROOT / ".git").exists():
+        res = subprocess.run(
+            ["git", "ls-files", "MARKETING-LOG.txt"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        assert res.returncode == 0
+        assert res.stdout.strip() == "", "MARKETING-LOG.txt must not be git-tracked"
 
 
 def test_sibling_ecosystem_matrix_parity():
@@ -441,13 +447,19 @@ def test_gitignore_hygiene_patterns():
         "htmlcov/",
         "wheelhouse/",
         ".wheel-smoke/",
+        ".pytest_temp/",
+        "MARKETING-LOG.txt",
+        ".claude/",
+        ".codex/",
+        ".gemini/",
+        ".agent/",
     ]
     for pattern in required_patterns:
         assert pattern in content, f"Missing required .gitignore pattern: {pattern}"
 
 
 def test_pytest_configuration_and_flags():
-    """Verify pyproject.toml configures standardized pytest runner flags."""
+    """Verify pyproject.toml configures hardened pytest runner flags without relative basetemp."""
     pyproject_path = REPO_ROOT / "pyproject.toml"
     with pyproject_path.open("rb") as f:
         data = tomllib.load(f)
@@ -457,6 +469,11 @@ def test_pytest_configuration_and_flags():
     assert "-ra" in addopts and "-v" in addopts, (
         f"Expected standardized '-ra -v' in pyproject.toml [tool.pytest.ini_options].addopts, got: '{addopts}'"
     )
+    assert "--strict-markers" in addopts
+    assert "--basetemp" not in addopts, "Relative --basetemp in addopts is forbidden (T-20261114-932985855)"
+    assert pytest_opts.get("xfail_strict") is True
+    assert pytest_opts.get("asyncio_default_fixture_loop_scope") == "function"
+    assert ".pytest_temp" in pytest_opts.get("norecursedirs", [])
 
 
 def test_ci_workflow_pytest_flags():
@@ -502,8 +519,10 @@ def test_pep621_extended_urls():
 
     urls = data.get("project", {}).get("urls", {})
     assert "Third-Party Licenses" in urls
-    assert "Marketing-Log" in urls
+    assert "Contributing" in urls
+    assert "Code of Conduct" in urls
     assert "LLM-Ready" in urls
+    assert "Marketing-Log" not in urls
 
 
 def test_changelog_recent_pfad_b_entry():
@@ -565,3 +584,41 @@ def test_final_gate_check_compliance():
         assert res.returncode == 0, f"final_gate_check.py failed:\n{res.stdout}\n{res.stderr}"
         assert "10 PASS" in res.stdout
         assert "READY FOR PUBLIC RELEASE" in res.stdout
+
+
+def test_ci_workflow_dispatch_and_least_privilege():
+    """Verify CI workflow supports manual dispatch and least-privilege token permissions."""
+    ci_content = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "workflow_dispatch:" in ci_content
+    assert "permissions:" in ci_content
+    assert "contents: read" in ci_content
+
+
+def test_dependabot_and_issue_templates_present():
+    """Verify Dependabot configuration and bilingual issue templates exist."""
+    dep_path = REPO_ROOT / ".github" / "dependabot.yml"
+    assert dep_path.is_file(), ".github/dependabot.yml is missing"
+    dep_content = dep_path.read_text(encoding="utf-8")
+    assert 'package-ecosystem: "pip"' in dep_content
+    assert 'package-ecosystem: "github-actions"' in dep_content
+
+    for tpl in [
+        ".github/ISSUE_TEMPLATE/config.yml",
+        ".github/ISSUE_TEMPLATE/bug_report.md",
+        ".github/ISSUE_TEMPLATE/feature_request.md",
+    ]:
+        assert (REPO_ROOT / tpl).is_file(), f"Missing issue template: {tpl}"
+
+
+def test_p022_and_governance_files_present():
+    """Verify P-022 product skill and community governance files exist and stay portable."""
+    for rel in ["SKILL.md", "llm.txt", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md"]:
+        assert (REPO_ROOT / rel).is_file(), f"Missing required governance/LLM file: {rel}"
+
+    skill_text = (REPO_ROOT / "SKILL.md").read_text(encoding="utf-8")
+    assert "policy-registry" in skill_text
+    assert "policy-registry-mcp" in skill_text
+    assert "OneDrive" not in skill_text
+
+    llm_text = (REPO_ROOT / "llm.txt").read_text(encoding="utf-8")
+    assert "llms.txt" in llm_text
