@@ -6,7 +6,7 @@
 [![Version: 0.2.4](https://img.shields.io/badge/version-0.2.4-blue.svg)](https://github.com/ellmos-ai/policy-registry/releases)
 [![Python 3.10 | 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests Passing](https://img.shields.io/badge/tests-174%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-181%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
@@ -14,12 +14,11 @@
 [![Security SLA: 48h / 5d](https://img.shields.io/badge/security%20SLA-48h%20%7C%205d%20triage-blue.svg)](SECURITY.md)
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-brightgreen.svg)](SECURITY.md)
 [![Third-Party Audited](https://img.shields.io/badge/third--party-100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
-[![Marketing Log: Active](https://img.shields.io/badge/marketing%20log-active-blue.svg)](MARKETING-LOG.txt)
 [![Ecosystem: ellmos--ai](https://img.shields.io/badge/Ecosystem-ellmos--ai-purple.svg)](https://github.com/ellmos-ai)
 [![Umbrella: open--bricks](https://img.shields.io/badge/Umbrella-open--bricks-blue.svg)](https://github.com/open-bricks)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-orange.svg)](llms.txt)
 
-[🇩🇪 Deutsch](README_de.md) | **🇬🇧 English** | 🛡️ [Security Policy](SECURITY.md) | 📝 [Changelog](CHANGELOG.md) | 📋 [llms.txt](llms.txt) | 📜 [Third-Party Licenses](THIRD_PARTY_LICENSES.md)
+[🇩🇪 Deutsch](README_de.md) | **🇬🇧 English** | 🛡️ [Security Policy](SECURITY.md) | 🤝 [Contributing](CONTRIBUTING.md) | 🧭 [Code of Conduct](CODE_OF_CONDUCT.md) | 📝 [Changelog](CHANGELOG.md) | 🤖 [SKILL.md](SKILL.md) | 📋 [llms.txt](llms.txt) | 📜 [Third-Party Licenses](THIRD_PARTY_LICENSES.md)
 
 > [!NOTE]
 > **AI & LLM Integration Notice**: This repository includes an [`llms.txt`](llms.txt) index file tailored for automated context ingestion, agentic system prompts, and LLM code understanding.
@@ -67,10 +66,10 @@ When searching or integrating policy management in multi-agent environments, use
 
 ## Test Status
 
-Verified local test pass as of 2026-09-10 (Python 3.12.10):
+Verified local test pass as of 2026-11-18 (Python 3.12.10):
 
-- `python -m pytest --collect-only` collects 161 tests.
-- `python -m pytest` passes 161/161 tests (100% green).
+- `python -m pytest --collect-only` collects 181 tests.
+- `python -m pytest` passes 181/181 tests (100% green).
 - `ruff check .` passes with 0 lint warnings.
 - `python -m compileall -q .` succeeds across the entire codebase.
 
@@ -343,7 +342,7 @@ To learn more about the strategic positioning, high-intent search taxonomy, comp
 - **DevOps & CI/CD Pipeline Automation Engineers**: 100% offline, zero-egress compliance gates with standardized exit codes.
 - **Enterprise Security, Privacy & Compliance Auditors**: Local-first storage rejecting full-text payloads, audited permissive licenses, and 48h/5d security SLAs.
 
-See the complete [MARKETING-LOG.txt](MARKETING-LOG.txt) for full matrices and audit tracking.
+See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`SKILL.md`](SKILL.md), and [`llms.txt`](llms.txt) for architecture contracts, agent workflows, and schema references.
 
 ---
 

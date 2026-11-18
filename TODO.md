@@ -1,7 +1,7 @@
 # TODO.md — Active work & Release Status: policy-registry
 
 **Version:** 0.2.4
-**Updated:** 2026-10-31
+**Updated:** 2026-11-18
 **Auditor:** Gemini (Antigravity)
 **Reason:** Turnusgemäßer AI Modules Care Wartungslauf, Final-Gate-Härtung (10/10 PASS), PEP 561 py.typed & Pfadneutralität
 **Target Repo:** `ellmos-ai/policy-registry`
@@ -20,7 +20,7 @@ Erledigte Aufgaben gehören nach `CHANGELOG.md` oder in den Abschnitt „Abgesch
 | Database Files | DONE | Keine Datenbankdateien versioniert; `*.db`, `*.sqlite`, `*.sqlite3` ignoriert. |
 | README.md & Architecture | DONE | Vollständige Spezifikation mit Quick-Navigation, Governance-Invarianten und ARCHITECTURE.md. |
 | LICENSE & Governance | DONE | MIT-Lizenz vorhanden; PEP 639 `license-files` deklariert; THIRD_PARTY_LICENSES.md gepflegt. |
-| Test Coverage | DONE | 100% Testabdeckung (174/174 Tests grün); Metadaten- und Governance-Vertragstests integriert. |
+| Test Coverage | DONE | 100% Testabdeckung (181/181 Tests grün); Metadaten-, Schema- und Governance-Vertragstests integriert. |
 | **Overall** | **READY** | Alle 10 Release-Gates erfüllt. |
 
 ## Offene Aufgaben
