@@ -81,7 +81,7 @@ testpaths = ["tests"]
 addopts = "-ra -v --strict-markers"
 xfail_strict = true
 asyncio_default_fixture_loop_scope = "function"
-norecursedirs = [".pytest_temp", ".pytest_cache", ".ruff_cache", ".git", "build", "dist"]
+norecursedirs = ["*.egg", ".*", "_darcs", "build", "CVS", "dist", "node_modules", "venv", "{arch}", ".pytest_temp", ".pytest_cache", ".ruff_cache", ".git", "*.egg-info"]
 pythonpath = ["src"]
 
 [tool.ruff]

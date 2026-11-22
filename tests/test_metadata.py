@@ -473,7 +473,9 @@ def test_pytest_configuration_and_flags():
     assert "--basetemp" not in addopts, "Relative --basetemp in addopts is forbidden (T-20261114-932985855)"
     assert pytest_opts.get("xfail_strict") is True
     assert pytest_opts.get("asyncio_default_fixture_loop_scope") == "function"
-    assert ".pytest_temp" in pytest_opts.get("norecursedirs", [])
+    norecursedirs = pytest_opts.get("norecursedirs", [])
+    for expected in (".*", "build", "dist", "node_modules", "venv", ".pytest_temp"):
+        assert expected in norecursedirs, f"Missing norecursedirs entry: {expected}"
 
 
 def test_ci_workflow_pytest_flags():
