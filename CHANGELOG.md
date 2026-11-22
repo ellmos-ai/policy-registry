@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `.github/dependabot.yml` (weekly `pip` and `github-actions` updates) and bilingual `.github/ISSUE_TEMPLATE/` (`config.yml`, `bug_report.md`, `feature_request.md`).
+- Bilingual `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` community governance files, plus P-022 `SKILL.md` and `llm.txt` entrypoints.
+- Contract tests in `tests/test_metadata.py` covering CI `workflow_dispatch` and least-privilege `permissions`, Dependabot and issue templates, P-022/governance files, hardened pytest options, and untracked `MARKETING-LOG.txt`.
+
+### Changed
+- Synchronized `_schema/ellmos.module.v2.schema.json` and `_schema/PIN.json` with the canonical v2 module schema.
+- Hardened `.github/workflows/ci.yml` (`workflow_dispatch`, `permissions: contents: read`) and `[tool.pytest.ini_options]` in `pyproject.toml` (`--strict-markers`, `xfail_strict = true`, `asyncio_default_fixture_loop_scope = "function"`, `norecursedirs` including `.pytest_temp` without relative `--basetemp`).
+- Removed `MARKETING-LOG.txt` from Git tracking (`git rm --cached`, kept locally), added `.pytest_temp/`, `MARKETING-LOG.txt`, and agent scratch patterns to `.gitignore`, and removed `MARKETING-LOG.txt` links from `pyproject.toml`, `README.md`, `README_de.md`, and `llms.txt`.
+- Neutralized the local repository root path in `ARCHITECTURE.md` and synchronized `README.md`, `README_de.md`, `llms.txt`, and `TODO.md` to 181/181 verified tests (`2026-11-18`).
+
+### Historical Unreleased (2026-10-31)
 - PEP 561 typing marker `src/policy_registry/py.typed` and configured `package-data` in `pyproject.toml`.
 - PEP 639 declaration `license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]` in `pyproject.toml`.
 - Automated contract tests in `tests/test_metadata.py` verifying PEP 561 compliance, PEP 639 license-files, `TODO.md` STATUS table readiness, and `final_gate_check.py` 10/10 PASS.

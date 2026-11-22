@@ -54,7 +54,8 @@ Security = "https://github.com/ellmos-ai/policy-registry/blob/main/SECURITY.md"
 Parent-Organization = "https://github.com/ellmos-ai"
 Umbrella = "https://github.com/open-bricks"
 "Third-Party Licenses" = "https://github.com/ellmos-ai/policy-registry/blob/main/THIRD_PARTY_LICENSES.md"
-"Marketing-Log" = "https://github.com/ellmos-ai/policy-registry/blob/main/MARKETING-LOG.txt"
+"Contributing" = "https://github.com/ellmos-ai/policy-registry/blob/main/CONTRIBUTING.md"
+"Code of Conduct" = "https://github.com/ellmos-ai/policy-registry/blob/main/CODE_OF_CONDUCT.md"
 "LLM-Ready" = "https://github.com/ellmos-ai/policy-registry/blob/main/llms.txt"
 
 [project.optional-dependencies]
@@ -77,7 +78,10 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra -v"
+addopts = "-ra -v --strict-markers"
+xfail_strict = true
+asyncio_default_fixture_loop_scope = "function"
+norecursedirs = ["*.egg", ".*", "_darcs", "build", "CVS", "dist", "node_modules", "venv", "{arch}", ".pytest_temp", ".pytest_cache", ".ruff_cache", ".git", "*.egg-info"]
 pythonpath = ["src"]
 
 [tool.ruff]

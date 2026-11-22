@@ -1,0 +1,3 @@
+# ellmos-ai / policy-registry
+
+Compatibility pointer: see [llms.txt](llms.txt) for the canonical LLM entrypoint and [SKILL.md](SKILL.md) for the product usage skill.

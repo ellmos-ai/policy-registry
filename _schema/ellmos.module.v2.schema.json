@@ -104,7 +104,8 @@
           "skill",
           "dataset",
           "template",
-          "mcp-adapter"
+          "mcp-adapter",
+          "report-provider"
         ]
       }
     },
@@ -213,74 +214,125 @@
     "adapters": {
       "type": "array",
       "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "type",
-          "id"
-        ],
-        "properties": {
-          "type": {
-            "enum": [
-              "mcp",
-              "plugin",
-              "skill",
-              "cli-wrapper",
-              "connector",
-              "repository-writer",
-              "provider-hook",
-              "provider",
-              "seam"
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "id"
             ],
-            "description": "Art des Adapters. mcp/plugin/skill/cli-wrapper/connector/repository-writer/provider-hook/provider sind Integrationspunkte (das Modul spricht etwas an oder wird angesprochen). seam ist eine Vertragsnaht zu einem anderen Modul -- der Begriff stammt aus den bestehenden Notizen der Module selbst, er ist nicht neu erfunden. provider benennt einen unterstuetzten Agenten-/Backend-Anbieter, den das Modul selbst startet oder bedient (agent-launcher: claude/codex/agy/kimi aus PROVIDERS); das ist NICHT provider-hook (ein Einhaengepunkt, an dem ein fremder Anbieter andockt) und NICHT cli-wrapper (das Modul liest oder umhuellt ein fremdes CLI-Artefakt)."
+            "properties": {
+              "type": {
+                "enum": [
+                  "mcp",
+                  "plugin",
+                  "skill",
+                  "cli-wrapper",
+                  "connector",
+                  "repository-writer",
+                  "provider-hook",
+                  "provider",
+                  "seam"
+                ],
+                "description": "Art des Adapters. mcp/plugin/skill/cli-wrapper/connector/repository-writer/provider-hook/provider sind Integrationspunkte (das Modul spricht etwas an oder wird angesprochen). seam ist eine Vertragsnaht zu einem anderen Modul -- der Begriff stammt aus den bestehenden Notizen der Module selbst, er ist nicht neu erfunden. provider benennt einen unterstuetzten Agenten-/Backend-Anbieter, den das Modul selbst startet oder bedient (agent-launcher: claude/codex/agy/kimi aus PROVIDERS); das ist NICHT provider-hook (ein Einhaengepunkt, an dem ein fremder Anbieter andockt) und NICHT cli-wrapper (das Modul liest oder umhuellt ein fremdes CLI-Artefakt)."
+              },
+              "id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "target": {
+                "type": "string",
+                "description": "Gegenstueck der Naht: Modul-ID, Capability oder Pfad."
+              },
+              "status": {
+                "type": "string",
+                "description": "Zustand der Naht, z.B. contract, optional, verified."
+              },
+              "note": {
+                "type": "string",
+                "description": "Freitext zur Naht. Bewusst unstrukturiert -- deshalb darf kein maschineller Konsument sich darauf stuetzen."
+              },
+              "role": {
+                "type": "string",
+                "description": "Rolle des Moduls in dieser Beziehung."
+              },
+              "networks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true,
+                "description": "Transportwege, ueber die die Naht bedient wird."
+              },
+              "optional_dependency": {
+                "type": "string",
+                "description": "Paket, das die Naht nutzt, wenn es vorhanden ist."
+              },
+              "instruction_file": {
+                "type": "string",
+                "description": "Dateiname der Anweisungsdatei, die dieser Anbieter liest (CLAUDE.md, AGENTS.md, GEMINI.md). Nur fuer type provider sinnvoll. Real belegt: agent_launcher/providers.py INSTRUCTION_FILES und coma/session.py ProviderPlan.instruction_file."
+              },
+              "required_for": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true,
+                "description": "Faehigkeiten, die ohne diese Naht nicht verfuegbar sind."
+              }
+            }
           },
-          "id": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "target": {
-            "type": "string",
-            "description": "Gegenstueck der Naht: Modul-ID, Capability oder Pfad."
-          },
-          "status": {
-            "type": "string",
-            "description": "Zustand der Naht, z.B. contract, optional, verified."
-          },
-          "note": {
-            "type": "string",
-            "description": "Freitext zur Naht. Bewusst unstrukturiert -- deshalb darf kein maschineller Konsument sich darauf stuetzen."
-          },
-          "role": {
-            "type": "string",
-            "description": "Rolle des Moduls in dieser Beziehung."
-          },
-          "networks": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "uniqueItems": true,
-            "description": "Transportwege, ueber die die Naht bedient wird."
-          },
-          "optional_dependency": {
-            "type": "string",
-            "description": "Paket, das die Naht nutzt, wenn es vorhanden ist."
-          },
-          "instruction_file": {
-            "type": "string",
-            "description": "Dateiname der Anweisungsdatei, die dieser Anbieter liest (CLAUDE.md, AGENTS.md, GEMINI.md). Nur fuer type provider sinnvoll. Real belegt: agent_launcher/providers.py INSTRUCTION_FILES und coma/session.py ProviderPlan.instruction_file."
-          },
-          "required_for": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "uniqueItems": true,
-            "description": "Faehigkeiten, die ohne diese Naht nicht verfuegbar sind."
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "group",
+              "name",
+              "target",
+              "contract",
+              "activation"
+            ],
+            "properties": {
+              "kind": {
+                "const": "python-entry-point"
+              },
+              "group": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1
+              },
+              "contract": {
+                "type": "string",
+                "minLength": 1
+              },
+              "activation": {
+                "enum": [
+                  "optional",
+                  "required",
+                  "default"
+                ]
+              },
+              "model_network": {
+                "enum": [
+                  "none",
+                  "host-mediated",
+                  "direct"
+                ]
+              }
+            }
           }
-        }
+        ]
       }
     },
     "repo_aliases": {

@@ -189,7 +189,7 @@ hashgebundene, fail-closed Prüfung von stale oder nicht materialisierten Quelle
 
 Vor Anlage wurden am 2026-07-28 geprüft:
 
-- lokale Repos unter `C:\_Local_DEV\repos`;
+- lokale Repos unter `<LOCAL_DEV_REPOS>`;
 - `.AI/.MODULES` und der generierte Modulkatalog;
 - Repositories der Organisationen `ellmos-ai` und `dev-bricks`;
 - PyPI-Projektnamen.
