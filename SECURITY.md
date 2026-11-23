@@ -29,8 +29,9 @@ We provide active security maintenance for current releases:
 
 If you discover a potential security vulnerability or integrity flaw in `policy-registry`, please report it privately:
 
-- **GitHub Security Advisories (only channel)**: [Report a vulnerability](https://github.com/ellmos-ai/policy-registry/security/advisories/new)
+- **GitHub Security Advisories (preferred channel)**: [Report a vulnerability](https://github.com/ellmos-ai/policy-registry/security/advisories/new)
 - **No e-mail channel**: There is currently no monitored mailbox for security reports. Please use GitHub private vulnerability reporting instead of e-mail.
+- **Fallback if the form is unavailable**: If the "Report a vulnerability" button is missing (private reporting disabled), open a public issue titled `Security contact request` **without any vulnerability details**. The maintainer will then provide a private channel.
 
 #### Response Targets (best effort, single maintainer, not a contractual SLA)
 - **Initial Response**: Within 48 hours of receipt.
@@ -66,12 +67,13 @@ Wir pflegen die folgenden Versionslinien aktiv mit Sicherheitsupdates:
 
 Wenn Sie eine potenzielle Sicherheitslücke oder einen Integritätsfehler in `policy-registry` finden, melden Sie diesen bitte vertraulich:
 
-- **GitHub Security Advisories (einziger Kanal)**: [Schwachstelle melden](https://github.com/ellmos-ai/policy-registry/security/advisories/new)
+- **GitHub Security Advisories (bevorzugter Kanal)**: [Schwachstelle melden](https://github.com/ellmos-ai/policy-registry/security/advisories/new)
 - **Kein E-Mail-Kanal**: Derzeit gibt es kein überwachtes Postfach für Sicherheitsmeldungen. Bitte nutzen Sie statt E-Mail die private Meldefunktion von GitHub.
+- **Ausweichweg, falls das Formular fehlt**: Ist die Schaltfläche „Report a vulnerability“ nicht verfügbar (private Meldung deaktiviert), eröffnen Sie ein öffentliches Issue mit dem Titel `Security contact request` **ohne Details zur Schwachstelle**. Der Maintainer stellt dann einen privaten Kanal bereit.
 
 #### Reaktionsziele (nach bestem Bemühen, ein einzelner Maintainer, keine vertragliche Zusage)
 - **Erstreaktion**: Innerhalb von 48 Stunden nach Eingang.
 - **Triage & Statusbewertung**: Innerhalb von 5 Werktagen.
 - **Behebung & Advisory-Veröffentlichung**: Zeitnah koordinierte Bereitstellung des Patches.
 
-Bitte eröffnen Sie keine öffentlichen GitHub-Issues für Sicherheitsvorfälle. Wir bestätigen den Eingang von Hinweisen verlässlich und koordinieren die Behebung umgehend.
+Bitte eröffnen Sie keine öffentlichen GitHub-Issues mit Details zu Sicherheitsvorfällen. Wir bestätigen den Eingang von Hinweisen verlässlich und koordinieren die Behebung umgehend.

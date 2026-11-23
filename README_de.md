@@ -11,7 +11,7 @@
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
 [![Security: Local-First / Non-Elevation](https://img.shields.io/badge/security-Local--First%20%7C%20Non--Elevation-success.svg)](SECURITY.md)
-[![Security SLA: 48h / 5d](https://img.shields.io/badge/security%20SLA-48h%20%7C%205d%20triage-blue.svg)](SECURITY.md)
+[![Security response targets: 48h / 5d best effort](https://img.shields.io/badge/security%20response-48h%20%7C%205d%20best%20effort-blue.svg)](SECURITY.md)
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-brightgreen.svg)](SECURITY.md)
 [![Third-Party Audited](https://img.shields.io/badge/third--party-100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![Marketing Log: Active](https://img.shields.io/badge/marketing%20log-active-blue.svg)](MARKETING-LOG.txt)
@@ -160,7 +160,7 @@ sequenceDiagram
 | 7 | **INV-PRIV-07: Keine Rechteausweitung (RunAsInvoker)** | Läuft vollständig unprivilegiert im regulären Benutzerbereich (RunAsInvoker) ohne Administrator-Rechte. | Prozess-Sicherheitsgrenze |
 | 8 | **INV-MAT-08: Multi-OS CI-Matrix** | Automatisierte plattformübergreifende Tests unter Ubuntu, Windows und macOS für Python 3.10, 3.11, 3.12 und 3.13. | GitHub Actions CI |
 | 9 | **INV-GATE-09: Strikte CI-Parallelität & Bytecode-Gate** | `cancel-in-progress: true` verhindert redundante Runner-Kosten; repository-weites `compileall` garantiert 100% fehlerfreien Bytecode. | Automatisches Build-Gate |
-| 10 | **INV-SLA-10: Duale Sicherheits-SLA & Vertragstests** | 48h Antwort- / 5-Tage-Triage-SLA, zweisprachige Parität und automatisierte Vertragstests für alle Metadaten- und Schemagrenzen. | Vertragstest-Suite |
+| 10 | **INV-SLA-10: Duale Sicherheits-SLA & Vertragstests** | 48h Antwort- / 5-Tage-Triage-Ziele (nach bestem Bemühen), zweisprachige Parität und automatisierte Vertragstests für alle Metadaten- und Schemagrenzen. | Vertragstest-Suite |
 
 ---
 
@@ -343,7 +343,7 @@ Detaillierte Informationen zu strategischer Positionierung, High-Intent-Suchbegr
 - **Autonome KI-Agenten-Entwickler & Schwarm-Operatoren**: Schlanke Zeiger-Abfragen ohne kontextüberlastenden Volltext im Prompt.
 - **Multi-Agenten-Governance- & System-Architekten**: Deterministische Scope-Präzedenz mit kryptografischer Ed25519-Delegationsprüfung.
 - **DevOps- & CI/CD-Automatisierungsingenieure**: 100% Offline-Compliance-Gates mit standardisierten Exit-Codes ohne Cloud-Abhängigkeiten.
-- **Enterprise-Sicherheits- & Datenschutz-Auditoren**: Volltext-abweisende Speicherung, auditierte permissive Lizenzen und verbindliche 48h/5d-SLA.
+- **Enterprise-Sicherheits- & Datenschutz-Auditoren**: Volltext-abweisende Speicherung, auditierte permissive Lizenzen und 48h/5d-Reaktionsziele nach bestem Bemühen.
 
 Das vollständige [MARKETING-LOG.txt](MARKETING-LOG.txt) enthält alle Vergleichstabellen und Audit-Einträge.
 
@@ -355,7 +355,7 @@ Das vollständige [MARKETING-LOG.txt](MARKETING-LOG.txt) enthält alle Vergleich
 
 - **Erstreaktion (nach bestem Bemühen)**: Innerhalb von 48 Stunden nach Meldungseingang.
 - **Triage-Bewertung (nach bestem Bemühen)**: Innerhalb von 5 Werktagen.
-- **Kontakt**: [Private Meldefunktion von GitHub](https://github.com/ellmos-ai/policy-registry/security/advisories/new) (kein überwachtes Postfach)
+- **Kontakt**: [Private Meldefunktion von GitHub](https://github.com/ellmos-ai/policy-registry/security/advisories/new) (kein überwachtes Postfach; Ausweichweg in [SECURITY.md](SECURITY.md))
 - **Vollständige Richtlinie**: Siehe [SECURITY.md](SECURITY.md) für Einzelheiten zu unterstützten Versionen und kryptografischen Grenzen.
 
 ---

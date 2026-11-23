@@ -23,7 +23,7 @@ Furthermore, `policy-registry` guarantees:
 7. **Unprivileged Non-Elevation / RunAsInvoker (INV-PRIV-07):** Runs strictly unprivileged in standard user space without elevated or administrative privileges.
 8. **Multi-OS CI Matrix (INV-MAT-08):** Automated cross-platform matrix testing across Ubuntu, Windows, and macOS on Python 3.10, 3.11, 3.12, and 3.13.
 9. **Strict CI Concurrency & Bytecode Gate (INV-GATE-09):** `cancel-in-progress: true` prevents redundant runner compute; whole-repo `compileall` ensures 100% valid bytecode.
-10. **Dual Security Response & Triage SLA (INV-SLA-10):** Best-effort 48-hour response acknowledgment and 5-business-day triage target via GitHub private vulnerability reporting (the only supported security channel).
+10. **Dual Security Response & Triage SLA (INV-SLA-10):** Best-effort 48-hour response acknowledgment and 5-business-day triage target via GitHub private vulnerability reporting (preferred channel; fallback documented in SECURITY.md).
 
 ---
 
