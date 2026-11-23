@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Security reporting channel: `SECURITY.md`, `README.md`, `README_de.md` and `THIRD_PARTY_LICENSES.md` advertised `security@ellmos.ai`, `security@open-bricks.org`, `lukas@open-bricks.org` and `support@lukasgeiger.com`, which are not deliverable. GitHub private vulnerability reporting is now the only advertised channel and response times are described as best-effort targets. `tests/test_metadata.py` forbids the dead addresses.
+
 ### Added
 - PEP 561 typing marker `src/policy_registry/py.typed` and configured `package-data` in `pyproject.toml`.
 - PEP 639 declaration `license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]` in `pyproject.toml`.

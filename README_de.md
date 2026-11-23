@@ -353,10 +353,9 @@ Das vollständige [MARKETING-LOG.txt](MARKETING-LOG.txt) enthält alle Vergleich
 
 `policy-registry` verpflichtet sich strikten Local-First Sicherheitsstandards:
 
-- **Erstreaktions-SLA**: Innerhalb von 48 Stunden nach Meldungseingang.
-- **Triage-Bewertungs-SLA**: Innerhalb von 5 Werktagen.
-- **Sicherheitskontakte**: `security@ellmos.ai` | `security@open-bricks.org` | `support@lukasgeiger.com` | `lukas@open-bricks.org`
-- **Privates Advisory**: [Sicherheitsmeldung einreichen](https://github.com/ellmos-ai/policy-registry/security/advisories)
+- **Erstreaktion (nach bestem Bemühen)**: Innerhalb von 48 Stunden nach Meldungseingang.
+- **Triage-Bewertung (nach bestem Bemühen)**: Innerhalb von 5 Werktagen.
+- **Kontakt**: [Private Meldefunktion von GitHub](https://github.com/ellmos-ai/policy-registry/security/advisories/new) (kein überwachtes Postfach)
 - **Vollständige Richtlinie**: Siehe [SECURITY.md](SECURITY.md) für Einzelheiten zu unterstützten Versionen und kryptografischen Grenzen.
 
 ---

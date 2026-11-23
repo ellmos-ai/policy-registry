@@ -351,10 +351,9 @@ See the complete [MARKETING-LOG.txt](MARKETING-LOG.txt) for full matrices and au
 
 `policy-registry` adheres to strict local-first security standards:
 
-- **Initial Response SLA**: Within 48 hours of report submission.
-- **Triage Assessment SLA**: Within 5 business days.
-- **Security Contacts**: `security@ellmos.ai` | `security@open-bricks.org` | `support@lukasgeiger.com` | `lukas@open-bricks.org`
-- **Private Advisory**: [Submit Security Advisory](https://github.com/ellmos-ai/policy-registry/security/advisories)
+- **Initial Response (best effort)**: Within 48 hours of report submission.
+- **Triage Assessment (best effort)**: Within 5 business days.
+- **Contact**: [GitHub private vulnerability reporting](https://github.com/ellmos-ai/policy-registry/security/advisories/new) (no monitored mailbox)
 - **Full Policy**: See [SECURITY.md](SECURITY.md) for details on supported versions and cryptographic delegation boundaries.
 
 ---

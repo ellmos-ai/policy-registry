@@ -133,9 +133,6 @@ def test_security_policy_parity_and_contacts():
 
     assert "English Security Policy" in content
     assert "Deutsche Sicherheitsrichtlinie" in content
-    assert "security@ellmos.ai" in content
-    assert "lukas@open-bricks.org" in content
-    assert "support@lukasgeiger.com" in content
     assert "Local-First" in content
     assert "Zero-Egress" in content
     assert "Ed25519" in content
@@ -352,10 +349,27 @@ def test_security_policy_slas_and_contacts():
     assert "48 hours" in content or "48 Stunden" in content
     assert "5 business days" in content or "5 Werktagen" in content
     assert "RunAsInvoker" in content or "Non-Elevation" in content
-    assert "security@ellmos.ai" in content
-    assert "security@open-bricks.org" in content
-    assert "support@lukasgeiger.com" in content
-    assert "lukas@open-bricks.org" in content
+    assert "security/advisories/new" in content
+
+
+def test_no_undeliverable_security_contacts_20261123():
+    """Security reports must go through a channel that exists.
+
+    `ellmos.ai` and `open-bricks.org` do not resolve and `lukasgeiger.com` has no
+    mail exchanger (see ellmos-ai/ellmos-homebase-mcp#21), so reports sent to
+    those addresses were lost. The supported channel is GitHub private
+    vulnerability reporting.
+    """
+    dead = (
+        "security@ellmos.ai",
+        "security@open-bricks.org",
+        "lukas@open-bricks.org",
+        "support@lukasgeiger.com",
+    )
+    for name in ("SECURITY.md", "README.md", "README_de.md", "THIRD_PARTY_LICENSES.md"):
+        text = (REPO_ROOT / name).read_text(encoding="utf-8")
+        for address in dead:
+            assert address not in text, f"{name} still advertises {address}"
 
 
 def test_ci_concurrency_and_bytecode_gate():
