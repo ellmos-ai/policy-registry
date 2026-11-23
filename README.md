@@ -11,7 +11,7 @@
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/ellmos-ai/policy-registry)
 [![Architecture: Local-First Pointer](https://img.shields.io/badge/architecture-Local--First%20Pointer-teal.svg)](ARCHITECTURE.md)
 [![Security: Local-First / Non-Elevation](https://img.shields.io/badge/security-Local--First%20%7C%20Non--Elevation-success.svg)](SECURITY.md)
-[![Security SLA: 48h / 5d](https://img.shields.io/badge/security%20SLA-48h%20%7C%205d%20triage-blue.svg)](SECURITY.md)
+[![Security response targets: 48h / 5d best effort](https://img.shields.io/badge/security%20response-48h%20%7C%205d%20best%20effort-blue.svg)](SECURITY.md)
 [![Privacy: 100% Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-brightgreen.svg)](SECURITY.md)
 [![Third-Party Audited](https://img.shields.io/badge/third--party-100%25%20permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![Marketing Log: Active](https://img.shields.io/badge/marketing%20log-active-blue.svg)](MARKETING-LOG.txt)
@@ -160,7 +160,7 @@ sequenceDiagram
 | 7 | **INV-PRIV-07: Non-Elevation (RunAsInvoker)** | Runs unprivileged in standard user space without elevated or administrative privileges. | Process Security Boundary |
 | 8 | **INV-MAT-08: Multi-OS CI Matrix** | Automated cross-platform matrix testing across Ubuntu, Windows, and macOS on Python 3.10, 3.11, 3.12, and 3.13. | GitHub Actions CI |
 | 9 | **INV-GATE-09: Strict CI Concurrency & Bytecode Gate** | `cancel-in-progress: true` prevents redundant runner compute; whole-repo `compileall` ensures 100% valid bytecode. | Automated Build Gate |
-| 10 | **INV-SLA-10: Dual Security SLA & Contract Tests** | 48h response / 5d triage SLA, bilingual parity, and automated contract tests verifying all metadata and schema constraints. | Contract Test Suite |
+| 10 | **INV-SLA-10: Dual Security SLA & Contract Tests** | 48h response / 5d triage targets (best effort), bilingual parity, and automated contract tests verifying all metadata and schema constraints. | Contract Test Suite |
 
 ---
 
@@ -341,7 +341,7 @@ To learn more about the strategic positioning, high-intent search taxonomy, comp
 - **Autonomous AI Agent Engineers & Swarm Operators**: Lightweight pointer queries without token-heavy full-text context overhead.
 - **Multi-Agent Governance & Policy Architects**: Deterministic scope precedence with Ed25519 cryptographic delegation.
 - **DevOps & CI/CD Pipeline Automation Engineers**: 100% offline, zero-egress compliance gates with standardized exit codes.
-- **Enterprise Security, Privacy & Compliance Auditors**: Local-first storage rejecting full-text payloads, audited permissive licenses, and 48h/5d security SLAs.
+- **Enterprise Security, Privacy & Compliance Auditors**: Local-first storage rejecting full-text payloads, audited permissive licenses, and best-effort 48h/5d security response targets.
 
 See the complete [MARKETING-LOG.txt](MARKETING-LOG.txt) for full matrices and audit tracking.
 
@@ -351,10 +351,9 @@ See the complete [MARKETING-LOG.txt](MARKETING-LOG.txt) for full matrices and au
 
 `policy-registry` adheres to strict local-first security standards:
 
-- **Initial Response SLA**: Within 48 hours of report submission.
-- **Triage Assessment SLA**: Within 5 business days.
-- **Security Contacts**: `security@ellmos.ai` | `security@open-bricks.org` | `support@lukasgeiger.com` | `lukas@open-bricks.org`
-- **Private Advisory**: [Submit Security Advisory](https://github.com/ellmos-ai/policy-registry/security/advisories)
+- **Initial Response (best effort)**: Within 48 hours of report submission.
+- **Triage Assessment (best effort)**: Within 5 business days.
+- **Contact**: [GitHub private vulnerability reporting](https://github.com/ellmos-ai/policy-registry/security/advisories/new) (no monitored mailbox; fallback in [SECURITY.md](SECURITY.md))
 - **Full Policy**: See [SECURITY.md](SECURITY.md) for details on supported versions and cryptographic delegation boundaries.
 
 ---
